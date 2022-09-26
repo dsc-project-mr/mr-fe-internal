@@ -1,9 +1,13 @@
 import Link from 'next/link'
+import styles from './index.module.scss'
 
 const HomePage = () => (
   <>
     <h1>HOME</h1>
-    <Link href="/">Back to root</Link>
+    <Link href="/">
+      <a>Back to root</a>
+    </Link>
+    <div className={styles.homeDetails}>So many things</div>
   </>
 )
 
