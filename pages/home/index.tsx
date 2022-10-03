@@ -8,6 +8,7 @@ const HomePage = () => (
       <a>Back to root</a>
     </Link>
     <div className={styles.homeDetails}>So many things</div>
+    <div>This is HOME!</div>
   </>
 )
 
