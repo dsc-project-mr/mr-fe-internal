@@ -1,0 +1,13 @@
+<!-- Tip double click on ISSUE_NUMBER and you can just type over it. -->
+
+Closes #ISSUE_NUMBER.
+
+**Overview of changes:**
+
+<!-- Tell us what were the changes made. -->
+
+**Anything you'd like to highlight/discuss:**
+
+<!-- If there are things you want the reviewer to focus on, include them here as well. -->
+
+<!-- This portion can be skipped if the PR is trivial. -->
