@@ -59,12 +59,13 @@ We will follow [conventional commits](https://www.conventionalcommits.org/en/v1.
 
 `<type>: <description>`
 
-| Type     |                 Overview                 |
-| -------- | :--------------------------------------: |
-| fix      |      patches a bug in your codebase      |
-| feat     | introduces a new feature to the codebase |
-| style    |              style changes               |
-| refactor |              refactor code               |
+| Type     |                     Overview                      |
+| -------- | :-----------------------------------------------: |
+| fix      |          patches a bug in your codebase           |
+| feat     |     introduces a new feature to the codebase      |
+| style    |                   style changes                   |
+| refactor |                   refactor code                   |
+| chore    | Other changes that don't modify src or test files |
 
 ### Creating a Pull Request for your branch
 
