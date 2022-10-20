@@ -19,6 +19,9 @@
     }
   },
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.10",
     "axios": "^1.1.2",
     "classnames": "^2.3.2",
     "next": "12.3.1",
