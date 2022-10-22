@@ -6,9 +6,9 @@ import {
   Typography,
 } from '@mui/material'
 import React, { Fragment, useState } from 'react'
-import { SidebarData } from './Sidebar'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import SubheaderTab from './SubheaderTab'
+import { SidebarData } from './sidebar_data'
 
 const HeaderTab = ({ headerData }: { headerData: SidebarData }) => {
   const [expanded, setExpanded] = useState<boolean>(false)

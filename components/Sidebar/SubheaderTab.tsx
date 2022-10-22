@@ -8,7 +8,7 @@ import {
   ListItemButton,
 } from '@mui/material'
 import React, { Fragment, useState } from 'react'
-import { SubheaderData } from './Sidebar'
+import { SubheaderData } from './sidebar_data'
 
 const SubheaderTab = ({ subheaderData }: { subheaderData: SubheaderData }) => {
   const [expanded, setExpanded] = useState<boolean>(false)
