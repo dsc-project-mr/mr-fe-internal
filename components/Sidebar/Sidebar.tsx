@@ -1,5 +1,5 @@
 import { Button, Drawer, List, ListItem, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import HeaderTab from './HeaderTab'
 import { sidebar_data } from './sidebar_data'
 import LogoutIcon from '@mui/icons-material/Logout'
@@ -7,6 +7,8 @@ import LogoutIcon from '@mui/icons-material/Logout'
 // Rename tabs
 // Hover
 // Select tabs ui feedback
+
+var drawerWidth = 320
 
 const Sidebar = () => {
   const [open, setOpen] = useState<boolean>(true)
@@ -17,18 +19,24 @@ const Sidebar = () => {
   }
 
   return (
-    <div>
-      <Button onClick={() => toggleDrawer(!open)}>Toggle Sidebar</Button>
+    <Fragment>
       <Drawer
-        anchor={'left'}
+        anchor="left"
         open={open}
+        variant="persistent"
         onClose={() => toggleDrawer(false)}
         sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+
           /* 
             This is to make sure the Log Out button remains at the bottom.
             Need to check whether this cascades    
           */
-
           '& .MuiPaper-root.MuiDrawer-paper': {
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -68,7 +76,10 @@ const Sidebar = () => {
           LOG OUT
         </Button>
       </Drawer>
-    </div>
+      <Button variant="outlined" onClick={() => toggleDrawer(!open)}>
+        toggle
+      </Button>
+    </Fragment>
   )
 }
 
