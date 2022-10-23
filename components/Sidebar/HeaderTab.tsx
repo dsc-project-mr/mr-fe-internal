@@ -13,6 +13,10 @@ import { SidebarData } from './sidebar_data'
 const HeaderTab = ({ headerData }: { headerData: SidebarData }) => {
   const [expanded, setExpanded] = useState<boolean>(false)
   const hasSubheaders: boolean = headerData.subheaders.length > 0
+
+  // Being re-rendered twice, not sure why
+  // console.log('Rendered')
+
   return (
     <Fragment>
       <ListItem key={headerData.title} disablePadding>
@@ -29,8 +33,20 @@ const HeaderTab = ({ headerData }: { headerData: SidebarData }) => {
             expandIcon={hasSubheaders && <ArrowDropDownIcon />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
+            sx={{
+              '&.MuiButtonBase-root.MuiAccordionSummary-root': {
+                cursor: hasSubheaders ? 'pointer' : 'default',
+              },
+              '&.MuiButtonBase-root.MuiAccordionSummary-root:hover': {
+                cursor: hasSubheaders ? 'pointer' : 'default',
+              },
+            }}
           >
-            <Typography sx={{ color: 'text.secondary' }}>
+            <Typography
+              sx={{
+                color: 'text.primary',
+              }}
+            >
               {headerData.title}
             </Typography>
           </AccordionSummary>

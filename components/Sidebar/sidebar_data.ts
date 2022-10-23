@@ -11,6 +11,7 @@ export const sidebar_data: SidebarData[] = [
     subheaders: [
       { title: 'Article', tabs: ['View Article', 'Edit Article'] },
       { title: 'Website Home Page', tabs: ['Home'] },
+      { title: 'Website Contact Page', tabs: ['Contact'] },
     ],
   },
   {
