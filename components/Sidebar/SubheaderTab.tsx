@@ -10,7 +10,15 @@ import {
 import React, { Fragment, useState } from 'react'
 import { SubheaderData } from './sidebar_data'
 
-const SubheaderTab = ({ subheaderData }: { subheaderData: SubheaderData }) => {
+const SubheaderTab = ({
+  subheaderData,
+  tabSelected,
+  setTabSelected,
+}: {
+  subheaderData: SubheaderData
+  tabSelected: string
+  setTabSelected: Function
+}) => {
   const [expanded, setExpanded] = useState<boolean>(false)
   const hasTabs: boolean = subheaderData.tabs.length > 0
 
@@ -18,7 +26,15 @@ const SubheaderTab = ({ subheaderData }: { subheaderData: SubheaderData }) => {
     <Fragment>
       <Accordion
         expanded={expanded}
-        onChange={() => hasTabs && setExpanded(!expanded)}
+        onChange={() => {
+          if (!expanded && tabSelected != subheaderData.title) {
+            setTabSelected(subheaderData.title)
+          }
+
+          if (hasTabs) {
+            setExpanded(!expanded)
+          }
+        }}
         sx={{
           width: '320px',
           boxShadow: 'none',
@@ -35,6 +51,8 @@ const SubheaderTab = ({ subheaderData }: { subheaderData: SubheaderData }) => {
             '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
               transform: 'rotate(90deg)',
             },
+            backgroundColor:
+              tabSelected == subheaderData.title ? '#E8EAEC' : 'white',
           }}
         >
           <Typography

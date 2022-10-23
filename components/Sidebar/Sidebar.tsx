@@ -10,6 +10,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 
 const Sidebar = () => {
   const [open, setOpen] = useState<boolean>(true)
+  const [tabSelected, setTabSelected] = useState<string>('')
 
   const toggleDrawer = (open: boolean) => {
     setOpen(open)
@@ -47,7 +48,12 @@ const Sidebar = () => {
             </Typography>
           </ListItem>
           {sidebar_data.map((headerData, index) => (
-            <HeaderTab key={index} headerData={headerData} />
+            <HeaderTab
+              key={index}
+              headerData={headerData}
+              tabSelected={tabSelected}
+              setTabSelected={setTabSelected}
+            />
           ))}
         </List>
         <Button
