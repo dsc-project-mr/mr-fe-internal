@@ -9,6 +9,7 @@ import React, { Fragment, useState } from 'react'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import SubheaderTab from './SubheaderTab'
 import { SidebarData } from './sidebar_data'
+import { useRouter } from 'next/router'
 
 const HeaderTab = ({
   headerData,
@@ -21,7 +22,7 @@ const HeaderTab = ({
 }) => {
   const [expanded, setExpanded] = useState<boolean>(false)
   const hasSubheaders: boolean = headerData.subheaders.length > 0
-
+  const router = useRouter()
   // Being re-rendered twice, even on opening and closing, not sure why
   // console.log('Rendered')
 
@@ -30,6 +31,8 @@ const HeaderTab = ({
       <ListItem key={headerData.title} disablePadding>
         <Accordion
           expanded={expanded}
+          // Disable routing if header has subheaders
+          onClick={() => !hasSubheaders && router.push(headerData.route)}
           onChange={() => {
             if (!expanded && tabSelected != headerData.title) {
               setTabSelected(headerData.title)
@@ -80,6 +83,7 @@ const HeaderTab = ({
                   subheaderData={subheaderData}
                   tabSelected={tabSelected}
                   setTabSelected={setTabSelected}
+                  parentRoute={headerData.route}
                 />
               )
             })}

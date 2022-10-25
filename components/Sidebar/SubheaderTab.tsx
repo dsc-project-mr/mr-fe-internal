@@ -7,6 +7,7 @@ import {
   List,
   ListItemButton,
 } from '@mui/material'
+import { useRouter } from 'next/router'
 import React, { Fragment, useState } from 'react'
 import { SubheaderData } from './sidebar_data'
 
@@ -14,13 +15,16 @@ const SubheaderTab = ({
   subheaderData,
   tabSelected,
   setTabSelected,
+  parentRoute,
 }: {
   subheaderData: SubheaderData
   tabSelected: string
   setTabSelected: Function
+  parentRoute: string
 }) => {
   const [expanded, setExpanded] = useState<boolean>(false)
   const hasTabs: boolean = subheaderData.tabs.length > 0
+  const router = useRouter()
 
   return (
     <Fragment>
@@ -46,6 +50,10 @@ const SubheaderTab = ({
       >
         <AccordionSummary
           expandIcon={hasTabs && <ChevronRightIcon />}
+          // Disable routing if subheader has tabs
+          onClick={() =>
+            !hasTabs && router.push(parentRoute + subheaderData.route)
+          }
           sx={{
             flexDirection: 'row-reverse',
             '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
