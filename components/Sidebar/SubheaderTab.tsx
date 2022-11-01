@@ -8,8 +8,8 @@ import {
   ListItemButton,
 } from '@mui/material'
 import { useRouter } from 'next/router'
-import React, { Fragment, useState } from 'react'
-import { SubheaderData } from './sidebar_data'
+import { useState } from 'react'
+import { SubheaderData } from '../../constants/sidebarData'
 
 const SubheaderTab = ({
   subheaderData,
@@ -27,11 +27,11 @@ const SubheaderTab = ({
   const router = useRouter()
 
   return (
-    <Fragment>
+    <>
       <Accordion
         expanded={expanded}
         onChange={() => {
-          if (!expanded && tabSelected != subheaderData.title) {
+          if (!expanded && tabSelected !== subheaderData.title) {
             setTabSelected(subheaderData.title)
           }
 
@@ -45,6 +45,9 @@ const SubheaderTab = ({
           borderRadius: 0,
           '&:before': {
             display: 'none',
+          },
+          '&.MuiPaper-root.Mui-expanded': {
+            margin: 0,
           },
         }}
       >
@@ -81,7 +84,7 @@ const SubheaderTab = ({
           </List>
         </AccordionDetails>
       </Accordion>
-    </Fragment>
+    </>
   )
 }
 

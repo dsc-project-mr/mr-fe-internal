@@ -1,35 +1,29 @@
 import { Button, Drawer, List, ListItem, Typography } from '@mui/material'
-import React, { Fragment, useState } from 'react'
+import { useState } from 'react'
 import HeaderTab from './HeaderTab'
-import { sidebar_data } from './sidebar_data'
+import { sidebarData } from '../../constants/sidebarData'
 import LogoutIcon from '@mui/icons-material/Logout'
 
 // Rename tabs
 // Hover
 // Select tabs ui feedback
 
-var drawerWidth = 320
+const DRAWER_WIDTH = 320
 
 const Sidebar = () => {
-  const [open, setOpen] = useState<boolean>(true)
   const [tabSelected, setTabSelected] = useState<string>('')
 
-  const toggleDrawer = (open: boolean) => {
-    setOpen(open)
-  }
-
   return (
-    <Fragment>
+    <>
       <Drawer
         anchor="left"
-        open={open}
+        open={true}
         variant="persistent"
-        onClose={() => toggleDrawer(false)}
         sx={{
-          width: drawerWidth,
+          width: DRAWER_WIDTH,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: drawerWidth,
+            width: DRAWER_WIDTH,
             boxSizing: 'border-box',
           },
 
@@ -52,10 +46,10 @@ const Sidebar = () => {
                 fontWeight: 700,
               }}
             >
-              {'Mercy Relief Internal Portal'}
+              Mercy Relief Internal Portal
             </Typography>
           </ListItem>
-          {sidebar_data.map((headerData, index) => (
+          {sidebarData.map((headerData, index) => (
             <HeaderTab
               key={index}
               headerData={headerData}
@@ -76,10 +70,7 @@ const Sidebar = () => {
           LOG OUT
         </Button>
       </Drawer>
-      <Button variant="outlined" onClick={() => toggleDrawer(!open)}>
-        toggle
-      </Button>
-    </Fragment>
+    </>
   )
 }
 

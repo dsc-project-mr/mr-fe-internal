@@ -1,4 +1,4 @@
-export const sidebar_data: SidebarData[] = [
+export const sidebarData: SidebarData[] = [
   {
     title: 'Campaigns',
     route: '/campaigns',

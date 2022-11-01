@@ -5,10 +5,10 @@ import {
   ListItem,
   Typography,
 } from '@mui/material'
-import React, { Fragment, useState } from 'react'
+import { useState } from 'react'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import SubheaderTab from './SubheaderTab'
-import { SidebarData } from './sidebar_data'
+import { SidebarData } from '../../constants/sidebarData'
 import { useRouter } from 'next/router'
 
 const HeaderTab = ({
@@ -27,14 +27,14 @@ const HeaderTab = ({
   // console.log('Rendered')
 
   return (
-    <Fragment>
+    <>
       <ListItem key={headerData.title} disablePadding>
         <Accordion
           expanded={expanded}
           // Disable routing if header has subheaders
           onClick={() => !hasSubheaders && router.push(headerData.route)}
           onChange={() => {
-            if (!expanded && tabSelected != headerData.title) {
+            if (!expanded && tabSelected !== headerData.title) {
               setTabSelected(headerData.title)
             }
 
@@ -90,7 +90,7 @@ const HeaderTab = ({
           </AccordionDetails>
         </Accordion>
       </ListItem>
-    </Fragment>
+    </>
   )
 }
 
