@@ -1,41 +1,63 @@
-import { Alert, AlertColor, AlertTitle, IconButton, Zoom } from '@mui/material'
+import {
+  Alert,
+  AlertProps,
+  AlertTitle,
+  IconButton,
+  Slide,
+  SlideProps,
+  Snackbar,
+} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import { useEffect, useState } from 'react'
 
-const FeedbackPopup = ({
-  open,
-  setOpen,
-  title,
-  desc,
-  severity,
-}: {
-  open: boolean
-  setOpen: Function
+type TransitionProps = Omit<SlideProps, 'direction'>
+
+function TransitionLeft(props: TransitionProps) {
+  return <Slide {...props} direction="left" />
+}
+
+type FeedbackPopupProps = AlertProps & {
+  isOpen: boolean
   title: string
   desc: string
-  severity: AlertColor
-}) => {
+}
+
+const FeedbackPopup = (props: FeedbackPopupProps) => {
+  const [open, setOpen] = useState<boolean>()
+
+  useEffect(() => {
+    setOpen(props.isOpen)
+  }, [props.isOpen])
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   return (
     <div>
-      <Zoom in={open}>
+      <Snackbar
+        open={open}
+        autoHideDuration={5000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        TransitionComponent={TransitionLeft}
+        onClose={handleClose}
+      >
         <Alert
           action={
-            <IconButton
-              aria-label="close"
-              size="small"
-              onClick={() => {
-                setOpen(false)
-              }}
-            >
+            <IconButton aria-label="close" size="small" onClick={handleClose}>
               <CloseIcon fontSize="inherit" />
             </IconButton>
           }
-          severity={severity}
-          sx={{ mb: 2, width: '50%', position: 'absolute', right: '25px' }}
+          severity={props.severity}
+          sx={{
+            minWidth: '250px',
+            ...props,
+          }}
         >
-          <AlertTitle>{title}</AlertTitle>
-          {desc}
+          <AlertTitle>{props.title}</AlertTitle>
+          {props.desc}
         </Alert>
-      </Zoom>
+      </Snackbar>
     </div>
   )
 }
