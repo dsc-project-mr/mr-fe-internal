@@ -5,7 +5,7 @@ import {
   ListItem,
   Typography,
 } from '@mui/material'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import SubheaderTab from './SubheaderTab'
 import { SidebarData } from '../../constants/sidebarData'
@@ -94,4 +94,4 @@ const HeaderTab = ({
   )
 }
 
-export default HeaderTab
+export default memo(HeaderTab)

@@ -29,7 +29,6 @@ const Sidebar = () => {
 
           /* 
             This is to make sure the Log Out button remains at the bottom.
-            Need to check whether this cascades    
           */
           '& .MuiPaper-root.MuiDrawer-paper': {
             justifyContent: 'space-between',
