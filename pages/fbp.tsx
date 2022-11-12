@@ -3,8 +3,7 @@ import type { NextPage } from 'next'
 import useSWR from 'swr'
 
 const FeedbackPopupPage: NextPage = () => {
-  // eslint-disable-next-line no-unused-vars
-  const { data, isValidating, error = true } = useSWR('/getData')
+  const { error = true } = useSWR('/getData')
 
   return (
     <div>
