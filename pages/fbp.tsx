@@ -1,21 +1,20 @@
-import { Button } from '@mui/material'
 import FeedbackPopup from 'components/FeedbackPopup'
 import type { NextPage } from 'next'
-import { useState } from 'react'
+import useSWR from 'swr'
 
 const FeedbackPopupPage: NextPage = () => {
-  const [open, setOpen] = useState(false)
+  // eslint-disable-next-line no-unused-vars
+  const { data, isValidating, error = true } = useSWR('/getData')
 
   return (
     <div>
       <FeedbackPopup
-        isOpen={open}
+        isOpen={error}
         title="Title"
         desc="Description of Information"
-        severity="info"
+        severity="success"
       />
-      <h1>Mercy Relief Internal Portal</h1>
-      <Button onClick={() => setOpen(!open)}>Popup</Button>
+      <h1>Feedback Popup Page. Refresh to Trigger</h1>
     </div>
   )
 }

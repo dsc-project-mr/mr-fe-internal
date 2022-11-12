@@ -51,8 +51,8 @@ const FeedbackPopup = (props: FeedbackPopupProps) => {
           severity={props.severity}
           sx={{
             minWidth: '250px',
-            ...props,
           }}
+          {...props}
         >
           <AlertTitle>{props.title}</AlertTitle>
           {props.desc}
