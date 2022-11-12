@@ -9,6 +9,7 @@ import {
 } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { DRAWER_WIDTH } from '.'
 import { SubheaderData } from '../../constants/sidebarData'
 
 const SubheaderTab = ({
@@ -40,7 +41,7 @@ const SubheaderTab = ({
           }
         }}
         sx={{
-          width: '320px',
+          width: DRAWER_WIDTH,
           boxShadow: 'none',
           borderRadius: 0,
           '&:before': {
@@ -70,7 +71,7 @@ const SubheaderTab = ({
             sx={{
               color: 'text.primary',
               position: 'relative',
-              left: '30px',
+              left: '20px',
             }}
           >
             {subheaderData.title}

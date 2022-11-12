@@ -4,11 +4,7 @@ import HeaderTab from './HeaderTab'
 import { sidebarData } from '../../constants/sidebarData'
 import LogoutIcon from '@mui/icons-material/Logout'
 
-// Rename tabs
-// Hover
-// Select tabs ui feedback
-
-const DRAWER_WIDTH = 320
+export const DRAWER_WIDTH = 240
 
 const Sidebar = () => {
   const [tabSelected, setTabSelected] = useState<string>('')
@@ -60,7 +56,7 @@ const Sidebar = () => {
         <Button
           variant="contained"
           sx={{
-            width: '260px',
+            width: '200px',
             backgroundColor: '#1976D2',
             marginBottom: '20px',
           }}
