@@ -69,11 +69,11 @@ We will follow [conventional commits](https://www.conventionalcommits.org/en/v1.
 
 ### Creating a Pull Request for your branch
 
-Create a pull request with your new branch to trigger auto preview deployment to vercel. Follow the template when creating a new PR, you can always edit the description if you are not sure what to input yet.
+Create a pull request with your new branch to trigger auto preview deployment to Netlify. Follow the template when creating a new PR, you can always edit the description if you are not sure what to input yet.
 
 ### Code Review
 
-Once you have tested both in your local and in vercel, add the `Reviewable` label to your PR and add me as your reviewer.
+Once you have tested both in your local and in Netlify, add the `Reviewable` label to your PR and add me as your reviewer.
 
 // TODO: discuss whether to have peer code review as well
 
@@ -83,4 +83,4 @@ Once reviewed, reviewers will add the `Code Review Done` label and you can merge
 
 ## Deployment
 
-The project is deployed using Vercel which will automatically deploy a preview of your branch whenever you push to a branch with an open pull request.
+The project is deployed using Netlify which will automatically deploy a preview of your branch whenever you push to a branch with an open pull request.
