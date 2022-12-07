@@ -1,5 +1,5 @@
 import { Dispatch, ReactNode, SetStateAction } from 'react'
-import Tabs from '@mui/material/Tabs'
+import Tabs, { TabsProps } from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/system/Box'
 import Person from '@mui/icons-material/Person'
@@ -9,7 +9,7 @@ import Lock from '@mui/icons-material/Lock'
 
 // This enum should be moved into models, as soon as that is ready.
 // There is a bug in eslint, it makes enum members as unused. The workaround is more annoying.
-// So, we can just disable and re-enable the rule.
+// Instead we can just disable and re-enable the rule.
 // ref: https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-for-typescript
 
 /* eslint-disable no-unused-vars */
@@ -35,20 +35,36 @@ const IconText = ({ icon, text }: IconTextProps) => {
   )
 }
 
-interface DocumentListTabsProps {
+type DocumentListTabsProps = {
   children: ReactNode
   status: DocumentStatus
   setStatus: Dispatch<SetStateAction<DocumentStatus>>
-}
+} & TabsProps
 
+/**
+ * Common DocumentListTabs component.
+ *
+ * @example
+ * ```ts
+ * const Example = () => {
+ *   const [status, setStatus] = useState(DocumentStatus.All);
+ *   return (
+ *     <DocumentListTabs status={status} setStatus={setStatus}>
+ *       <div>Status: {status}</div>
+ *     </DocumentListTabs>
+ *   )
+ * }
+ * ```
+ */
 const DocumentListTabs = ({
   children,
   status,
   setStatus,
+  ...props
 }: DocumentListTabsProps) => {
   return (
     <Box>
-      <Tabs value={status} onChange={(_, v) => setStatus(v)}>
+      <Tabs value={status} onChange={(_, v) => setStatus(v)} {...props}>
         <Tab
           label={<IconText icon={<Person />} text="All" />}
           value={DocumentStatus.All}
