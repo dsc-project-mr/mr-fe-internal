@@ -1,4 +1,5 @@
-import DocumentListTabs, { DocumentStatus } from 'components/DocumentListTabs'
+import DocumentListTabs from 'components/DocumentListTabs'
+import { DocumentStatus } from '../constants/DocumentStatus'
 import type { NextPage } from 'next'
 import { useState } from 'react'
 
