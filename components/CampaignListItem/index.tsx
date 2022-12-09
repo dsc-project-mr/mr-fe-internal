@@ -1,5 +1,5 @@
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined'
-import { Box} from '@mui/material'
+import { Box } from '@mui/material'
 
 const styledmainbox = {
   display: 'flex',
@@ -15,6 +15,12 @@ const styledmainbody = {
   flexDirection: 'column',
   justifyContent: 'space-between',
   padding: '0px 20px 0px 20px',
+}
+
+const styledcontentbox = {
+  display: 'flex',
+  height: '300px',
+  backgroundColor: '#D9D9D9',
 }
 
 const styledbottombox = {
@@ -45,6 +51,7 @@ type Props = {
   Amount: Number
   Country: String
   Published: Boolean
+  ViewAll: Boolean
 }
 
 const CampaignListItem = ({
@@ -54,6 +61,7 @@ const CampaignListItem = ({
   Amount,
   Country,
   Published,
+  ViewAll,
 }: Props) => {
   return (
     <Box sx={styledmainbox}>
@@ -91,6 +99,7 @@ const CampaignListItem = ({
           </h4>
         </div>
       </Box>
+      <div>{ViewAll ? <Box sx={styledcontentbox}></Box> : <p></p>}</div>
       <Box sx={styledbottombox}>
         <div style={styledbottomitems}>
           <p>Donors:</p>&nbsp;

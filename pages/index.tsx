@@ -12,6 +12,7 @@ const Home: NextPage = () => {
         Amount={500}
         Country="Singapore"
         Published={true}
+        ViewAll={true}
       />
     </div>
   )
