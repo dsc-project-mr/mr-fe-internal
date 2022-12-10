@@ -10,7 +10,7 @@ import {
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { DRAWER_WIDTH } from '.'
-import { SubheaderData } from '../../constants/sidebarData'
+import { SubheaderData } from 'constants/sidebarData'
 
 const SubheaderTab = ({
   subheaderData,

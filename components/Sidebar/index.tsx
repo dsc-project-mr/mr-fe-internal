@@ -1,7 +1,7 @@
 import { Button, Drawer, List, ListItem, Typography } from '@mui/material'
 import { useState } from 'react'
 import HeaderTab from './HeaderTab'
-import { sidebarData } from '../../constants/sidebarData'
+import { sidebarData } from 'constants/sidebarData'
 import LogoutIcon from '@mui/icons-material/Logout'
 
 export const DRAWER_WIDTH = 240
