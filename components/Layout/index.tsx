@@ -1,11 +1,9 @@
 import Head from 'next/head'
-import styles from './index.module.scss'
 import { ReactNode } from 'react'
 import theme from 'styles/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import Sidebar from 'components/Sidebar'
-import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
 
 type Props = {
@@ -14,7 +12,7 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Mercy Relief Internal Portal</title>
         <meta charSet="utf-8" />
@@ -25,43 +23,25 @@ const Layout = ({ children }: Props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <main className={styles.main}>
+      <main>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container>
-              <Grid item>
-                <Sidebar />
-              </Grid>
-              <Grid
-                item
-                sx={{
-                  margin: '0 24px',
-                  height: '100vh',
-                }}
-              >
-                <Grid container columnSpacing={'16px'}>
-                  {children}
-                  {/* {[0, 1, 2].map((value) => (
-                    <Grid key={value} item>
-                      <Paper
-                        sx={{
-                          height: 140,
-                          width: 100,
-                          backgroundColor: (theme) =>
-                            theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                        }}
-                      />
-                    </Grid>
-                  ))} */}
-                </Grid>
-              </Grid>
-            </Grid>
+          <Box
+            sx={{
+              display: 'flex',
+              height: '100vh',
+            }}
+          >
+            <CssBaseline />
+            <Sidebar />
+            <Box
+              component="main"
+              sx={{ flexGrow: 1, margin: '0 24px', height: '100%' }}
+            >
+              {children}
+            </Box>
           </Box>
         </ThemeProvider>
       </main>
-
-      <footer className={styles.footer}>Footer</footer>
     </div>
   )
 }
