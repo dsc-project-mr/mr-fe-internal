@@ -5,10 +5,10 @@ import {
   ListItem,
   Typography,
 } from '@mui/material'
-import { memo, useState } from 'react'
+import { Dispatch, SetStateAction, memo, useState } from 'react'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import SubheaderTab from './SubheaderTab'
-import { SidebarData } from '../../constants/sidebarData'
+import { SidebarData } from 'constants/sidebarData'
 import { useRouter } from 'next/router'
 
 const HeaderTab = ({
@@ -18,7 +18,7 @@ const HeaderTab = ({
 }: {
   headerData: SidebarData
   tabSelected: string
-  setTabSelected: Function
+  setTabSelected: Dispatch<SetStateAction<string>>
 }) => {
   const [expanded, setExpanded] = useState<boolean>(false)
   const hasSubheaders: boolean = headerData.subheaders.length > 0
