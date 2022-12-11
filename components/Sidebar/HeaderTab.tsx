@@ -10,6 +10,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import SubheaderTab from './SubheaderTab'
 import { SidebarData } from 'constants/sidebarData'
 import { useRouter } from 'next/router'
+import { DRAWER_WIDTH } from '.'
 
 const HeaderTab = ({
   headerData,
@@ -43,7 +44,7 @@ const HeaderTab = ({
             }
           }}
           sx={{
-            width: '320px',
+            width: DRAWER_WIDTH,
             boxShadow: 'none',
             borderRadius: 0,
           }}
