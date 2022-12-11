@@ -1,4 +1,4 @@
-import { Button, Drawer, List, ListItem, Typography } from '@mui/material'
+import { Box, Button, Drawer, List, ListItem, Typography } from '@mui/material'
 import { useState } from 'react'
 import HeaderTab from './HeaderTab'
 import { sidebarData } from 'constants/sidebarData'
@@ -9,6 +9,8 @@ import LogoutIcon from '@mui/icons-material/Logout'
 // Select tabs ui feedback
 
 const DRAWER_WIDTH = 320
+export const SELECTED_TAB_COLOR = '#FFFFFF'
+export const UNSELECTED_TAB_COLOR = '#EAF9FF'
 
 const Sidebar = () => {
   const [tabSelected, setTabSelected] = useState<string>('')
@@ -25,6 +27,11 @@ const Sidebar = () => {
           '& .MuiDrawer-paper': {
             width: DRAWER_WIDTH,
             boxSizing: 'border-box',
+            backgroundColor: '#EAF9FF',
+          },
+
+          '& .MuiAccordionDetails-root': {
+            backgroundColor: '#EAF9FF',
           },
 
           /* 
@@ -37,16 +44,21 @@ const Sidebar = () => {
         }}
       >
         <List>
-          <ListItem>
-            <Typography
+          <ListItem
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Box
+              component="img"
+              src="mercy_relief_logo.png"
               sx={{
-                color: 'text.secondary',
-                fontSize: 18,
-                fontWeight: 700,
+                display: 'flex',
+                justifyContent: 'center',
+                height: 80,
               }}
-            >
-              Mercy Relief Internal Portal
-            </Typography>
+            />
           </ListItem>
           {sidebarData.map((headerData, index) => (
             <HeaderTab

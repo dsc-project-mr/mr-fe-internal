@@ -10,6 +10,7 @@ import {
 import { useRouter } from 'next/router'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { SubheaderData } from 'constants/sidebarData'
+import { SELECTED_TAB_COLOR, UNSELECTED_TAB_COLOR } from '.'
 
 const SubheaderTab = ({
   subheaderData,
@@ -63,7 +64,9 @@ const SubheaderTab = ({
               transform: 'rotate(90deg)',
             },
             backgroundColor:
-              tabSelected == subheaderData.title ? '#E8EAEC' : 'white',
+              tabSelected == subheaderData.title
+                ? SELECTED_TAB_COLOR
+                : UNSELECTED_TAB_COLOR,
           }}
         >
           <Typography
