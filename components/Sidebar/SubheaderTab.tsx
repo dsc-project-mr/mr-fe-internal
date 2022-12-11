@@ -8,8 +8,8 @@ import {
   ListItemButton,
 } from '@mui/material'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import { DRAWER_WIDTH } from '.'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { SubheaderData } from 'constants/sidebarData'
 
 const SubheaderTab = ({
@@ -20,7 +20,7 @@ const SubheaderTab = ({
 }: {
   subheaderData: SubheaderData
   tabSelected: string
-  setTabSelected: Function
+  setTabSelected: Dispatch<SetStateAction<string>>
   parentRoute: string
 }) => {
   const [expanded, setExpanded] = useState<boolean>(false)
