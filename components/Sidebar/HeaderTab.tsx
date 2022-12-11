@@ -8,7 +8,7 @@ import {
 import { Dispatch, SetStateAction, memo, useState } from 'react'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import SubheaderTab from './SubheaderTab'
-import { SidebarData } from '../../constants/sidebarData'
+import { SidebarData } from 'constants/sidebarData'
 import { useRouter } from 'next/router'
 
 const HeaderTab = ({

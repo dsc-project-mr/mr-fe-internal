@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { useRouter } from 'next/router'
 import { Dispatch, SetStateAction, useState } from 'react'
-import { SubheaderData } from '../../constants/sidebarData'
+import { SubheaderData } from 'constants/sidebarData'
 
 const SubheaderTab = ({
   subheaderData,

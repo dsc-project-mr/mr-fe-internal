@@ -6,7 +6,7 @@ import Person from '@mui/icons-material/Person'
 import Drafts from '@mui/icons-material/Drafts'
 import UploadFile from '@mui/icons-material/UploadFile'
 import Lock from '@mui/icons-material/Lock'
-import { DocumentStatus } from '../../constants/DocumentStatus'
+import { DocumentStatus } from 'constants/DocumentStatus'
 
 interface IconTextProps {
   icon: ReactNode
