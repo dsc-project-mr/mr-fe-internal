@@ -115,7 +115,7 @@ const CampaignListItem = ({
           </h4>
         </div>
       </Box>
-      {viewAll ? <Box sx={styledcontentbox}>{campaignDetails}</Box> : <p></p>}
+      {viewAll && <Box sx={styledcontentbox}>{campaignDetails}</Box>}
       <Box sx={styledbottombox}>
         <div style={styledbottomitems}>
           <p>Donors:</p>&nbsp;
