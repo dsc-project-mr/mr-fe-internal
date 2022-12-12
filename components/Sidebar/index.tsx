@@ -3,6 +3,7 @@ import { useState } from 'react'
 import HeaderTab from './HeaderTab'
 import { sidebarData } from 'constants/sidebarData'
 import LogoutIcon from '@mui/icons-material/Logout'
+import { MR_DARK_BLUE } from 'styles/theme'
 
 export const DRAWER_WIDTH = 240
 
@@ -57,7 +58,7 @@ const Sidebar = () => {
           variant="contained"
           sx={{
             width: '200px',
-            backgroundColor: '#1976D2',
+            backgroundColor: MR_DARK_BLUE,
             marginBottom: '20px',
           }}
         >

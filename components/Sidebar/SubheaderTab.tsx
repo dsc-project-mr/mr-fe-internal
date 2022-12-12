@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { DRAWER_WIDTH } from '.'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { SubheaderData } from 'constants/sidebarData'
+import { MR_GRAY_1 } from 'styles/theme'
 
 const SubheaderTab = ({
   subheaderData,
@@ -64,7 +65,7 @@ const SubheaderTab = ({
               transform: 'rotate(90deg)',
             },
             backgroundColor:
-              tabSelected == subheaderData.title ? '#E8EAEC' : 'white',
+              tabSelected == subheaderData.title ? MR_GRAY_1 : 'white',
           }}
         >
           <Typography

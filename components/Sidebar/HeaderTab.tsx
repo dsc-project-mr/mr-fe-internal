@@ -11,6 +11,7 @@ import SubheaderTab from './SubheaderTab'
 import { SidebarData } from 'constants/sidebarData'
 import { useRouter } from 'next/router'
 import { DRAWER_WIDTH } from '.'
+import { MR_GRAY_1 } from 'styles/theme'
 
 const HeaderTab = ({
   headerData,
@@ -61,7 +62,7 @@ const HeaderTab = ({
                 cursor: hasSubheaders ? 'pointer' : 'default',
               },
               backgroundColor:
-                tabSelected == headerData.title ? '#E8EAEC' : 'white',
+                tabSelected == headerData.title ? MR_GRAY_1 : 'white',
             }}
           >
             <Typography
