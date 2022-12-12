@@ -1,9 +1,10 @@
+import { Typography } from '@mui/material'
 import type { NextPage } from 'next'
 
 const Home: NextPage = () => {
   return (
     <div>
-      <h1>Mercy Relief Internal Portal</h1>
+      <h2>Mercy Relief Internal Portal</h2>
     </div>
   )
 }
