@@ -69,9 +69,3 @@ export type SubheaderData = {
   route: string
   tabs: string[]
 }
-
-export enum CampaignStatus {
-  DRAFT = 'Draft',
-  PUBLISHED = 'Published',
-  ARCHIVED = 'Archived',
-}
