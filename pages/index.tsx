@@ -1,5 +1,5 @@
 import CampaignListItem from 'components/CampaignListItem'
-import { CampaignStatus } from 'constants/sidebarData'
+import { CampaignStatus } from 'constants/campaign'
 import type { NextPage } from 'next'
 
 const Home: NextPage = () => {

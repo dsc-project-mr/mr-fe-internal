@@ -1,6 +1,6 @@
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined'
 import { Box } from '@mui/material'
-import { CampaignStatus } from 'constants/sidebarData'
+import { CampaignStatus } from 'constants/campaign'
 
 const styledmainbox = {
   display: 'flex',
@@ -115,9 +115,7 @@ const CampaignListItem = ({
           </h4>
         </div>
       </Box>
-      <div>
-        {viewAll ? <Box sx={styledcontentbox}>{campaignDetails}</Box> : <p></p>}
-      </div>
+      {viewAll ? <Box sx={styledcontentbox}>{campaignDetails}</Box> : <p></p>}
       <Box sx={styledbottombox}>
         <div style={styledbottomitems}>
           <p>Donors:</p>&nbsp;
