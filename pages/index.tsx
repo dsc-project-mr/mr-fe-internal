@@ -1,4 +1,5 @@
 import CampaignListItem from 'components/CampaignListItem'
+import { CampaignStatus } from 'constants/sidebarData'
 import type { NextPage } from 'next'
 
 const Home: NextPage = () => {
@@ -6,13 +7,13 @@ const Home: NextPage = () => {
     <div>
       <h1>Mercy Relief Internal Portal</h1>
       <CampaignListItem
-        CampaignName="Some Fund"
-        CampaignDetails="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consequat malesuada orci ut finibus. Sed quis ullamcorper lectus. Aenean semper quam at lectus semper, in dignissim nunc rhoncus."
-        Donors={5}
-        Amount={500}
-        Country="Singapore"
-        Published={true}
-        ViewAll={true}
+        campaignName="Some Fund"
+        campaignDetails="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consequat malesuada orci ut finibus. Sed quis ullamcorper lectus. Aenean semper quam at lectus semper, in dignissim nunc rhoncus."
+        donors={5}
+        amount={500}
+        country="Singapore"
+        campaignStatus={CampaignStatus.ARCHIVED}
+        viewAll={true}
       />
     </div>
   )

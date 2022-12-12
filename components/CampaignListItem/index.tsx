@@ -1,10 +1,11 @@
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined'
 import { Box } from '@mui/material'
+import { CampaignStatus } from 'constants/sidebarData'
 
 const styledmainbox = {
   display: 'flex',
   flexDirection: 'column',
-  width: '1070px',
+  width: '50%',
   height: '100%',
   padding: '10px',
   backgroundColor: '#EAF9FF',
@@ -21,6 +22,7 @@ const styledcontentbox = {
   display: 'flex',
   height: '300px',
   backgroundColor: '#D9D9D9',
+  padding: '15px',
 }
 
 const styledbottombox = {
@@ -44,28 +46,40 @@ const styledinput = {
   fontWeight: '700',
 }
 
-type Props = {
-  CampaignName: String
-  CampaignDetails: String
-  Donors: Number
-  Amount: Number
-  Country: String
-  Published: Boolean
-  ViewAll: Boolean
+const styledoverview = {
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+} as React.CSSProperties
+
+const campaignStateColor = {
+  [CampaignStatus.PUBLISHED]: '#16A64A',
+  [CampaignStatus.DRAFT]: '#C7043D',
+  [CampaignStatus.ARCHIVED]: '#641869',
+}
+
+interface Props {
+  campaignName: string
+  campaignDetails: string
+  donors: number
+  amount: number
+  country: string
+  campaignStatus: CampaignStatus
+  viewAll: boolean
 }
 
 const CampaignListItem = ({
-  CampaignName,
-  CampaignDetails,
-  Donors,
-  Amount,
-  Country,
-  Published,
-  ViewAll,
+  campaignName,
+  campaignDetails,
+  donors,
+  amount,
+  country,
+  campaignStatus,
+  viewAll,
 }: Props) => {
   return (
     <Box sx={styledmainbox}>
-      <Box sx={styledmainbody} className="main-body">
+      <Box sx={styledmainbody}>
         <div
           style={{
             display: 'flex',
@@ -74,7 +88,7 @@ const CampaignListItem = ({
             flexDirection: 'row',
           }}
         >
-          <h3 style={{ color: '#009DD7' }}>{CampaignName}</h3>
+          <h3 style={{ color: '#009DD7' }}>{campaignName}</h3>
           <ArchiveOutlinedIcon
             sx={{
               color: '#009DD7',
@@ -87,31 +101,35 @@ const CampaignListItem = ({
             display: 'flex',
             justifyContent: 'space-between',
             flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          <p>{CampaignDetails}</p>
+          <p style={styledoverview}>{campaignDetails}</p>
           <h4
             style={{
-              color: Published ? '#16A64A' : '#C7043D',
+              color: campaignStateColor[campaignStatus],
+              marginLeft: 50,
             }}
           >
-            {Published ? 'Published' : 'Draft'}
+            {campaignStatus}
           </h4>
         </div>
       </Box>
-      <div>{ViewAll ? <Box sx={styledcontentbox}></Box> : <p></p>}</div>
+      <div>
+        {viewAll ? <Box sx={styledcontentbox}>{campaignDetails}</Box> : <p></p>}
+      </div>
       <Box sx={styledbottombox}>
         <div style={styledbottomitems}>
           <p>Donors:</p>&nbsp;
-          <p style={styledinput}> {Donors.toString()}</p>
+          <p style={styledinput}> {donors.toString()}</p>
         </div>
         <div style={styledbottomitems}>
           <p>Total Amount Received: </p>&nbsp;
-          <p style={styledinput}>S${Amount.toString()}</p>
+          <p style={styledinput}>${amount.toString()}</p>
         </div>
         <div style={styledbottomitems}>
           <p>Country: </p>&nbsp;
-          <p style={styledinput}>{Country}</p>
+          <p style={styledinput}>{country}</p>
         </div>
       </Box>
     </Box>
