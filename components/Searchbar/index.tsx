@@ -1,4 +1,4 @@
-import { useState, ReactNode, Dispatch, SetStateAction } from "react";
+import { useState, ReactNode, Dispatch, SetStateAction, useMemo } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Search from "@mui/icons-material/Search";
@@ -14,14 +14,16 @@ import Checkbox from "@mui/material/Checkbox";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { CampaignStatus, Region } from "constants/Donation";
+import { Region } from "constants/Donation";
 
-import { DateRange, Range } from 'react-date-range';
+import { DateRange as DateRangeComponent, Range } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import Autocomplete, { AutocompleteProps } from "@mui/material/Autocomplete";
 import Chip from "@mui/material/Chip";
+import Badge from "@mui/material/Badge";
 import Cancel from "@mui/icons-material/Cancel";
+import Settings from "@mui/icons-material/Settings";
 
 type DynamicMultiSelectFilterProps<T> = {
     values: T[],
@@ -86,12 +88,12 @@ function MultiSelectFilter<T>({ values, setValues, valueSet, renderValue }: Mult
     );
 }
 
-interface FilterContainer {
+interface FilterContainerProps {
     title: string,
     children: ReactNode
 }
 
-const FilterContainer = ({title, children}: FilterContainer) => {
+const FilterContainer = ({title, children}: FilterContainerProps) => {
     return (
         <Accordion disableGutters elevation={0} sx={{
             borderTop: `1px solid rgba(0, 0, 0, 0.12)`,
@@ -108,26 +110,86 @@ const FilterContainer = ({title, children}: FilterContainer) => {
     );
 }
 
-type SearchbarProps = TextFieldProps;
+export interface DateRange {
+    start?: Date,
+    end?: Date
+}
 
-const Searchbar = ({ ...props }: SearchbarProps) => {
+type SearchbarProps = {
+    tags: string[],
+
+    search: string,
+    setSearch: Dispatch<SetStateAction<string>>,
+
+    selectedRegions: Region[],
+    setSelectedRegions: Dispatch<SetStateAction<Region[]>>,
+    defaultSelectedRegions: Region[],
+
+    selectedDateRange: DateRange,
+    setSelectedDateRange: Dispatch<SetStateAction<DateRange>>,
+    defaultSelectedDateRange: DateRange,
+
+    selectedTags: string[],
+    setSelectedTags: Dispatch<SetStateAction<string[]>>,
+    defaultSelectedTags: string[],
+} & TextFieldProps;
+
+const Searchbar = ({
+        search, setSearch,
+        selectedRegions, setSelectedRegions, defaultSelectedRegions,
+        selectedDateRange, setSelectedDateRange, defaultSelectedDateRange,
+        selectedTags, setSelectedTags, defaultSelectedTags,
+        tags, ...props
+    }: SearchbarProps) => {
+
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-    const [regions, setRegions] = useState<Region[]>([]);
-    const [campaignStatuses, setCampaignStatuses] = useState<CampaignStatus[]>([]);
-    const [dateRange, setDateRange] = useState<Range>({
-        // TODO stop DateRange from scrolling to this initial range
-        // startDate: new Date(2000, 0), // hardcoded initial startDate, otherwise DateRange shows too much
-        // endDate: new Date(),
-        startDate: undefined,
-        endDate: undefined,
-        key: 'selection'
-    });
-    // TODO use actual category type
-    const [categories, setCategories] = useState<string[]>([]);
+
+    const range =  useMemo<Range>(() => {
+        return {
+            startDate: selectedDateRange.start,
+            endDate: selectedDateRange.end,
+            key: 'selection'
+        };
+    }, [selectedDateRange]);
+
+    const state = useMemo(() => {
+        return {
+            selectedRegions,
+            selectedDateRange,
+            selectedTags
+        }
+    }, [selectedRegions, selectedDateRange, selectedTags]);
+
+    const defaultState = useMemo(() => {
+        return {
+            selectedRegions: defaultSelectedRegions,
+            selectedDateRange: defaultSelectedDateRange,
+            selectedTags: defaultSelectedTags
+        }
+    }, [defaultSelectedRegions, defaultSelectedDateRange, defaultSelectedTags]);
+
+    const isDirty = useMemo<boolean>(() => {
+        // perhaps need to invest in deepEquals
+        // return !deepEquals(state, defaultState);
+        return state.selectedRegions.length !== defaultState.selectedRegions.length ||
+            !state.selectedRegions.every((v, i) => v === defaultState.selectedRegions[i]) ||
+            state.selectedDateRange.start?.getTime() !== defaultState.selectedDateRange.start?.getTime() ||
+            state.selectedDateRange.end?.getTime() !== defaultState.selectedDateRange.end?.getTime() ||
+            state.selectedTags.length !== defaultState.selectedTags.length ||
+            !state.selectedTags.every((v, i) => v === defaultState.selectedTags[i]);
+    }, [state, defaultState]);
+
+    const clearState = () => {
+        setSelectedRegions(defaultSelectedRegions);
+        setSelectedDateRange(defaultSelectedDateRange);
+        setSelectedTags(defaultSelectedTags);
+    };
 
     return (
         <div>
             <TextField
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 sx={{
                     '& .MuiInputBase-root': { borderRadius: 4 },
                     '& .MuiInputBase-input': { padding: '0.7rem 0.0rem' }, // reduce padding inside input
@@ -140,7 +202,9 @@ const Searchbar = ({ ...props }: SearchbarProps) => {
                     endAdornment:
                         <InputAdornment position="end">
                             <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
-                                <Tune/>
+                                <Badge badgeContent={<Settings sx={{ width: '1.25rem', height: '1.25rem' }} color='primary' />} invisible={!isDirty}>
+                                    <Tune/>
+                                </Badge>
                             </IconButton>
                         </InputAdornment>
                 }} {...props}>
@@ -160,19 +224,19 @@ const Searchbar = ({ ...props }: SearchbarProps) => {
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Box sx={{ padding: 2, display: 'inline-flex', justifyContent: 'space-between', alignSelf: 'stretch' }}>
                         <Typography variant="h6" fontWeight={'bold'} fontSize={'1.2rem'}>Filters</Typography>
-                        <Button>Clear All</Button>
+                        <Button onClick={() => clearState()}>Clear All</Button>
                     </Box>
-                    <FilterContainer title="Campaign Status">
-                        <MultiSelectFilter valueSet={Object.values(CampaignStatus)} values={campaignStatuses} setValues={setCampaignStatuses} />
-                    </FilterContainer>
+                    {/* <FilterContainer title="Campaign Status">
+                        <MultiSelectFilter valueSet={Object.values(CampaignStatus)} values={selectedCampaignStatuses} setValues={setSelectedCampaignStatuses} />
+                    </FilterContainer> */}
                     <FilterContainer title="Country/Region">
-                        <MultiSelectFilter valueSet={Object.values(Region)} values={regions} setValues={setRegions} />
+                        <MultiSelectFilter valueSet={Object.values(Region)} values={selectedRegions} setValues={setSelectedRegions} />
                     </FilterContainer>
                     <FilterContainer title="Date">
-                        <DateRange editableDateInputs={true} onChange={nr => setDateRange(nr.selection || {})} ranges={[dateRange]} moveRangeOnFirstSelection={true} />
+                        <DateRangeComponent editableDateInputs={true} onChange={nr => setSelectedDateRange({ start: nr.selection?.startDate, end: nr.selection?.endDate })} ranges={[range]} moveRangeOnFirstSelection={true} />
                     </FilterContainer>
-                    <FilterContainer title="Category">
-                        <DynamicMultiSelectFilter valueSet={['imalongpiece', 'soamilmao', 'adsfasdf', 'asdfasdfasd', 'e', 'f', 'g']} values={categories} setValues={setCategories} />
+                    <FilterContainer title="Tags">
+                        <DynamicMultiSelectFilter valueSet={tags} values={selectedTags} setValues={setSelectedTags} />
                     </FilterContainer>
                 </Box>
             </Popover>
