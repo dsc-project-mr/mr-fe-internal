@@ -1,16 +1,16 @@
 import { Button, Grid, Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-
+import EditIcon from '@mui/icons-material/Edit'
 const ViewArticlePage = () => {
   return (
     <Grid
       container
       sx={{
-        height: '100vh',
+        height: '100%',
         width: '100%',
       }}
     >
-      <Grid container item height={'80px'} alignItems={'center'}>
+      <Grid container item height={'90px'} alignItems={'center'}>
         <Typography
           fontSize={28}
           letterSpacing={0}
@@ -20,33 +20,50 @@ const ViewArticlePage = () => {
           View Article
         </Typography>
       </Grid>
-      <Typography
-        fontSize={21}
-        letterSpacing={0}
-        fontWeight={700}
-        height={'50px'}
-        alignItems={'center'}
-      >
-        Preview of Article
-      </Typography>
+      <Grid container item height={'50px'}>
+        <Typography fontSize={21} letterSpacing={0} fontWeight={700}>
+          Preview of Article
+        </Typography>
+      </Grid>
       <Grid container item>
         <Grid>
           <Box
             sx={{
               backgroundColor: '#F3F4F6',
               width: 665,
-              height: 770,
+              height: 800,
               borderRadius: 2,
+              position: 'relative',
             }}
-          ></Box>
+          >
+            <Box
+              width={'44px'}
+              height={'44px'}
+              sx={{
+                backgroundColor: '#023F84',
+                color: 'white',
+                borderRadius: '5px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'absolute',
+                top: '15px',
+                right: '15px',
+                boxShadow:
+                  '0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px rgba(0, 0, 0, 0.14), 0px 1px 5px rgba(0, 0, 0, 0.12);',
+                cursor: 'pointer',
+              }}
+            >
+              <EditIcon />
+            </Box>
+          </Box>
         </Grid>
         <Grid width="24px" />
-        <Grid spacing={2}>
+        <Grid width={370}>
           <Paper
             elevation={2}
             sx={{
-              width: 370,
-              height: 360,
+              height: 400,
               borderRadius: 3,
               marginBottom: '20px',
               padding: '24px',
@@ -65,7 +82,6 @@ const ViewArticlePage = () => {
           <Paper
             elevation={2}
             sx={{
-              width: 370,
               height: 160,
               borderRadius: 3,
               marginBottom: '20px',
@@ -92,7 +108,6 @@ const ViewArticlePage = () => {
           <Paper
             elevation={2}
             sx={{
-              width: 370,
               height: 160,
               borderRadius: 3,
               marginBottom: '20px',
