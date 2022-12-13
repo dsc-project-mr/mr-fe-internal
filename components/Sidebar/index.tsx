@@ -1,16 +1,11 @@
-import { Box, Button, Drawer, List, ListItem, Typography } from '@mui/material'
+import { Box, Button, Drawer, List, ListItem } from '@mui/material'
 import { useState } from 'react'
 import HeaderTab from './HeaderTab'
 import { sidebarData } from 'constants/sidebarData'
 import LogoutIcon from '@mui/icons-material/Logout'
+import { MR_DARK_BLUE } from 'styles/theme'
 
-// Rename tabs
-// Hover
-// Select tabs ui feedback
-
-const DRAWER_WIDTH = 320
-export const SELECTED_TAB_COLOR = '#FFFFFF'
-export const UNSELECTED_TAB_COLOR = '#EAF9FF'
+export const DRAWER_WIDTH = 240
 
 const Sidebar = () => {
   const [tabSelected, setTabSelected] = useState<string>('')
@@ -72,8 +67,8 @@ const Sidebar = () => {
         <Button
           variant="contained"
           sx={{
-            width: '260px',
-            backgroundColor: '#1976D2',
+            width: '200px',
+            backgroundColor: MR_DARK_BLUE,
             marginBottom: '20px',
           }}
         >

@@ -8,9 +8,11 @@ import {
   ListItemButton,
 } from '@mui/material'
 import { useRouter } from 'next/router'
+import { DRAWER_WIDTH } from '.'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { SubheaderData } from 'constants/sidebarData'
-import { SELECTED_TAB_COLOR, UNSELECTED_TAB_COLOR } from '.'
+
+import { MR_GRAY_1 } from 'styles/theme'
 
 const SubheaderTab = ({
   subheaderData,
@@ -41,7 +43,7 @@ const SubheaderTab = ({
           }
         }}
         sx={{
-          width: '320px',
+          width: DRAWER_WIDTH,
           boxShadow: 'none',
           borderRadius: 0,
           '&:before': {
@@ -64,16 +66,14 @@ const SubheaderTab = ({
               transform: 'rotate(90deg)',
             },
             backgroundColor:
-              tabSelected == subheaderData.title
-                ? SELECTED_TAB_COLOR
-                : UNSELECTED_TAB_COLOR,
+              tabSelected == subheaderData.title ? MR_GRAY_1 : 'white',
           }}
         >
           <Typography
             sx={{
               color: 'text.primary',
               position: 'relative',
-              left: '30px',
+              left: '20px',
             }}
           >
             {subheaderData.title}

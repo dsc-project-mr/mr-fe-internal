@@ -10,7 +10,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import SubheaderTab from './SubheaderTab'
 import { SidebarData } from 'constants/sidebarData'
 import { useRouter } from 'next/router'
-import { SELECTED_TAB_COLOR, UNSELECTED_TAB_COLOR } from '.'
+
+import { MR_GRAY_1 } from 'styles/theme'
+import { DRAWER_WIDTH } from '.'
 
 const HeaderTab = ({
   headerData,
@@ -44,7 +46,7 @@ const HeaderTab = ({
             }
           }}
           sx={{
-            width: '320px',
+            width: DRAWER_WIDTH,
             boxShadow: 'none',
             borderRadius: 0,
           }}
@@ -61,9 +63,7 @@ const HeaderTab = ({
                 cursor: hasSubheaders ? 'pointer' : 'default',
               },
               backgroundColor:
-                tabSelected == headerData.title
-                  ? SELECTED_TAB_COLOR
-                  : UNSELECTED_TAB_COLOR,
+                tabSelected == headerData.title ? MR_GRAY_1 : 'white',
             }}
           >
             <Typography
