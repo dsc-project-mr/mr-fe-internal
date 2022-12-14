@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, useMemo } from "react";
+import { useState, Dispatch, SetStateAction, useMemo, ReactNode } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Search from "@mui/icons-material/Search";
@@ -8,75 +8,51 @@ import Popover from '@mui/material/Popover';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from "@mui/system/Box";
-import { Region } from "constants/Donation";
 
 import Badge from "@mui/material/Badge";
 import Settings from "@mui/icons-material/Settings";
-import { DynamicMultiSelectFilter } from "./DynamicMultiSelectFilter";
-import { MultiSelectFilter } from "./MultiSelectFilter";
-import { DateRangeFilter, DateRange } from "./DateRangeFilter";
 import { FilterContainer } from "./FilterContainer";
 
-type SearchbarProps = {
-    tags: string[],
+export interface Filter<T> {
+    name: string,
+    value: T,
+    setValue: Dispatch<SetStateAction<T>>,
+    defaultValue: T,
+    render: (f: Filter<T>) => ReactNode,
+    compare?: (v: T, dv: T) => boolean
+}
 
+export function useFilter<T>(name: string, defaultValue: T, render: (f: Filter<T>) => ReactNode, compare?: (v: T, dv: T) => boolean): Filter<T> {
+    const [value, setValue] = useState<T>(defaultValue);
+    return {
+        name, value, setValue, defaultValue, render, compare
+    };
+}
+
+type SearchbarProps = {
     search: string,
     setSearch: Dispatch<SetStateAction<string>>,
 
-    selectedRegions: Region[],
-    setSelectedRegions: Dispatch<SetStateAction<Region[]>>,
-    defaultSelectedRegions: Region[],
-
-    selectedDateRange: DateRange | undefined,
-    setSelectedDateRange: Dispatch<SetStateAction<DateRange | undefined>>,
-    defaultSelectedDateRange: DateRange | undefined,
-
-    selectedTags: string[],
-    setSelectedTags: Dispatch<SetStateAction<string[]>>,
-    defaultSelectedTags: string[],
+    filters: Filter<unknown>[],
 } & TextFieldProps;
 
 const Searchbar = ({
-        search, setSearch,
-        selectedRegions, setSelectedRegions, defaultSelectedRegions,
-        selectedDateRange, setSelectedDateRange, defaultSelectedDateRange,
-        selectedTags, setSelectedTags, defaultSelectedTags,
-        tags, ...props
+        search, setSearch, filters,
+        ...props
     }: SearchbarProps) => {
 
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-    const state = useMemo(() => {
-        return {
-            selectedRegions,
-            selectedDateRange,
-            selectedTags
-        }
-    }, [selectedRegions, selectedDateRange, selectedTags]);
-
-    const defaultState = useMemo(() => {
-        return {
-            selectedRegions: defaultSelectedRegions,
-            selectedDateRange: defaultSelectedDateRange,
-            selectedTags: defaultSelectedTags
-        }
-    }, [defaultSelectedRegions, defaultSelectedDateRange, defaultSelectedTags]);
+    const defaultCompare = <T,>(v: T, dv: T) => v === dv;
 
     const isDirty = useMemo<boolean>(() => {
-        // perhaps need to invest in deepEquals
-        // return !deepEquals(state, defaultState);
-        return state.selectedRegions.length !== defaultState.selectedRegions.length ||
-            !state.selectedRegions.every((v, i) => v === defaultState.selectedRegions[i]) ||
-            state.selectedDateRange?.start?.getTime() !== defaultState.selectedDateRange?.start?.getTime() ||
-            state.selectedDateRange?.end?.getTime() !== defaultState.selectedDateRange?.end?.getTime() ||
-            state.selectedTags.length !== defaultState.selectedTags.length ||
-            !state.selectedTags.every((v, i) => v === defaultState.selectedTags[i]);
-    }, [state, defaultState]);
+        return !filters.every(f => (f.compare || defaultCompare)(f.value, f.defaultValue));
+    }, [filters]);
 
     const clearState = () => {
-        setSelectedRegions(defaultSelectedRegions);
-        setSelectedDateRange(defaultSelectedDateRange);
-        setSelectedTags(defaultSelectedTags);
+        for (const f of filters) {
+            f.setValue(f.defaultValue);
+        }
     };
 
     return (
@@ -120,18 +96,16 @@ const Searchbar = ({
                         <Typography variant="h6" fontWeight={'bold'} fontSize={'1.2rem'}>Filters</Typography>
                         <Button onClick={() => clearState()}>Clear All</Button>
                     </Box>
-                    {/* <FilterContainer title="Campaign Status">
-                        <MultiSelectFilter valueSet={Object.values(CampaignStatus)} values={selectedCampaignStatuses} setValues={setSelectedCampaignStatuses} />
-                    </FilterContainer> */}
-                    <FilterContainer title="Country/Region">
-                        <MultiSelectFilter valueSet={Object.values(Region)} values={selectedRegions} setValues={setSelectedRegions} />
-                    </FilterContainer>
-                    <FilterContainer title="Date">
-                        <DateRangeFilter value={selectedDateRange} setValue={setSelectedDateRange} />
-                    </FilterContainer>
-                    <FilterContainer title="Tags">
-                        <DynamicMultiSelectFilter valueSet={tags} values={selectedTags} setValues={setSelectedTags} />
-                    </FilterContainer>
+
+                    {
+                        filters.map((f, i) => {
+                            return (
+                                <FilterContainer key={i} title={f.name}>
+                                    {f.render(f)}
+                                </FilterContainer>
+                            )
+                        })
+                    }
                 </Box>
             </Popover>
         </div>
