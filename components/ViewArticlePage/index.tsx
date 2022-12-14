@@ -1,6 +1,6 @@
 import { Button, Grid, Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import EditIcon from '@mui/icons-material/Edit'
+
 const ViewArticlePage = () => {
   return (
     <Grid
@@ -54,7 +54,15 @@ const ViewArticlePage = () => {
                 cursor: 'pointer',
               }}
             >
-              <EditIcon />
+              <Box
+                component="img"
+                src="images/edit_icon.png"
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  height: 32,
+                }}
+              />
             </Box>
           </Box>
         </Grid>
