@@ -1,14 +1,18 @@
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined'
 import { Box } from '@mui/material'
+
 import { CampaignStatus } from 'constants/campaign'
+import Link from 'next/link'
+import React from 'react'
 
 const styledmainbox = {
   display: 'flex',
   flexDirection: 'column',
-  width: '50%',
-  height: '100%',
+  width: '30%',
+  height: '70%',
   padding: '10px',
   backgroundColor: '#EAF9FF',
+  marginTop: 10,
 }
 
 const styledmainbody = {
@@ -59,6 +63,7 @@ const campaignStateColor = {
 }
 
 interface Props {
+  id: number
   campaignName: string
   campaignDetails: string
   donors: number
@@ -69,6 +74,7 @@ interface Props {
 }
 
 const CampaignListItem = ({
+  id,
   campaignName,
   campaignDetails,
   donors,
@@ -78,59 +84,61 @@ const CampaignListItem = ({
   viewAll,
 }: Props) => {
   return (
-    <Box sx={styledmainbox}>
-      <Box sx={styledmainbody}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexDirection: 'row',
-          }}
-        >
-          <h3 style={{ color: '#009DD7' }}>{campaignName}</h3>
-          <ArchiveOutlinedIcon
-            sx={{
-              color: '#009DD7',
-              fontSize: '2.5rem',
-            }}
-          />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <p style={styledoverview}>{campaignDetails}</p>
-          <h4
+    <Link href={'/campaigns/' + id} passHref legacyBehavior>
+      <Box sx={styledmainbox}>
+        <Box sx={styledmainbody}>
+          <div
             style={{
-              color: campaignStateColor[campaignStatus],
-              marginLeft: 50,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexDirection: 'row',
             }}
           >
-            {campaignStatus}
-          </h4>
-        </div>
+            <h3 style={{ color: '#009DD7' }}>{campaignName}</h3>
+            <ArchiveOutlinedIcon
+              sx={{
+                color: '#009DD7',
+                fontSize: '2.5rem',
+              }}
+            />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <p style={styledoverview}>{campaignDetails}</p>
+            <h4
+              style={{
+                color: campaignStateColor[campaignStatus],
+                marginLeft: 50,
+              }}
+            >
+              {campaignStatus}
+            </h4>
+          </div>
+        </Box>
+        {viewAll && <Box sx={styledcontentbox}>{campaignDetails}</Box>}
+        <Box sx={styledbottombox}>
+          <div style={styledbottomitems}>
+            <p>Donors:</p>&nbsp;
+            <p style={styledinput}> {donors.toString()}</p>
+          </div>
+          <div style={styledbottomitems}>
+            <p>Total Amount Received: </p>&nbsp;
+            <p style={styledinput}>${amount.toString()}</p>
+          </div>
+          <div style={styledbottomitems}>
+            <p>Country: </p>&nbsp;
+            <p style={styledinput}>{country}</p>
+          </div>
+        </Box>
       </Box>
-      {viewAll && <Box sx={styledcontentbox}>{campaignDetails}</Box>}
-      <Box sx={styledbottombox}>
-        <div style={styledbottomitems}>
-          <p>Donors:</p>&nbsp;
-          <p style={styledinput}> {donors.toString()}</p>
-        </div>
-        <div style={styledbottomitems}>
-          <p>Total Amount Received: </p>&nbsp;
-          <p style={styledinput}>${amount.toString()}</p>
-        </div>
-        <div style={styledbottomitems}>
-          <p>Country: </p>&nbsp;
-          <p style={styledinput}>{country}</p>
-        </div>
-      </Box>
-    </Box>
+    </Link>
   )
 }
 
