@@ -46,6 +46,32 @@ type SearchbarProps = {
   filters: Filter<unknown>[]
 } & TextFieldProps
 
+/**
+ * Searchbar component with filters. To see how to configure filters, see `defaults.tsx`
+ * 
+ * @example
+ * ```ts
+ * const Example = () => {
+ *   const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
+ *   const [search, setSearch] = useState<string>('')
+ *   const { props, filters } = donationFilters(tags)
+ *   const [status, setStatus] = useState(DocumentStatus.All);
+ *   return (
+ *     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+ *       <Searchbar search={search} setSearch={setSearch} filters={filters} />
+ *       <div>Search: {search}</div>
+ *       <div>Urgency: {'[ ' + props.selectedUrgencies.join(', ') + ' ]'}</div>
+ *       <div>Regions: {'[ ' + props.selectedRegions.join(', ') + ' ]'}</div>
+ *       <div>
+ *         DateRange:
+ *         {props.selectedDateRange?.start + ' to ' + props.selectedDateRange?.end}
+ *       </div>
+ *       <div>Tags: {'[ ' + props.selectedTags.join(', ') + ' ]'}</div>
+ *     </Box>
+ *   )
+ * }
+ * ```
+ */
 const Searchbar = ({
   search,
   setSearch,

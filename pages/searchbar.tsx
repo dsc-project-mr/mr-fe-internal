@@ -18,7 +18,7 @@ const Home: NextPage = () => {
       <div>Urgency: {'[ ' + props.selectedUrgencies.join(', ') + ' ]'}</div>
       <div>Regions: {'[ ' + props.selectedRegions.join(', ') + ' ]'}</div>
       <div>
-        DateRange:{' '}
+        DateRange:
         {props.selectedDateRange?.start + ' to ' + props.selectedDateRange?.end}
       </div>
       <div>Tags: {'[ ' + props.selectedTags.join(', ') + ' ]'}</div>
