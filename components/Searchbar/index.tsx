@@ -125,9 +125,9 @@ type SearchbarProps = {
     setSelectedRegions: Dispatch<SetStateAction<Region[]>>,
     defaultSelectedRegions: Region[],
 
-    selectedDateRange: DateRange,
-    setSelectedDateRange: Dispatch<SetStateAction<DateRange>>,
-    defaultSelectedDateRange: DateRange,
+    selectedDateRange: DateRange | undefined,
+    setSelectedDateRange: Dispatch<SetStateAction<DateRange | undefined>>,
+    defaultSelectedDateRange: DateRange | undefined,
 
     selectedTags: string[],
     setSelectedTags: Dispatch<SetStateAction<string[]>>,
@@ -144,12 +144,17 @@ const Searchbar = ({
 
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-    const range =  useMemo<Range>(() => {
-        return {
+    const range =  useMemo<Range[]>(() => {
+        // ref: https://github.com/hypeserver/react-date-range/issues/330#issuecomment-802601417
+        return selectedDateRange === undefined ? [{
+            startDate: undefined,
+            endDate: new Date(""),
+            key: 'selection'
+        }] : [{
             startDate: selectedDateRange.start,
             endDate: selectedDateRange.end,
             key: 'selection'
-        };
+        }];
     }, [selectedDateRange]);
 
     const state = useMemo(() => {
@@ -173,8 +178,8 @@ const Searchbar = ({
         // return !deepEquals(state, defaultState);
         return state.selectedRegions.length !== defaultState.selectedRegions.length ||
             !state.selectedRegions.every((v, i) => v === defaultState.selectedRegions[i]) ||
-            state.selectedDateRange.start?.getTime() !== defaultState.selectedDateRange.start?.getTime() ||
-            state.selectedDateRange.end?.getTime() !== defaultState.selectedDateRange.end?.getTime() ||
+            state.selectedDateRange?.start?.getTime() !== defaultState.selectedDateRange?.start?.getTime() ||
+            state.selectedDateRange?.end?.getTime() !== defaultState.selectedDateRange?.end?.getTime() ||
             state.selectedTags.length !== defaultState.selectedTags.length ||
             !state.selectedTags.every((v, i) => v === defaultState.selectedTags[i]);
     }, [state, defaultState]);
@@ -233,7 +238,7 @@ const Searchbar = ({
                         <MultiSelectFilter valueSet={Object.values(Region)} values={selectedRegions} setValues={setSelectedRegions} />
                     </FilterContainer>
                     <FilterContainer title="Date">
-                        <DateRangeComponent editableDateInputs={true} onChange={nr => setSelectedDateRange({ start: nr.selection?.startDate, end: nr.selection?.endDate })} ranges={[range]} moveRangeOnFirstSelection={true} />
+                        <DateRangeComponent editableDateInputs={true} onChange={nr => setSelectedDateRange({ start: nr.selection?.startDate, end: nr.selection?.endDate })} ranges={range} moveRangeOnFirstSelection={true} />
                     </FilterContainer>
                     <FilterContainer title="Tags">
                         <DynamicMultiSelectFilter valueSet={tags} values={selectedTags} setValues={setSelectedTags} />

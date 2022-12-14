@@ -7,12 +7,12 @@ import { useState } from 'react'
 const Home: NextPage = () => {
   const now = new Date();
   const defaultSelectedRegions: Region[] = [];
-  const defaultSelectedDateRange: DateRange = { end: new Date(now.toDateString()) };
+  const defaultSelectedDateRange: DateRange | undefined = undefined;
   const defaultSelectedTags: string[] = [];
 
   const [search, setSearch] = useState<string>('');
   const [selectedRegions, setSelectedRegions] = useState<Region[]>(defaultSelectedRegions);
-  const [selectedDateRange, setSelectedDateRange] = useState<DateRange>(defaultSelectedDateRange);
+  const [selectedDateRange, setSelectedDateRange] = useState<DateRange | undefined>(defaultSelectedDateRange);
   const [selectedTags, setSelectedTags] = useState<string[]>(defaultSelectedTags);
 
   const searchbarFilterProps = {
@@ -29,7 +29,7 @@ const Home: NextPage = () => {
         <Searchbar {...searchbarFilterProps} tags={tags}/>
         <div>Search: {search}</div>
         <div>Regions: {"[ " + selectedRegions.join(", ") + " ]"}</div>
-        <div>DateRange: {selectedDateRange.start + " to " + selectedDateRange.end}</div>
+        <div>DateRange: {selectedDateRange?.start + " to " + selectedDateRange?.end}</div>
         <div>Tags: {"[ " + selectedTags.join(", ") + " ]"}</div>
     </Box>
   )
