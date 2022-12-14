@@ -2,7 +2,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { DataGrid } from '@mui/x-data-grid'
-import { GridColDef } from '@mui/x-data-grid/models'
 import DocumentListTabs from 'components/DocumentListTabs'
 import Searchbar from 'components/Searchbar'
 import { donationFilters } from 'components/Searchbar/defaults'
@@ -10,24 +9,7 @@ import { DocumentStatus } from 'constants/DocumentStatus'
 import { CampaignStatus } from 'constants/Donation'
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-
-// TODO move this to /models
-interface Campaign {
-  id: number
-  name: string
-  details: string
-  donors: number
-  amount: number
-  country: string
-  status: CampaignStatus
-}
-
-const columns: GridColDef[] = [
-  { field: 'name', headerName: 'Name', minWidth: 200, flex: 1 },
-  { field: 'country', headerName: 'Country', minWidth: 150, flex: 1 },
-  { field: 'donors', headerName: 'Total Donors', minWidth: 100, flex: 1 },
-  { field: 'status', headerName: 'Status', minWidth: 100, flex: 1 },
-];
+import { Campaign, campaignColumns } from 'models/campaign';
 
 const testData: Campaign[] = [
   {
@@ -71,9 +53,11 @@ const CampaignList: NextPage = () => {
   useEffect(() => {
     const props = { ..._props, status };
     // setCampaigns(someApi(search, props))
-  }, [_props, status, search])
+  }, [_props, status, search]);
 
-
+  const handleView = (row: Campaign) => {
+    // route(`/donation/view/${row.id}`, row)
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -89,7 +73,7 @@ const CampaignList: NextPage = () => {
       <Box sx={{ flex: 1 }}>
         <DocumentListTabs status={status} setStatus={setStatus}>
           <DataGrid
-            columns={columns}
+            columns={campaignColumns(handleView)}
             rows={campaigns}
             autoHeight
             pageSize={10}
