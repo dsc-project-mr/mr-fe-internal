@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box'
-import Searchbar, { DateRange } from 'components/Searchbar'
+import Searchbar from 'components/Searchbar'
+import { DateRange } from 'components/Searchbar/DateRangeFilter'
 import { Region } from 'constants/Donation'
 import type { NextPage } from 'next'
 import { useState } from 'react'
 
 const Home: NextPage = () => {
-  const now = new Date();
   const defaultSelectedRegions: Region[] = [];
   const defaultSelectedDateRange: DateRange | undefined = undefined;
   const defaultSelectedTags: string[] = [];
