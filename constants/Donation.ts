@@ -17,7 +17,7 @@ export enum Region {
 export enum Urgency {
   HIGH = 'High',
   MEDIUM = 'Medium',
-  LOW = 'low',
+  LOW = 'Low',
 }
 
 export enum TransactionStatus {

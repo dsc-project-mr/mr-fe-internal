@@ -3,7 +3,7 @@ import Searchbar, { Filter, useFilter } from 'components/Searchbar'
 import { DateRange, DateRangeFilter } from 'components/Searchbar/DateRangeFilter'
 import { DynamicMultiSelectFilter } from 'components/Searchbar/DynamicMultiSelectFilter'
 import { MultiSelectFilter } from 'components/Searchbar/MultiSelectFilter'
-import { Region } from 'constants/Donation'
+import { Region, Urgency } from 'constants/Donation'
 import type { NextPage } from 'next'
 import { useState } from 'react'
 
@@ -24,6 +24,10 @@ const Home: NextPage = () => {
 
   const [search, setSearch] = useState<string>('');
 
+  const selectedUrgencies = useFilter<Urgency[]>("Urgency", [], 
+    f => <MultiSelectFilter valueSet={Object.values(Urgency)} values={f.value} setValues={f.setValue} />,
+    arrayEquals
+  );
   const selectedRegions = useFilter<Region[]>("Country/Region", [], 
     f => <MultiSelectFilter valueSet={Object.values(Region)} values={f.value} setValues={f.setValue} />,
     arrayEquals
@@ -39,13 +43,14 @@ const Home: NextPage = () => {
 
   const searchbarFilterProps = {
     search, setSearch,
-    filters: [selectedRegions, selectedDateRange, selectedTags] as Filter<unknown>[]
+    filters: [selectedUrgencies, selectedRegions, selectedDateRange, selectedTags] as Filter<unknown>[]
   };[]
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <Searchbar {...searchbarFilterProps} />
         <div>Search: {search}</div>
+        <div>Urgency: {"[ " + selectedUrgencies.value.join(", ") + " ]"}</div>
         <div>Regions: {"[ " + selectedRegions.value.join(", ") + " ]"}</div>
         <div>DateRange: {selectedDateRange.value?.start + " to " + selectedDateRange.value?.end}</div>
         <div>Tags: {"[ " + selectedTags.value.join(", ") + " ]"}</div>
