@@ -3,9 +3,6 @@ import {
   Accordion,
   AccordionSummary,
   Typography,
-  AccordionDetails,
-  List,
-  ListItemButton,
 } from '@mui/material'
 import { useRouter } from 'next/router'
 import { DRAWER_WIDTH } from '.'
@@ -79,13 +76,13 @@ const SubheaderTab = ({
             {subheaderData.title}
           </Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        {/* <AccordionDetails>
           <List>
             {subheaderData.tabs.map((tab, index) => {
               return <ListItemButton key={index}>{tab}</ListItemButton>
             })}
           </List>
-        </AccordionDetails>
+        </AccordionDetails> */}
       </Accordion>
     </>
   )

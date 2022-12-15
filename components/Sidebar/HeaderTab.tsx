@@ -69,6 +69,7 @@ const HeaderTab = ({
             <Typography
               sx={{
                 color: 'text.primary',
+                fontWeight: 700,
               }}
             >
               {headerData.title}

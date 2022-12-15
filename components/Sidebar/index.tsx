@@ -22,11 +22,6 @@ const Sidebar = () => {
           '& .MuiDrawer-paper': {
             width: DRAWER_WIDTH,
             boxSizing: 'border-box',
-            backgroundColor: '#EAF9FF',
-          },
-
-          '& .MuiAccordionDetails-root': {
-            backgroundColor: '#EAF9FF',
           },
 
           /* 
@@ -47,7 +42,7 @@ const Sidebar = () => {
           >
             <Box
               component="img"
-              src="mercy_relief_logo.png"
+              src="images/sidebar/mercy_relief_logo.png"
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
