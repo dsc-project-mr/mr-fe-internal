@@ -1,79 +1,32 @@
-import { DateRange, DateRangeFilter } from './DateRangeFilter'
-import { Filter, useFilter as createFilter } from '.'
-import { Region, Urgency } from 'constants/Donation'
-import { DynamicMultiSelectFilter } from './DynamicMultiSelectFilter'
-import { MultiSelectFilter } from './MultiSelectFilter'
-
-// perhaps we need to invest in deepEquals
-const arrayEquals = <T,>(v: T[], dv: T[]) => {
-  return v.length === dv.length && v.every((e, i) => e === dv[i])
-}
-
-const dateRangeEquals = (v?: DateRange, dv?: DateRange) => {
-  return (
-    v === dv ||
-    (v?.start?.getTime() === dv?.start?.getTime() &&
-      v?.end?.getTime() === dv?.end?.getTime())
-  )
-}
+import { DateRange } from './DateRangeFilter'
+import { useFilter as createFilter } from '.'
+import { DonationFilters, Region, Urgency } from 'constants/Donation'
 
 // TODO one for content
 
 export const donationFilters = (tags: string[]) => {
-  const selectedUrgencies = createFilter<Urgency[]>(
-    'Urgency',
+  const urgencyFilter = createFilter<Urgency[]>(
+    DonationFilters.URGENCY,
     [],
-    (f) => (
-      <MultiSelectFilter
-        valueSet={Object.values(Urgency)}
-        values={f.value}
-        setValues={f.setValue}
-      />
-    ),
-    arrayEquals
+    Object.values(Urgency)
   )
-  const selectedRegions = createFilter<Region[]>(
-    'Country/Region',
+  const countryFilter = createFilter<Region[]>(
+    DonationFilters.COUNTRY,
     [],
-    (f) => (
-      <MultiSelectFilter
-        valueSet={Object.values(Region)}
-        values={f.value}
-        setValues={f.setValue}
-      />
-    ),
-    arrayEquals
+    Object.values(Region)
   )
-  const selectedDateRange = createFilter<DateRange | undefined>(
-    'Date',
-    undefined,
-    (f) => <DateRangeFilter value={f.value} setValue={f.setValue} />,
-    dateRangeEquals
+  const dateFilter = createFilter<DateRange | undefined>(
+    DonationFilters.DATE,
+    undefined
   )
-  const selectedTags = createFilter<string[]>(
-    'Tags',
-    [],
-    (f) => (
-      <DynamicMultiSelectFilter
-        valueSet={tags}
-        values={f.value}
-        setValues={f.setValue}
-      />
-    ),
-    arrayEquals
-  )
+  const tagsFilter = createFilter<string[]>(DonationFilters.TAGS, [], tags)
   return {
     props: {
-      selectedUrgencies: selectedUrgencies.value,
-      selectedRegions: selectedRegions.value,
-      selectedDateRange: selectedDateRange.value,
-      selectedTags: selectedTags.value,
+      selectedUrgencies: urgencyFilter.value,
+      selectedRegions: countryFilter.value,
+      selectedDateRange: dateFilter.value,
+      selectedTags: tagsFilter.value,
     },
-    filters: [
-      selectedUrgencies,
-      selectedRegions,
-      selectedDateRange,
-      selectedTags,
-    ] as Filter<unknown>[],
+    filters: [urgencyFilter, countryFilter, dateFilter, tagsFilter],
   }
 }
