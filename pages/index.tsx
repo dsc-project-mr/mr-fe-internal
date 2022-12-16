@@ -42,7 +42,7 @@ const Home: NextPage = () => {
     },
   ]
   return (
-    <div>
+    <div >
       <h2>Mercy Relief Internal Portal</h2>
       {CampaignList.map((c, id) => (
         <div key={id}>

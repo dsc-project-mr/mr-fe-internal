@@ -8,11 +8,11 @@ import React from 'react'
 const styledmainbox = {
   display: 'flex',
   flexDirection: 'column',
-  width: '30%',
+  width: '40%',
   height: '70%',
   padding: '10px',
   backgroundColor: '#EAF9FF',
-  marginTop: 10,
+  margin: 5,
 }
 
 const styledmainbody = {

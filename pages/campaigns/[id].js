@@ -1,5 +1,8 @@
+import { Button } from '@mui/material'
 import CampaignListItem from 'components/CampaignListItem'
 import { CampaignStatus } from 'constants/campaign'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+import { useRouter } from 'next/router'
 
 export const getStaticPaths = async () => {
   const res = await fetch(
@@ -7,7 +10,9 @@ export const getStaticPaths = async () => {
   )
   const data = await res.json()
   const paths = data.map((c) => ({
-    params: { id: c.id.toString() },
+    params: {
+      id: c.id.toString(),
+    },
   }))
   return {
     paths,
@@ -27,10 +32,24 @@ export const getStaticProps = async (context) => {
   }
 }
 
-export default function Campaign({ campaignData }) {
+export default function ViewCampaign({ campaignData }) {
+  const router = useRouter()
   return (
     <div>
-      <h1>Donations</h1>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+      >
+        <Button onClick={() => router.back()}>
+          <ArrowBackIosNewIcon style={{ margin: 20 }} />
+        </Button>
+        <h2 style={{ fontFamily: 'Roboto', fontWeight: 700, fontSize: 28 }}>
+          Donations
+        </h2>
+      </div>
       <CampaignListItem
         campaignName={campaignData.name.toString()}
         campaignDetails={campaignData.content}
