@@ -9,7 +9,7 @@ import { DocumentStatus } from 'constants/DocumentStatus'
 import { CampaignStatus } from 'constants/Donation'
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import { Campaign, campaignColumns } from 'models/campaign';
+import { Campaign, campaignColumns } from 'models/campaign'
 
 const testData: Campaign[] = [
   {
@@ -45,15 +45,16 @@ const CampaignList: NextPage = () => {
   // TODO get this from a API call
   const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
 
-  const [campaigns, setCampaigns] = useState<Campaign[]>(testData);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [search, setSearch] = useState<string>('')
   const [status, setStatus] = useState<DocumentStatus>(DocumentStatus.All)
   const { props: _props, filters } = donationFilters(tags)
 
   useEffect(() => {
-    const props = { ..._props, status };
+    const props = { ..._props, status }
+    setCampaigns(testData)
     // setCampaigns(someApi(search, props))
-  }, [_props, status, search]);
+  }, [_props, status, search])
 
   const handleView = (row: Campaign) => {
     // route(`/donation/view/${row.id}`, row)
@@ -77,7 +78,7 @@ const CampaignList: NextPage = () => {
             rows={campaigns}
             autoHeight
             pageSize={10}
-          ></DataGrid>
+          />
         </DocumentListTabs>
       </Box>
     </Box>
