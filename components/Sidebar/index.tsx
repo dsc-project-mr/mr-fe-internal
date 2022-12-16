@@ -45,9 +45,9 @@ const Sidebar = () => {
               Mercy Relief Internal Portal
             </Typography>
           </ListItem>
-          {sidebarData.map((headerData, index) => (
+          {sidebarData.map((headerData) => (
             <HeaderTab
-              key={index}
+              key={headerData.title}
               headerData={headerData}
               tabSelected={tabSelected}
               setTabSelected={setTabSelected}

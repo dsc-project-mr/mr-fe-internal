@@ -23,7 +23,7 @@ export function DynamicMultiSelectFilter<T>({
   const chips = values.map((v, i) => {
     return (
       <Chip
-        key={i}
+        key={`${v}-${i}`}
         label={_renderValue(v)}
         deleteIcon={<Cancel />}
         sx={{ marginRight: 1, marginTop: 1 }}
@@ -42,7 +42,6 @@ export function DynamicMultiSelectFilter<T>({
         renderTags={() => ''} // disable rendering of tags into the textfield
         onChange={(_, nv) => setValues(nv)}
       />
-      {/* Cool css trick to force overflow */}
       <Box sx={{ width: 0, minWidth: '100%' }}>{chips}</Box>
     </Box>
   )

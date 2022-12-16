@@ -26,3 +26,10 @@ export enum TransactionStatus {
   SUCCEEDED = 'Succeeded',
   FAILED = 'Failed',
 }
+
+export enum DonationFilters {
+  URGENCY = 'Urgency',
+  COUNTRY = 'Country/Region',
+  DATE = 'Date',
+  TAGS = 'Tags',
+}

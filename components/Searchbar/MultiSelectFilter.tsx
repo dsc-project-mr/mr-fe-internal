@@ -27,7 +27,7 @@ export function MultiSelectFilter<T>({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      {valueSet.map((v, i) => {
+      {valueSet.map((v) => {
         return (
           <FormControlLabel
             control={
@@ -37,7 +37,7 @@ export function MultiSelectFilter<T>({
               />
             }
             label={_renderValue(v)}
-            key={i}
+            key={`filter-value-${v}`}
           />
         )
       })}

@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, useMemo, ReactNode } from 'react'
+import { useState, Dispatch, SetStateAction, useMemo, useCallback } from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField, { TextFieldProps } from '@mui/material/TextField'
 import Search from '@mui/icons-material/Search'
@@ -12,21 +12,25 @@ import Box from '@mui/system/Box'
 import Badge from '@mui/material/Badge'
 import Settings from '@mui/icons-material/Settings'
 import { FilterContainer } from './FilterContainer'
+import { MultiSelectFilter } from './MultiSelectFilter'
+import { DynamicMultiSelectFilter } from './DynamicMultiSelectFilter'
+import { DateRange, DateRangeFilter } from './DateRangeFilter'
+import isEqual from 'lodash/isEqual'
+import { DonationFilters, Region, Urgency } from 'constants/Donation'
 
 export interface Filter<T> {
   name: string
   value: T
   setValue: Dispatch<SetStateAction<T>>
   defaultValue: T
-  render: (f: Filter<T>) => ReactNode
-  compare?: (v: T, dv: T) => boolean
+  resetValue: () => void
+  valueSet?: T
 }
 
 export function useFilter<T>(
   name: string,
   defaultValue: T,
-  render: (f: Filter<T>) => ReactNode,
-  compare?: (v: T, dv: T) => boolean
+  valueSet?: T
 ): Filter<T> {
   const [value, setValue] = useState<T>(defaultValue)
   return {
@@ -34,8 +38,8 @@ export function useFilter<T>(
     value,
     setValue,
     defaultValue,
-    render,
-    compare,
+    resetValue: () => setValue(defaultValue),
+    valueSet,
   }
 }
 
@@ -43,12 +47,16 @@ type SearchbarProps = {
   search: string
   setSearch: Dispatch<SetStateAction<string>>
 
-  filters: Filter<unknown>[]
+  filters: (
+    | Filter<Urgency[]>
+    | Filter<Region[]>
+    | Filter<DateRange | undefined>
+    | Filter<string[]>
+  )[]
 } & TextFieldProps
-
 /**
  * Searchbar component with filters. To see how to configure filters, see `defaults.tsx`
- * 
+ *
  * @example
  * ```ts
  * const Example = () => {
@@ -80,19 +88,50 @@ const Searchbar = ({
 }: SearchbarProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
 
-  const defaultCompare = <T,>(v: T, dv: T) => v === dv
-
   const isDirty = useMemo<boolean>(() => {
-    return !filters.every((f) =>
-      (f.compare || defaultCompare)(f.value, f.defaultValue)
-    )
+    return !filters.every((f) => isEqual(f.value, f.defaultValue))
   }, [filters])
 
-  const clearState = () => {
+  const clearState = useCallback(() => {
     for (const f of filters) {
-      f.setValue(f.defaultValue)
+      f.resetValue()
     }
-  }
+  }, [filters])
+
+  const FilterComponent = useCallback((f: Filter<any>) => {
+    switch (f.name) {
+      case DonationFilters.URGENCY:
+      case DonationFilters.COUNTRY:
+        return (
+          <MultiSelectFilter
+            valueSet={f.valueSet}
+            values={f.value}
+            setValues={f.setValue}
+          />
+        )
+
+      case DonationFilters.DATE:
+        return <DateRangeFilter value={f.value} setValue={f.setValue} />
+
+      case DonationFilters.TAGS:
+        return (
+          <DynamicMultiSelectFilter
+            valueSet={f.valueSet}
+            values={f.value}
+            setValues={f.setValue}
+          />
+        )
+
+      default:
+        return (
+          <DynamicMultiSelectFilter
+            valueSet={f.valueSet}
+            values={f.value}
+            setValues={f.setValue}
+          />
+        )
+    }
+  }, [])
 
   return (
     <div>
@@ -128,7 +167,7 @@ const Searchbar = ({
           ),
         }}
         {...props}
-      ></TextField>
+      />
       <Popover
         open={anchorEl !== null}
         anchorEl={anchorEl}
@@ -151,16 +190,15 @@ const Searchbar = ({
               alignSelf: 'stretch',
             }}
           >
-            <Typography variant="h6" fontWeight={'bold'} fontSize={'1.2rem'}>
+            <Typography variant="h6" fontWeight="bold" fontSize="1.2rem">
               Filters
             </Typography>
             <Button onClick={() => clearState()}>Clear All</Button>
           </Box>
-
-          {filters.map((f, i) => {
+          {filters.map((f) => {
             return (
-              <FilterContainer key={i} title={f.name}>
-                {f.render(f)}
+              <FilterContainer key={f.name} title={f.name}>
+                {FilterComponent(f)}
               </FilterContainer>
             )
           })}

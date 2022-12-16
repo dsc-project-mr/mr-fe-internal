@@ -15,7 +15,6 @@ export interface DateRangeFilterProps {
 
 export const DateRangeFilter = ({ value, setValue }: DateRangeFilterProps) => {
   const range = useMemo<Range[]>(() => {
-    // ref: https://github.com/hypeserver/react-date-range/issues/330#issuecomment-802601417
     return value === undefined
       ? [
           {
