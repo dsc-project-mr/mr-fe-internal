@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 
 import { MR_GRAY_1 } from 'styles/theme'
 import { DRAWER_WIDTH } from '.'
+import { Box } from '@mui/system'
 
 const HeaderTab = ({
   headerData,
@@ -56,16 +57,27 @@ const HeaderTab = ({
             aria-controls="panel1bh-content"
             id="panel1bh-header"
             sx={{
-              '&.MuiButtonBase-root.MuiAccordionSummary-root': {
-                cursor: hasSubheaders ? 'pointer' : 'default',
-              },
-              '&.MuiButtonBase-root.MuiAccordionSummary-root:hover': {
-                cursor: hasSubheaders ? 'pointer' : 'default',
+              // '&.MuiButtonBase-root.MuiAccordionSummary-root': {
+              //   cursor: hasSubheaders ? 'pointer' : 'default',
+              // },
+              // '&.MuiButtonBase-root.MuiAccordionSummary-root:hover': {
+              //   cursor: hasSubheaders ? 'pointer' : 'default',
+              // },
+              '& .MuiAccordionSummary-content': {
+                alignItems: 'center',
               },
               backgroundColor:
                 tabSelected == headerData.title ? MR_GRAY_1 : 'white',
             }}
           >
+            <Box
+              component={'img'}
+              src={'/images/sidebar/' + headerData.imgSrc}
+              width={18}
+              marginLeft="10px"
+              marginRight="15px"
+            />
+
             <Typography
               sx={{
                 color: 'text.primary',
