@@ -1,5 +1,5 @@
 import { Box } from '@mui/system'
-
+import EditIcon from 'public/images/edit_icon.png'
 const ArticlePanel = () => {
   return (
     <Box
@@ -30,7 +30,7 @@ const ArticlePanel = () => {
       >
         <Box
           component="img"
-          src="images/edit_icon.png"
+          src={EditIcon.src}
           sx={{
             display: 'flex',
             justifyContent: 'center',
