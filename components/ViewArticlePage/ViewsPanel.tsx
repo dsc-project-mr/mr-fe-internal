@@ -1,6 +1,6 @@
 import { Paper, Typography } from '@mui/material'
 
-const ViewsPanel = () => {
+const ViewsPanel = ({ viewCount }: { viewCount: number }) => {
   return (
     <Paper
       elevation={2}
@@ -18,7 +18,7 @@ const ViewsPanel = () => {
         Number of Views:
       </Typography>
       <Typography textAlign={'center'} fontSize={'28px'} fontWeight={400}>
-        100
+        {viewCount}
       </Typography>
       <Typography
         textAlign={'right'}

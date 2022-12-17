@@ -1,6 +1,6 @@
 import { Paper, Typography } from '@mui/material'
 
-const RevisionsPanel = () => {
+const RevisionsPanel = ({ revisionCount }: { revisionCount: number }) => {
   return (
     <Paper
       elevation={2}
@@ -18,7 +18,7 @@ const RevisionsPanel = () => {
         Number of Revisions:
       </Typography>
       <Typography textAlign={'center'} fontSize={'28px'} fontWeight={400}>
-        13
+        {revisionCount}
       </Typography>
       <Typography
         textAlign={'right'}
