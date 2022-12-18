@@ -4,6 +4,12 @@ import { Dispatch, SetStateAction } from 'react'
 import { SubheaderData } from 'constants/sidebarData'
 
 import { Box } from '@mui/system'
+import {
+  SELECTED_FONT_COLOR,
+  SELECTED_TAB_COLOR,
+  UNSELECTED_FONT_COLOR,
+  UNSELECTED_TAB_COLOR,
+} from './HeaderTab'
 
 const SubheaderTab = ({
   subheaderData,
@@ -18,15 +24,29 @@ const SubheaderTab = ({
 }) => {
   const router = useRouter()
 
+  const handleSelected = () => {
+    router.push(parentRoute + subheaderData.route)
+    setTabSelected(subheaderData.title)
+  }
+
   return (
     <Box
       height={40}
       padding="10px"
-      onClick={() => router.push(parentRoute + subheaderData.route)}
+      onClick={handleSelected}
+      sx={{
+        backgroundColor:
+          tabSelected == subheaderData.title
+            ? SELECTED_TAB_COLOR
+            : UNSELECTED_TAB_COLOR,
+      }}
     >
       <Typography
         sx={{
-          color: 'text.primary',
+          color:
+            tabSelected == subheaderData.title
+              ? SELECTED_FONT_COLOR
+              : UNSELECTED_FONT_COLOR,
           position: 'relative',
           left: '20px',
         }}

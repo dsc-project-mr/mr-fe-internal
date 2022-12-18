@@ -11,9 +11,14 @@ import SubheaderTab from './SubheaderTab'
 import { SidebarData } from 'constants/sidebarData'
 import { useRouter } from 'next/router'
 
-import { MR_GRAY_1 } from 'styles/theme'
 import { DRAWER_WIDTH } from '.'
-import { Box } from '@mui/system'
+
+const SELECTED_TAB_COLOR = '#FAB800'
+const UNSELECTED_TAB_COLOR = 'white'
+const SELECTED_FONT_COLOR = 'white'
+const UNSELECTED_FONT_COLOR = 'black'
+const SELECTED_ICON_COLOR = 'white'
+const UNSELECTED_ICON_COLOR = '#009DD7'
 
 const HeaderTab = ({
   headerData,
@@ -27,8 +32,6 @@ const HeaderTab = ({
   const [expanded, setExpanded] = useState<boolean>(false)
   const hasSubheaders: boolean = headerData.subheaders.length > 0
   const router = useRouter()
-  // Being re-rendered twice, even on opening and closing, not sure why
-  // console.log('Rendered')
 
   return (
     <>
@@ -57,30 +60,43 @@ const HeaderTab = ({
             aria-controls="panel1bh-content"
             id="panel1bh-header"
             sx={{
-              // '&.MuiButtonBase-root.MuiAccordionSummary-root': {
-              //   cursor: hasSubheaders ? 'pointer' : 'default',
-              // },
-              // '&.MuiButtonBase-root.MuiAccordionSummary-root:hover': {
-              //   cursor: hasSubheaders ? 'pointer' : 'default',
-              // },
               '& .MuiAccordionSummary-content': {
                 alignItems: 'center',
               },
               backgroundColor:
-                tabSelected == headerData.title ? MR_GRAY_1 : 'white',
+                tabSelected == headerData.title
+                  ? SELECTED_TAB_COLOR
+                  : UNSELECTED_TAB_COLOR,
             }}
           >
-            <Box
-              component={'img'}
-              src={'/images/sidebar/' + headerData.imgSrc}
-              width={18}
-              marginLeft="10px"
-              marginRight="15px"
-            />
+            <div
+              style={{
+                width: '18px',
+                height: '18px',
+                background:
+                  tabSelected == headerData.title
+                    ? SELECTED_ICON_COLOR
+                    : UNSELECTED_ICON_COLOR,
+
+                marginLeft: '10px',
+                marginRight: '15px',
+                WebkitMask:
+                  'url(/images/sidebar/' +
+                  headerData.imgSrc +
+                  ') center/contain',
+                mask:
+                  'url(/images/sidebar/' +
+                  headerData.imgSrc +
+                  ') center/contain',
+              }}
+            ></div>
 
             <Typography
               sx={{
-                color: 'text.primary',
+                color:
+                  tabSelected == headerData.title
+                    ? SELECTED_FONT_COLOR
+                    : UNSELECTED_FONT_COLOR,
                 fontWeight: 700,
               }}
             >
@@ -110,4 +126,12 @@ const HeaderTab = ({
   )
 }
 
+export {
+  SELECTED_TAB_COLOR,
+  UNSELECTED_TAB_COLOR,
+  SELECTED_FONT_COLOR,
+  UNSELECTED_FONT_COLOR,
+  SELECTED_ICON_COLOR,
+  UNSELECTED_ICON_COLOR,
+}
 export default memo(HeaderTab)
