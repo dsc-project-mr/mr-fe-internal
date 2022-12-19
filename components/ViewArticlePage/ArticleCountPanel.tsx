@@ -1,6 +1,17 @@
 import { Paper, Typography } from '@mui/material'
 
-const ViewsPanel = ({ viewCount }: { viewCount: number }) => {
+export enum CountType {
+  REVISION = 'Revisions',
+  VIEWS = 'Views',
+}
+
+const ArticleCountPanel = ({
+  count,
+  countType,
+}: {
+  count: number
+  countType: CountType
+}) => {
   return (
     <Paper
       elevation={2}
@@ -15,20 +26,21 @@ const ViewsPanel = ({ viewCount }: { viewCount: number }) => {
       }}
     >
       <Typography fontSize={'21px'} fontWeight={700}>
-        Number of Views:
+        Number of {countType}:
       </Typography>
       <Typography textAlign={'center'} fontSize={'28px'} fontWeight={400}>
-        {viewCount}
+        {count}
       </Typography>
       <Typography
         textAlign={'right'}
         color="#009DD7"
         sx={{ textDecoration: 'underline' }}
       >
-        View Visitor&apos;s History
+        View {countType == CountType.REVISION ? 'Revision ' : "Visitor's "}
+        History
       </Typography>
     </Paper>
   )
 }
 
-export default ViewsPanel
+export default ArticleCountPanel

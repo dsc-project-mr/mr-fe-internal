@@ -3,8 +3,7 @@ import { useState } from 'react'
 import ArticlePanel from './ArticlePanel'
 import ButtonsPanel from './Buttons/ButtonsPanel'
 import DetailsPanel from './DetailsPanel'
-import RevisionsPanel from './RevisionsPanel'
-import ViewsPanel from './ViewsPanel'
+import ArticleCountPanel, { CountType } from './ArticleCountPanel'
 
 const ViewArticlePage = () => {
   // Some code to ping backend for article data
@@ -42,8 +41,8 @@ const ViewArticlePage = () => {
           <Grid width="24px" />
           <Grid width={370}>
             <DetailsPanel />
-            <RevisionsPanel revisionCount={13} />
-            <ViewsPanel viewCount={100} />
+            <ArticleCountPanel count={13} countType={CountType.REVISION} />
+            <ArticleCountPanel count={100} countType={CountType.VIEWS} />
             <ButtonsPanel articleType={articleType} />
           </Grid>
         </Grid>
