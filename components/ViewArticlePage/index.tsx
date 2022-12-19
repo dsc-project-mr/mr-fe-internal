@@ -4,11 +4,14 @@ import ArticlePanel from './ArticlePanel'
 import ButtonsPanel from './Buttons/ButtonsPanel'
 import DetailsPanel from './DetailsPanel'
 import ArticleCountPanel, { CountType } from './ArticleCountPanel'
+import { CampaignStatus } from 'constants/campaign'
 
 const ViewArticlePage = () => {
   // Some code to ping backend for article data
 
-  const [articleType, setArticleType] = useState<string>('Published')
+  const [articleType, setArticleType] = useState<CampaignStatus>(
+    CampaignStatus.DRAFT
+  )
 
   return (
     <>
@@ -42,7 +45,9 @@ const ViewArticlePage = () => {
           <Grid width={370}>
             <DetailsPanel />
             <ArticleCountPanel count={13} countType={CountType.REVISION} />
-            <ArticleCountPanel count={100} countType={CountType.VIEWS} />
+            {!(articleType == CampaignStatus.DRAFT) && (
+              <ArticleCountPanel count={100} countType={CountType.VIEWS} />
+            )}
             <ButtonsPanel articleType={articleType} />
           </Grid>
         </Grid>

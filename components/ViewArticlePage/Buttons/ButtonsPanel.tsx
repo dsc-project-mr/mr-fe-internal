@@ -1,20 +1,24 @@
 import { Box } from '@mui/system'
+import { CampaignStatus } from 'constants/campaign'
 import ArchiveButton from './ArchiveButton'
 import DeleteButton from './DeleteButton'
 import PublishButton from './PublishButton'
 
-const ButtonsPanel = ({ articleType }: { articleType: string }) => {
+const ButtonsPanel = ({ articleType }: { articleType: CampaignStatus }) => {
   return (
     <>
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-evenly',
-          textTransform: 'uppercase',
         }}
       >
         <DeleteButton />
-        {articleType == 'Published' ? <ArchiveButton /> : <PublishButton />}
+        {articleType == CampaignStatus.PUBLISHED ? (
+          <ArchiveButton />
+        ) : (
+          <PublishButton />
+        )}
       </Box>
     </>
   )
