@@ -80,8 +80,12 @@ const SubheaderTab = ({
         </AccordionSummary>
         <AccordionDetails>
           <List>
-            {subheaderData.tabs.map((tab, index) => {
-              return <ListItemButton key={index}>{tab}</ListItemButton>
+            {subheaderData.tabs.map((tab) => {
+              return (
+                <ListItemButton key={`${parentRoute}-${tab}`}>
+                  {tab}
+                </ListItemButton>
+              )
             })}
           </List>
         </AccordionDetails>

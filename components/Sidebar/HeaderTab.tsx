@@ -78,10 +78,10 @@ const HeaderTab = ({
               paddingLeft: '0px',
             }}
           >
-            {headerData.subheaders.map((subheaderData, index) => {
+            {headerData.subheaders.map((subheaderData) => {
               return (
                 <SubheaderTab
-                  key={index}
+                  key={subheaderData.title}
                   subheaderData={subheaderData}
                   tabSelected={tabSelected}
                   setTabSelected={setTabSelected}
