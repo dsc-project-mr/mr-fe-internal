@@ -6,6 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { useState } from "react";
+import UploadMedia from './UploadMedia';
 
 const CreateNewCampaign = () => {
     // const[value, setValue] = useState<DateRange<Date>>([null, null]);
@@ -45,7 +46,8 @@ const CreateNewCampaign = () => {
                 />
             </Box>
             <Typography variant="h4" gutterBottom sx={styledh4}>Upload Media</Typography>
-            </LocalizationProvider>          
+            </LocalizationProvider>
+            <UploadMedia />          
         </Box>
     )
 }
