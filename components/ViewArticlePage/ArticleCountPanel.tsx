@@ -25,14 +25,14 @@ const ArticleCountPanel = ({
         justifyContent: 'space-evenly',
       }}
     >
-      <Typography fontSize={'21px'} fontWeight={700}>
+      <Typography fontSize="21px" fontWeight={700}>
         Number of {countType}:
       </Typography>
-      <Typography textAlign={'center'} fontSize={'28px'} fontWeight={400}>
+      <Typography textAlign="center" fontSize="28px" fontWeight={400}>
         {count}
       </Typography>
       <Typography
-        textAlign={'right'}
+        textAlign="right"
         color="#009DD7"
         sx={{ textDecoration: 'underline' }}
       >

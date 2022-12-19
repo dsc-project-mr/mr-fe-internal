@@ -22,7 +22,7 @@ const ViewArticlePage = () => {
           width: '100%',
         }}
       >
-        <Grid container item height={'90px'} alignItems={'center'}>
+        <Grid container item height="90px" alignItems="center">
           <Typography
             fontSize={28}
             letterSpacing={0}
@@ -32,7 +32,7 @@ const ViewArticlePage = () => {
             View Article
           </Typography>
         </Grid>
-        <Grid container item height={'50px'}>
+        <Grid container item height="50px">
           <Typography fontSize={21} letterSpacing={0} fontWeight={700}>
             Preview of Article
           </Typography>

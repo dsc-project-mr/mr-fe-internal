@@ -12,8 +12,8 @@ const ArticlePanel = () => {
       }}
     >
       <Box
-        width={'44px'}
-        height={'44px'}
+        width="44px"
+        height="44px"
         sx={{
           backgroundColor: '#023F84',
           borderRadius: '5px',
