@@ -62,7 +62,7 @@ const HeaderTab = ({
                 cursor: hasSubheaders ? 'pointer' : 'default',
               },
               backgroundColor:
-                tabSelected == headerData.title ? MR_GRAY_1 : 'white',
+                tabSelected === headerData.title ? MR_GRAY_1 : 'white',
             }}
           >
             <Typography
