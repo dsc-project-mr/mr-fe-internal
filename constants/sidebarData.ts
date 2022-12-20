@@ -7,10 +7,12 @@ export const sidebarData: SidebarData[] = [
       {
         title: 'Donations',
         route: '/donations',
+        imgSrc: 'donations_icon.png',
       },
       {
         title: 'Email',
         route: '/email',
+        imgSrc: 'email_icon.png',
       },
     ],
   },
@@ -22,10 +24,12 @@ export const sidebarData: SidebarData[] = [
       {
         title: 'Article',
         route: '/articles',
+        imgSrc: 'article_icon.png',
       },
       {
         title: 'Website Home Page',
         route: '/',
+        imgSrc: 'website_home_page_icon.png',
       },
     ],
   },
@@ -71,4 +75,5 @@ export type SidebarData = {
 export type SubheaderData = {
   title: string
   route: string
+  imgSrc: string
 }

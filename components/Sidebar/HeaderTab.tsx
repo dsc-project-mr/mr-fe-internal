@@ -52,7 +52,6 @@ const HeaderTab = ({
           sx={{
             width: DRAWER_WIDTH,
             boxShadow: 'none',
-            borderRadius: 0,
           }}
         >
           <AccordionSummary

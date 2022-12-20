@@ -4,6 +4,7 @@ import HeaderTab from './HeaderTab'
 import { sidebarData } from 'constants/sidebarData'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { MR_DARK_BLUE } from 'styles/theme'
+import mr_logo from 'public/images/sidebar/mercy_relief_logo.png'
 
 export const DRAWER_WIDTH = 240
 
@@ -18,6 +19,7 @@ const Sidebar = () => {
         variant="persistent"
         sx={{
           width: DRAWER_WIDTH,
+
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: DRAWER_WIDTH,
@@ -38,11 +40,12 @@ const Sidebar = () => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
+              padding: '8px 0px',
             }}
           >
             <Box
               component="img"
-              src="images/sidebar/mercy_relief_logo.png"
+              src={mr_logo.src}
               sx={{
                 height: 80,
               }}
