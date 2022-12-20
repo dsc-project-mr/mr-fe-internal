@@ -36,7 +36,7 @@ const ArticleCountPanel = ({
         color="#009DD7"
         sx={{ textDecoration: 'underline' }}
       >
-        View {countType == CountType.REVISION ? 'Revision ' : "Visitor's "}
+        View {countType === CountType.REVISION ? 'Revision ' : "Visitor's "}
         History
       </Typography>
     </Paper>

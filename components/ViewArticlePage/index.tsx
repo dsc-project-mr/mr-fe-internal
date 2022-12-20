@@ -9,9 +9,7 @@ import { CampaignStatus } from 'constants/campaign'
 const ViewArticlePage = () => {
   // Some code to ping backend for article data
 
-  const [articleType, setArticleType] = useState<CampaignStatus>(
-    CampaignStatus.DRAFT
-  )
+  const [articleType] = useState<CampaignStatus>(CampaignStatus.DRAFT)
 
   return (
     <>
@@ -45,7 +43,7 @@ const ViewArticlePage = () => {
           <Grid width={370}>
             <DetailsPanel />
             <ArticleCountPanel count={13} countType={CountType.REVISION} />
-            {!(articleType == CampaignStatus.DRAFT) && (
+            {articleType !== CampaignStatus.DRAFT && (
               <ArticleCountPanel count={100} countType={CountType.VIEWS} />
             )}
             <ButtonsPanel articleType={articleType} />

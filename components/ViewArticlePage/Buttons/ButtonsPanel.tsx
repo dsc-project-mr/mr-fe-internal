@@ -14,7 +14,7 @@ const ButtonsPanel = ({ articleType }: { articleType: CampaignStatus }) => {
         }}
       >
         <DeleteButton />
-        {articleType == CampaignStatus.PUBLISHED ? (
+        {articleType === CampaignStatus.PUBLISHED ? (
           <ArchiveButton />
         ) : (
           <PublishButton />
