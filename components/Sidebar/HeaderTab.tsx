@@ -7,7 +7,6 @@ import {
 } from '@mui/material'
 import { Dispatch, SetStateAction, memo, useState } from 'react'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import SubheaderTab from './SubheaderTab'
 import { SidebarData } from 'constants/sidebarData'
 import { useRouter } from 'next/router'
 
@@ -21,10 +20,12 @@ const SELECTED_ICON_COLOR = 'white'
 const UNSELECTED_ICON_COLOR = '#009DD7'
 
 const HeaderTab = ({
+  isSidebarOpen,
   headerData,
   tabSelected,
   setTabSelected,
 }: {
+  isSidebarOpen: boolean
   headerData: SidebarData
   tabSelected: string
   setTabSelected: Dispatch<SetStateAction<string>>
@@ -55,30 +56,31 @@ const HeaderTab = ({
           }}
         >
           <AccordionSummary
-            expandIcon={hasSubheaders && <ArrowDropDownIcon />}
+            expandIcon={isSidebarOpen && hasSubheaders && <ArrowDropDownIcon />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
             sx={{
               '& .MuiAccordionSummary-content': {
-                alignItems: 'center',
+                justifyContent: isSidebarOpen ? 'normal' : 'center',
               },
               backgroundColor:
                 tabSelected == headerData.title
                   ? SELECTED_TAB_COLOR
                   : UNSELECTED_TAB_COLOR,
+              width: DRAWER_WIDTH,
             }}
           >
             <div
               style={{
-                width: '18px',
-                height: '18px',
+                width: '20px',
+                height: '20px',
+
                 background:
                   tabSelected == headerData.title
                     ? SELECTED_ICON_COLOR
                     : UNSELECTED_ICON_COLOR,
 
-                marginLeft: '10px',
-                marginRight: '15px',
+                margin: '0px 10px',
                 WebkitMask:
                   'url(/images/sidebar/' +
                   headerData.imgSrc +
@@ -90,24 +92,34 @@ const HeaderTab = ({
               }}
             ></div>
 
-            <Typography
-              sx={{
-                color:
+            {isSidebarOpen && (
+              <Typography
+                fontWeight={700}
+                fontSize={14}
+                color={
                   tabSelected == headerData.title
                     ? SELECTED_FONT_COLOR
-                    : UNSELECTED_FONT_COLOR,
-                fontWeight: 700,
-              }}
-            >
-              {headerData.title}
-            </Typography>
+                    : UNSELECTED_FONT_COLOR
+                }
+                whiteSpace="normal"
+
+                // sx={{
+                //   color:
+                //     tabSelected == headerData.title
+                //       ? SELECTED_FONT_COLOR
+                //       : UNSELECTED_FONT_COLOR,
+                // }}
+              >
+                {headerData.title}
+              </Typography>
+            )}
           </AccordionSummary>
           <AccordionDetails
-            sx={{
-              paddingLeft: '0px',
-            }}
+          // sx={{
+          //   paddingLeft: '0px',
+          // }}
           >
-            {headerData.subheaders.map((subheaderData, index) => {
+            {/* {headerData.subheaders.map((subheaderData, index) => {
               return (
                 <SubheaderTab
                   key={index}
@@ -117,7 +129,7 @@ const HeaderTab = ({
                   parentRoute={headerData.route}
                 />
               )
-            })}
+            })} */}
           </AccordionDetails>
         </Accordion>
       </ListItem>
