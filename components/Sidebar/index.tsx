@@ -138,64 +138,6 @@ const Sidebar = () => {
           LOG OUT
         </Button>
       </StyledDrawer>
-      {/* <Drawer
-        anchor="left"
-        open={true}
-        variant="persistent"
-        sx={{
-          width: DRAWER_WIDTH,
-
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: DRAWER_WIDTH,
-            boxSizing: 'border-box',
-          },
-
-          // This is to make sure the Log Out button remains at the bottom.
-
-          '& .MuiPaper-root.MuiDrawer-paper': {
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          },
-        }}
-      >
-        <List>
-          <ListItem
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              padding: '8px 0px',
-            }}
-          >
-            <Box
-              component="img"
-              src={mr_logo.src}
-              sx={{
-                height: 80,
-              }}
-            />
-          </ListItem>
-          {sidebarData.map((headerData, index) => (
-            <HeaderTab
-              key={index}
-              headerData={headerData}
-              tabSelected={tabSelected}
-              setTabSelected={setTabSelected}
-            />
-          ))}
-        </List>
-        <Button
-          variant="contained"
-          sx={{
-            width: '200px',
-            backgroundColor: MR_DARK_BLUE,
-            marginBottom: '20px',
-          }}
-        >
-          <LogoutIcon />
-          LOG OUT
-        </Button>
-      </Drawer> */}
     </>
   )
 }

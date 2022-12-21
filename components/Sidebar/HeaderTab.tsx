@@ -11,6 +11,7 @@ import { SidebarData } from 'constants/sidebarData'
 import { useRouter } from 'next/router'
 
 import { DRAWER_WIDTH } from '.'
+import SubheaderTab from './SubheaderTab'
 
 const SELECTED_TAB_COLOR = '#FAB800'
 const UNSELECTED_TAB_COLOR = 'white'
@@ -102,24 +103,17 @@ const HeaderTab = ({
                     : UNSELECTED_FONT_COLOR
                 }
                 whiteSpace="normal"
-
-                // sx={{
-                //   color:
-                //     tabSelected == headerData.title
-                //       ? SELECTED_FONT_COLOR
-                //       : UNSELECTED_FONT_COLOR,
-                // }}
               >
                 {headerData.title}
               </Typography>
             )}
           </AccordionSummary>
           <AccordionDetails
-          // sx={{
-          //   paddingLeft: '0px',
-          // }}
+            sx={{
+              paddingLeft: '0px',
+            }}
           >
-            {/* {headerData.subheaders.map((subheaderData, index) => {
+            {headerData.subheaders.map((subheaderData, index) => {
               return (
                 <SubheaderTab
                   key={index}
@@ -129,7 +123,7 @@ const HeaderTab = ({
                   parentRoute={headerData.route}
                 />
               )
-            })} */}
+            })}
           </AccordionDetails>
         </Accordion>
       </ListItem>
