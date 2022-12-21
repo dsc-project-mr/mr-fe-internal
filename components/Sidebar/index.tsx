@@ -7,7 +7,6 @@ import {
   ListItem,
   styled,
   Theme,
-  useTheme,
 } from '@mui/material'
 import { useState } from 'react'
 import HeaderTab from './HeaderTab'
@@ -54,20 +53,9 @@ const StyledDrawer = styled(Drawer, {
 }))
 
 const Sidebar = () => {
-  const theme = useTheme()
-
   const [tabSelected, setTabSelected] = useState<string>('')
 
   const [open, setOpen] = useState(false)
-  const [newOpen, setNewOpen] = useState(false)
-
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
 
   return (
     <>
