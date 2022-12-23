@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import CampaignListItem from 'components/CampaignListItem'
+import CampaignCard from 'components/CampaignCard'
 import { CampaignStatus } from 'constants/campaign'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { useRouter } from 'next/router'
@@ -46,11 +46,11 @@ export default function ViewCampaign({ campaignData }) {
         <Button onClick={() => router.back()}>
           <ArrowBackIosNewIcon style={{ margin: 20 }} />
         </Button>
-        <h2 style={{ fontFamily: 'Roboto', fontWeight: 700, fontSize: 28 }}>
+        <h4 style={{ fontFamily: 'Roboto', fontWeight: 700, fontSize: 28 }}>
           Donations
-        </h2>
+        </h4>
       </div>
-      <CampaignListItem
+      <CampaignCard
         campaignName={campaignData.name.toString()}
         campaignDetails={campaignData.content}
         donors={campaignData.donors.toString()}
@@ -58,7 +58,7 @@ export default function ViewCampaign({ campaignData }) {
         country={campaignData.country}
         campaignStatus={CampaignStatus.PUBLISHED}
         viewAll={true}
-      ></CampaignListItem>
+      ></CampaignCard>
     </div>
   )
 }

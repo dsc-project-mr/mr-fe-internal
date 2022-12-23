@@ -1,4 +1,4 @@
-import CampaignListItem from 'components/CampaignListItem'
+import CampaignCard from 'components/CampaignCard'
 import { Campaign, CampaignStatus } from 'constants/campaign'
 import type { NextPage } from 'next'
 
@@ -42,11 +42,11 @@ const Home: NextPage = () => {
     },
   ]
   return (
-    <div >
+    <div>
       <h2>Mercy Relief Internal Portal</h2>
       {CampaignList.map((c, id) => (
         <div key={id}>
-          <CampaignListItem
+          <CampaignCard
             id={id + 1}
             campaignName={c.name}
             campaignDetails={c.content}
@@ -54,8 +54,7 @@ const Home: NextPage = () => {
             amount={c.amount}
             country={c.country}
             campaignStatus={c.status}
-            viewAll={false}
-          ></CampaignListItem>
+          ></CampaignCard>
         </div>
       ))}
     </div>
