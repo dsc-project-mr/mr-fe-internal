@@ -10,7 +10,7 @@ const styledmainbox = {
   flexDirection: 'column',
   padding: '10px',
   backgroundColor: '#EAF9FF',
-  boxSizing: 'border-box',
+  width: '100%',
 }
 
 const styledmainbody = {
