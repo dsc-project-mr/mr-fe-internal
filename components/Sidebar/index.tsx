@@ -13,6 +13,8 @@ import HeaderTab from './HeaderTab'
 import { sidebarData } from 'constants/sidebarData'
 import LogoutIcon from '@mui/icons-material/Logout'
 import mr_logo from 'public/images/sidebar/mercy_relief_logo.png'
+import mr_compact_logo from 'public/images/sidebar/mercy_relief_compact_logo.png'
+
 import { MR_DARK_BLUE } from 'styles/theme'
 
 export const DRAWER_WIDTH = 240
@@ -64,14 +66,6 @@ const Sidebar = () => {
         open={open}
         variant="permanent"
         sx={{
-          // width: DRAWER_WIDTH,
-
-          // flexShrink: 0,
-          // '& .MuiDrawer-paper': {
-          //   width: DRAWER_WIDTH,
-          //   boxSizing: 'border-box',
-          // },
-
           // This is to make sure the Log Out button remains at the bottom.
 
           '& .MuiPaper-root.MuiDrawer-paper': {
@@ -96,7 +90,7 @@ const Sidebar = () => {
           >
             <Box
               component="img"
-              src={mr_logo.src}
+              src={open ? mr_logo.src : mr_compact_logo.src}
               sx={{
                 height: 80,
               }}
@@ -114,17 +108,23 @@ const Sidebar = () => {
           ))}
           <Button onClick={() => setOpen(!open)}>Toggle</Button>
         </List>
-        <Button
-          variant="contained"
-          sx={{
-            width: '200px',
-            backgroundColor: MR_DARK_BLUE,
-            marginBottom: '20px',
-          }}
-        >
-          <LogoutIcon />
-          LOG OUT
-        </Button>
+
+        <Box marginBottom="20px">
+          {open ? (
+            <Button
+              variant="contained"
+              sx={{
+                width: '200px',
+                backgroundColor: MR_DARK_BLUE,
+              }}
+            >
+              <LogoutIcon />
+              LOG OUT
+            </Button>
+          ) : (
+            <LogoutIcon />
+          )}
+        </Box>
       </StyledDrawer>
     </>
   )
