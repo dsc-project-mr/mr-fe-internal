@@ -39,7 +39,7 @@ const HeaderTab = ({
     <>
       <ListItem key={headerData.title} disablePadding>
         <Accordion
-          expanded={expanded}
+          expanded={isSidebarOpen && expanded}
           // Disable routing if header has subheaders
           onClick={() => !hasSubheaders && router.push(headerData.route)}
           onChange={() => {

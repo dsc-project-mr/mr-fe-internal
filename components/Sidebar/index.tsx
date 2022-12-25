@@ -14,7 +14,9 @@ import { sidebarData } from 'constants/sidebarData'
 import LogoutIcon from '@mui/icons-material/Logout'
 import mr_logo from 'public/images/sidebar/mercy_relief_logo.png'
 import mr_compact_logo from 'public/images/sidebar/mercy_relief_compact_logo.png'
-
+import toggle_button from 'public/images/sidebar/toggle_button.png'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { MR_DARK_BLUE } from 'styles/theme'
 
 export const DRAWER_WIDTH = 240
@@ -106,7 +108,6 @@ const Sidebar = () => {
               setTabSelected={setTabSelected}
             />
           ))}
-          <Button onClick={() => setOpen(!open)}>Toggle</Button>
         </List>
 
         <Box marginBottom="20px">
@@ -126,6 +127,25 @@ const Sidebar = () => {
           )}
         </Box>
       </StyledDrawer>
+      <div>
+        <Box
+          onClick={() => setOpen(!open)}
+          sx={{
+            cursor: 'pointer',
+            backgroundImage: `url(${toggle_button.src})`,
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            height: '95px',
+            width: '18px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </Box>
+      </div>
     </>
   )
 }
