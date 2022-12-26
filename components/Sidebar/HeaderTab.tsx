@@ -65,7 +65,7 @@ const HeaderTab = ({
                 justifyContent: isSidebarOpen ? 'normal' : 'center',
               },
               backgroundColor:
-                tabSelected == headerData.title
+                tabSelected === headerData.title
                   ? SELECTED_TAB_COLOR
                   : UNSELECTED_TAB_COLOR,
               width: DRAWER_WIDTH,
@@ -77,7 +77,7 @@ const HeaderTab = ({
                 height: '20px',
 
                 background:
-                  tabSelected == headerData.title
+                  tabSelected === headerData.title
                     ? SELECTED_ICON_COLOR
                     : UNSELECTED_ICON_COLOR,
 
@@ -98,7 +98,7 @@ const HeaderTab = ({
                 fontWeight={700}
                 fontSize={14}
                 color={
-                  tabSelected == headerData.title
+                  tabSelected === headerData.title
                     ? SELECTED_FONT_COLOR
                     : UNSELECTED_FONT_COLOR
                 }
@@ -113,10 +113,10 @@ const HeaderTab = ({
               paddingLeft: '0px',
             }}
           >
-            {headerData.subheaders.map((subheaderData, index) => {
+            {headerData.subheaders.map((subheaderData) => {
               return (
                 <SubheaderTab
-                  key={index}
+                  key={subheaderData.title}
                   subheaderData={subheaderData}
                   tabSelected={tabSelected}
                   setTabSelected={setTabSelected}
