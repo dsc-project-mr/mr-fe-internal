@@ -1,5 +1,5 @@
 import { Box } from '@mui/system'
-import EditIcon from 'public/images/edit_icon.png'
+import EditIcon from 'public/images/articles/edit_icon.png'
 const ArticlePanel = () => {
   return (
     <Box
