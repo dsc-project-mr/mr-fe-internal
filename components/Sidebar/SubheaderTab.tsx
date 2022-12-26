@@ -65,7 +65,7 @@ const SubheaderTab = ({
               transform: 'rotate(90deg)',
             },
             backgroundColor:
-              tabSelected == subheaderData.title ? MR_GRAY_1 : 'white',
+              tabSelected === subheaderData.title ? MR_GRAY_1 : 'white',
           }}
         >
           <Typography
