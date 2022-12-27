@@ -45,6 +45,8 @@ const CampaignList: NextPage = () => {
   // TODO get this from a API call
   const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
 
+  // TODO: we might need to have 4 diff data storing, otherwise we will have to keep
+  // recalling the APIs when we switch tabs
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [search, setSearch] = useState<string>('')
   const [status, setStatus] = useState<DocumentStatus>(DocumentStatus.All)
