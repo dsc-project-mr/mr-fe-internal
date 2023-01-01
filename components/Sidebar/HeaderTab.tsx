@@ -92,21 +92,21 @@ const HeaderTab = ({
                   ') center/contain',
               }}
             ></div>
-
-            {isSidebarOpen && (
-              <Typography
-                fontWeight={700}
-                fontSize={14}
-                color={
-                  tabSelected === headerData.title
-                    ? SELECTED_FONT_COLOR
-                    : UNSELECTED_FONT_COLOR
-                }
-                whiteSpace="normal"
-              >
-                {headerData.title}
-              </Typography>
-            )}
+            <Typography
+              fontWeight={700}
+              fontSize={14}
+              color={
+                tabSelected === headerData.title
+                  ? SELECTED_FONT_COLOR
+                  : UNSELECTED_FONT_COLOR
+              }
+              whiteSpace="normal"
+              style={{
+                display: isSidebarOpen ? 'block' : 'none',
+              }}
+            >
+              {headerData.title}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails
             sx={{
