@@ -64,6 +64,9 @@ const HeaderTab = ({
               '& .MuiAccordionSummary-content': {
                 justifyContent: isSidebarOpen ? 'normal' : 'center',
               },
+              '&:hover': {
+                filter: 'brightness(93%)',
+              },
               backgroundColor:
                 tabSelected === headerData.title
                   ? SELECTED_TAB_COLOR
@@ -73,7 +76,7 @@ const HeaderTab = ({
           >
             <div
               style={{
-                width: '20px',
+                minWidth: '20px',
                 height: '20px',
 
                 background:

@@ -37,11 +37,15 @@ const SubheaderTab = ({
       padding="10px"
       onClick={handleSelected}
       sx={{
+        cursor: 'pointer',
         backgroundColor:
-          tabSelected == subheaderData.title
+          tabSelected === subheaderData.title
             ? SELECTED_TAB_COLOR
             : UNSELECTED_TAB_COLOR,
         display: 'flex',
+        '&:hover': {
+          filter: 'brightness(93%)',
+        },
       }}
     >
       <div
@@ -49,7 +53,7 @@ const SubheaderTab = ({
           width: '18px',
           height: '18px',
           background:
-            tabSelected == subheaderData.title
+            tabSelected === subheaderData.title
               ? SELECTED_ICON_COLOR
               : UNSELECTED_ICON_COLOR,
 
@@ -64,7 +68,7 @@ const SubheaderTab = ({
       <Typography
         sx={{
           color:
-            tabSelected == subheaderData.title
+            tabSelected === subheaderData.title
               ? SELECTED_FONT_COLOR
               : UNSELECTED_FONT_COLOR,
         }}
