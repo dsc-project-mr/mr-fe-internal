@@ -78,13 +78,14 @@ const HeaderTab = ({
               style={{
                 minWidth: '20px',
                 height: '20px',
-
+                margin: '0px 10px',
                 background:
                   tabSelected === headerData.title
                     ? SELECTED_ICON_COLOR
                     : UNSELECTED_ICON_COLOR,
 
-                margin: '0px 10px',
+                // This allows us to set the color of the icon image
+                // regardless of the its original color
                 WebkitMask:
                   'url(/images/sidebar/' +
                   headerData.imgSrc +
