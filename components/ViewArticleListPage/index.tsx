@@ -10,13 +10,20 @@ import Paper from '@mui/material/Paper'
 import { Data, rows } from './ArticleRowData'
 import { getComparator, Order, stableSort } from './ComparatorFunctions'
 import { ArticleTableHead } from './ArticleTableHead'
-import { Fab, Typography } from '@mui/material'
+import { AppBar, Fab, Tab, Tabs, Typography } from '@mui/material'
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined'
+
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>('name')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
+
+  const [value, setValue] = React.useState(0)
+
+  const handleChange = (event: unknown, newValue: number) => {
+    setValue(newValue)
+  }
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -52,6 +59,28 @@ export default function EnhancedTable() {
       >
         <NoteAddOutlinedIcon htmlColor="#666666" />
       </Fab>
+      <Box
+        sx={{
+          width: 500,
+          position: 'relative',
+        }}
+      >
+        <AppBar position="static" color="transparent" elevation={0}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="action tabs example"
+          >
+            <Tab label="All" />
+            <Tab label="Draft" />
+            <Tab label="Published" />
+            <Tab label="Archived" />
+          </Tabs>
+        </AppBar>
+      </Box>
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
