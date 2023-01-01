@@ -114,8 +114,16 @@ export default function EnhancedTable() {
                           },
                         }}
                       >
-                        <TableCell component="th" id={labelId} scope="row">
-                          {row.name}
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          sx={{
+                            maxWidth: '250px',
+                          }}
+                        >
+                          {/* {row.name} */}
+                          <Typography noWrap>{row.name}</Typography>
                         </TableCell>
                         <TableCell align="left">{row.date_created}</TableCell>
                         <TableCell align="left">{row.last_modified}</TableCell>
@@ -126,7 +134,8 @@ export default function EnhancedTable() {
                 {emptyRows > 0 && (
                   <TableRow
                     style={{
-                      height: 53 * emptyRows,
+                      // TODO: Figure out how to get this value dynamically
+                      height: 57.3 * emptyRows,
                     }}
                   >
                     <TableCell colSpan={6} />

@@ -21,7 +21,12 @@ function createData(
 
 export const rows = [
   createData('Mercy Relief Continues', '1sda', 'dsfsd', 'Done'),
-  createData('Mercy Relief holds inauguration', '1sda', 'dsfsd', 'Done'),
+  createData(
+    'Mercy Relief holds inauguration for whomever whoever Mercy Relief holds inauguration for whomever whoever',
+    '1sda',
+    'dsfsd',
+    'Done'
+  ),
   createData('What can we do to sfgreghtrgtegerge', '1sda', 'dsfsd', 'Done'),
   createData('one', '1sda', 'dsfsd', 'Done'),
   createData('two', '1sda', 'dsfsd', 'Done'),
