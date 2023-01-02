@@ -1,4 +1,4 @@
-export interface Data {
+export interface ArticleRowData {
   name: string
   date_created: string
   last_modified: string
@@ -10,7 +10,7 @@ function createData(
   date_created: string,
   last_modified: string,
   status: string
-): Data {
+): ArticleRowData {
   return {
     name,
     date_created,
@@ -19,7 +19,7 @@ function createData(
   }
 }
 
-export const rows = [
+export const ARTICLE_ROWS: ArticleRowData[] = [
   createData('Mercy Relief Continues', '1sda', 'dsfsd', 'Done'),
   createData(
     'Mercy Relief holds inauguration for whomever whoever Mercy Relief holds inauguration for whomever whoever',

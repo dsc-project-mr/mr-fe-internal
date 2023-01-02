@@ -5,12 +5,12 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import { visuallyHidden } from '@mui/utils'
-import { Data } from './ArticleRowData'
+import { ArticleRowData } from './ArticleDataUtils'
 import { Order } from './ComparatorFunctions'
 
 interface HeadCell {
   disablePadding: boolean
-  id: keyof Data
+  id: keyof ArticleRowData
   label: string
   numeric: boolean
 }
@@ -45,7 +45,7 @@ const headCells: readonly HeadCell[] = [
 interface ArticleTableProps {
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof ArticleRowData
   ) => void
   order: Order
   orderBy: string
@@ -54,7 +54,7 @@ interface ArticleTableProps {
 export const ArticleTableHead = (props: ArticleTableProps) => {
   const { order, orderBy, onRequestSort } = props
   const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof ArticleRowData) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property)
     }
 
