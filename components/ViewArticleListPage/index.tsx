@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -12,14 +12,19 @@ import { getComparator, Order, stableSort } from './ComparatorFunctions'
 import { ArticleTableHead } from './ArticleTableHead'
 import { AppBar, Fab, Tab, Tabs, Typography } from '@mui/material'
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined'
-
+import PersonIcon from '@mui/icons-material/Person'
+import DraftsIcon from '@mui/icons-material/Drafts'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
+import LockIcon from '@mui/icons-material/Lock'
+import { useRouter } from 'next/router'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 export default function EnhancedTable() {
-  const [order, setOrder] = React.useState<Order>('asc')
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('name')
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [order, setOrder] = useState<Order>('asc')
+  const [orderBy, setOrderBy] = useState<keyof Data>('name')
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = useState(0)
 
   const handleChange = (event: unknown, newValue: number) => {
     setValue(newValue)
@@ -49,6 +54,7 @@ export default function EnhancedTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
+  const router = useRouter()
   return (
     <>
       <Typography variant="h3">Manage Articles</Typography>
@@ -74,10 +80,14 @@ export default function EnhancedTable() {
             variant="fullWidth"
             aria-label="action tabs example"
           >
-            <Tab label="All" />
-            <Tab label="Draft" />
-            <Tab label="Published" />
-            <Tab label="Archived" />
+            <Tab label="All" icon={<PersonIcon />} iconPosition="start" />
+            <Tab label="Draft" icon={<DraftsIcon />} iconPosition="start" />
+            <Tab
+              label="Published"
+              icon={<UploadFileIcon />}
+              iconPosition="start"
+            />
+            <Tab label="Archived" icon={<LockIcon />} iconPosition="start" />
           </Tabs>
         </AppBar>
       </Box>
@@ -119,15 +129,28 @@ export default function EnhancedTable() {
                           id={labelId}
                           scope="row"
                           sx={{
-                            maxWidth: '250px',
+                            // Check how to calculate this dyanmically
+                            maxWidth: '150px',
                           }}
                         >
-                          {/* {row.name} */}
                           <Typography noWrap>{row.name}</Typography>
                         </TableCell>
                         <TableCell align="left">{row.date_created}</TableCell>
                         <TableCell align="left">{row.last_modified}</TableCell>
                         <TableCell align="left">{row.status}</TableCell>
+                        <TableCell
+                          align="left"
+                          onClick={() =>
+                            router.push('/content/articles/dsadsa')
+                          }
+                          padding="none"
+                        >
+                          <KeyboardArrowRightIcon
+                            sx={{
+                              cursor: 'pointer',
+                            }}
+                          />
+                        </TableCell>
                       </TableRow>
                     )
                   })}
