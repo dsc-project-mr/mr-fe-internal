@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { Data, rows } from './ArticleRowData'
+import { ArticleRowData, ARTICLE_ROWS } from './ArticleDataUtils'
 import { getComparator, Order, stableSort } from './ComparatorFunctions'
 import { ArticleTableHead } from './ArticleTableHead'
 import { AppBar, Fab, Tab, Tabs, Typography } from '@mui/material'
@@ -18,13 +18,26 @@ import UploadFileIcon from '@mui/icons-material/UploadFile'
 import LockIcon from '@mui/icons-material/Lock'
 import { useRouter } from 'next/router'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import { donationFilters } from 'components/Searchbar/defaults'
+import Searchbar from 'components/Searchbar'
+
 export default function EnhancedTable() {
+  const router = useRouter()
   const [order, setOrder] = useState<Order>('asc')
-  const [orderBy, setOrderBy] = useState<keyof Data>('name')
+  const [orderBy, setOrderBy] = useState<keyof ArticleRowData>('name')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
-
+  const [rows, setRows] = useState<ArticleRowData[]>(ARTICLE_ROWS)
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  // Rename
   const [value, setValue] = useState(0)
+
+  // Searchbar variables
+  const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
+  const [search, setSearch] = useState<string>('')
+  const { filters } = donationFilters(tags)
 
   const handleChange = (event: unknown, newValue: number) => {
     setValue(newValue)
@@ -32,7 +45,7 @@ export default function EnhancedTable() {
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof ArticleRowData
   ) => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
@@ -50,21 +63,38 @@ export default function EnhancedTable() {
     setPage(0)
   }
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+  const requestSearch = (searchedVal: string) => {
+    const filteredRows = ARTICLE_ROWS.filter((row) => {
+      return row.name.toLowerCase().includes(searchedVal.toLowerCase())
+    })
+    setRows(filteredRows)
+  }
 
-  const router = useRouter()
+  useEffect(() => {
+    // Need to reset to the first page before filtering through search name
+    setPage(0)
+    requestSearch(search)
+  }, [search])
+
   return (
     <>
       <Typography variant="h3">Manage Articles</Typography>
-      <Fab
-        sx={{
-          backgroundColor: '#FAB800',
-        }}
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-between"
+        alignItems="center"
       >
-        <NoteAddOutlinedIcon htmlColor="#666666" />
-      </Fab>
+        <Fab
+          sx={{
+            backgroundColor: '#FAB800',
+          }}
+        >
+          <NoteAddOutlinedIcon htmlColor="#666666" />
+        </Fab>
+        <Searchbar search={search} setSearch={setSearch} filters={filters} />
+      </Box>
+
       <Box
         sx={{
           width: 500,
