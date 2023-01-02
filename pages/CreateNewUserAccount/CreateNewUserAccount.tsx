@@ -1,11 +1,13 @@
 import { Typography, Box, TextField, Stack } from "@mui/material";
 import SelectRoleTextField from "./SelectRoleTextField";
+import UploadProfileImage from "./UploadProfileImage";
 
 const CreateNewUserAccount = () => {
     return (
         <Box>
             <Typography variant="h4" sx={styledTitle}>Create New User Account</Typography>
             <Stack spacing={10} sx={styledStack}>
+                <UploadProfileImage />
                 <TextField id="outlined-basic" label="Name of User" variant="outlined" required/>
                 <TextField id="outlined-basic" label="Email Address" variant="outlined" required/>
                 <SelectRoleTextField />
