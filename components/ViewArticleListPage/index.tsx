@@ -78,12 +78,16 @@ export default function EnhancedTable() {
 
   return (
     <>
-      <Typography variant="h3">Manage Articles</Typography>
+      <Typography variant="h3" marginTop="25px">
+        Manage Articles
+      </Typography>
+
       <Box
         display="flex"
         width="100%"
         justifyContent="space-between"
         alignItems="center"
+        marginY="25px"
       >
         <Fab
           sx={{
@@ -100,6 +104,7 @@ export default function EnhancedTable() {
           width: 500,
           position: 'relative',
         }}
+        marginBottom="25px"
       >
         <AppBar position="static" color="transparent" elevation={0}>
           <Tabs
@@ -121,6 +126,7 @@ export default function EnhancedTable() {
           </Tabs>
         </AppBar>
       </Box>
+
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer>
