@@ -2,6 +2,7 @@ import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined'
 import { Box, Grid } from '@mui/material'
 
 import { CampaignStatus } from 'constants/campaign'
+import { Campaign } from 'models/campaign'
 import Link from 'next/link'
 import React from 'react'
 
@@ -61,24 +62,11 @@ const campaignStateColor = {
 }
 
 interface Props {
-  id: number
-  campaignName: string
-  campaignDetails: string
-  donors: number
-  amount: number
-  country: string
-  campaignStatus: CampaignStatus
+  campaign: Campaign
 }
 
-const CampaignCard = ({
-  id,
-  campaignName,
-  campaignDetails,
-  donors,
-  amount,
-  country,
-  campaignStatus,
-}: Props) => {
+const CampaignCard = ({ campaign }: Props) => {
+  const { id, name, details, donors, amount, country, status } = campaign
   return (
     <Grid>
       <Link href={'/campaigns/' + id} passHref legacyBehavior>
@@ -94,9 +82,7 @@ const CampaignCard = ({
                 margin: '15x 0px 15px 0px',
               }}
             >
-              <h5 style={{ color: '#009DD7', fontWeight: '500' }}>
-                {campaignName}
-              </h5>
+              <h5 style={{ color: '#009DD7', fontWeight: '500' }}>{name}</h5>
               <ArchiveOutlinedIcon
                 sx={{
                   color: '#009DD7',
@@ -114,18 +100,18 @@ const CampaignCard = ({
                 margin: '15x 0px 15px 0px',
               }}
             >
-              <p style={styledoverview}>{campaignDetails}</p>
+              <p style={styledoverview}>{details}</p>
               <h6
                 style={{
-                  color: campaignStateColor[campaignStatus],
+                  color: campaignStateColor[status],
                   marginLeft: 50,
                 }}
               >
-                {campaignStatus}
+                {status}
               </h6>
             </div>
           </Box>
-          <Box sx={styledcontentbox}>{campaignDetails}</Box>
+          <Box sx={styledcontentbox}>{details}</Box>
           <Box sx={styledbottombox}>
             <div style={styledbottomitems}>
               <p>Donors:</p>&nbsp;
