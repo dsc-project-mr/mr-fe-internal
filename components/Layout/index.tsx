@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 import theme from 'styles/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import Sidebar from 'components/Sidebar'
+import Sidebar, { DRAWER_WIDTH } from 'components/Sidebar'
 import { Box } from '@mui/system'
 
 type Props = {
@@ -29,13 +29,19 @@ const Layout = ({ children }: Props) => {
             sx={{
               display: 'flex',
               height: '100vh',
+              width: `100vw`,
             }}
           >
             <CssBaseline />
             <Sidebar />
             <Box
               component="main"
-              sx={{ flexGrow: 1, margin: '0 24px', height: '100%' }}
+              sx={{
+                flexGrow: 1,
+                margin: '0 24px',
+                height: '100%',
+                maxWidth: `calc(100vw - ${DRAWER_WIDTH}px - 48px)`,
+              }}
             >
               {children}
             </Box>
