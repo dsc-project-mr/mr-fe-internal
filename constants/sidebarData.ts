@@ -2,58 +2,65 @@ export const sidebarData: SidebarData[] = [
   {
     title: 'Campaigns',
     route: '/campaigns',
+    imgSrc: 'campaign_icon.png',
     subheaders: [
       {
         title: 'Donations',
         route: '/donations',
-        tabs: [],
+        imgSrc: 'donations_icon.png',
       },
       {
         title: 'Email',
-        route: '/',
-        tabs: [],
+        route: '/email',
+        imgSrc: 'email_icon.png',
       },
     ],
   },
   {
     title: 'Content',
     route: '/content',
+    imgSrc: 'content_icon.png',
     subheaders: [
       {
         title: 'Article',
-        route: '/article',
-        tabs: ['View Article', 'Edit Article'],
+        route: '/articles',
+        imgSrc: 'article_icon.png',
       },
       {
         title: 'Website Home Page',
         route: '/',
-        tabs: ['Home'],
-      },
-      {
-        title: 'Website Contact Page',
-        route: '/',
-        tabs: ['Contact'],
+        imgSrc: 'website_home_page_icon.png',
       },
     ],
   },
   {
     title: "Customer's Database",
-    route: '/',
+    route: '/customers',
+    imgSrc: 'customer_database_icon.png',
     subheaders: [],
   },
   {
     title: 'Social Media Analytics',
-    route: '/',
+    route: '/analytics',
+    imgSrc: 'social_media_analytics_icon.png',
     subheaders: [],
   },
   {
     title: 'User Accounts (Internal Portal)',
-    route: '/user-management',
+    route: '/users',
+    imgSrc: 'user_accounts_icon.png',
     subheaders: [],
   },
   {
     title: 'Settings',
     route: '/settings',
+    imgSrc: 'settings_icon.png',
+    subheaders: [],
+  },
+  {
+    title: 'Help',
+    route: '/help',
+    imgSrc: 'help_icon.png',
     subheaders: [],
   },
 ]
@@ -61,11 +68,12 @@ export const sidebarData: SidebarData[] = [
 export type SidebarData = {
   title: string
   route: string
+  imgSrc: string
   subheaders: SubheaderData[]
 }
 
 export type SubheaderData = {
   title: string
   route: string
-  tabs: string[]
+  imgSrc: string
 }

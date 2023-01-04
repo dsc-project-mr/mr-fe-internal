@@ -1,17 +1,17 @@
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import {
-  Accordion,
-  AccordionSummary,
-  Typography,
-  AccordionDetails,
-  List,
-  ListItemButton,
-} from '@mui/material'
+import { Typography } from '@mui/material'
 import { useRouter } from 'next/router'
-import { DRAWER_WIDTH } from '.'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { SubheaderData } from 'constants/sidebarData'
-import { MR_GRAY_1 } from 'styles/theme'
+
+import { Box } from '@mui/system'
+import {
+  SELECTED_FONT_COLOR,
+  SELECTED_ICON_COLOR,
+  SELECTED_TAB_COLOR,
+  UNSELECTED_FONT_COLOR,
+  UNSELECTED_ICON_COLOR,
+  UNSELECTED_TAB_COLOR,
+} from './HeaderTab'
 
 const SubheaderTab = ({
   subheaderData,
@@ -24,73 +24,60 @@ const SubheaderTab = ({
   setTabSelected: Dispatch<SetStateAction<string>>
   parentRoute: string
 }) => {
-  const [expanded, setExpanded] = useState<boolean>(false)
-  const hasTabs: boolean = subheaderData.tabs.length > 0
   const router = useRouter()
 
-  return (
-    <>
-      <Accordion
-        expanded={expanded}
-        onChange={() => {
-          if (!expanded && tabSelected !== subheaderData.title) {
-            setTabSelected(subheaderData.title)
-          }
+  const handleSelected = () => {
+    router.push(parentRoute + subheaderData.route)
+    setTabSelected(subheaderData.title)
+  }
 
-          if (hasTabs) {
-            setExpanded(!expanded)
-          }
+  return (
+    <Box
+      height={40}
+      padding="10px"
+      onClick={handleSelected}
+      sx={{
+        cursor: 'pointer',
+        backgroundColor:
+          tabSelected === subheaderData.title
+            ? SELECTED_TAB_COLOR
+            : UNSELECTED_TAB_COLOR,
+        display: 'flex',
+        '&:hover': {
+          filter: 'brightness(93%)',
+        },
+      }}
+    >
+      <div
+        style={{
+          width: '18px',
+          height: '18px',
+          background:
+            tabSelected === subheaderData.title
+              ? SELECTED_ICON_COLOR
+              : UNSELECTED_ICON_COLOR,
+
+          marginLeft: '10px',
+          marginRight: '15px',
+          WebkitMask:
+            'url(/images/sidebar/' + subheaderData.imgSrc + ') center/contain',
+          mask:
+            'url(/images/sidebar/' + subheaderData.imgSrc + ') center/contain',
         }}
+      ></div>
+      <Typography
         sx={{
-          width: DRAWER_WIDTH,
-          boxShadow: 'none',
-          borderRadius: 0,
-          '&:before': {
-            display: 'none',
-          },
-          '&.MuiPaper-root.Mui-expanded': {
-            margin: 0,
-          },
+          color:
+            tabSelected === subheaderData.title
+              ? SELECTED_FONT_COLOR
+              : UNSELECTED_FONT_COLOR,
         }}
+        textTransform="uppercase"
+        fontSize="13px"
       >
-        <AccordionSummary
-          expandIcon={hasTabs && <ChevronRightIcon />}
-          // Disable routing if subheader has tabs
-          onClick={() =>
-            !hasTabs && router.push(parentRoute + subheaderData.route)
-          }
-          sx={{
-            flexDirection: 'row-reverse',
-            '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-              transform: 'rotate(90deg)',
-            },
-            backgroundColor:
-              tabSelected === subheaderData.title ? MR_GRAY_1 : 'white',
-          }}
-        >
-          <Typography
-            sx={{
-              color: 'text.primary',
-              position: 'relative',
-              left: '20px',
-            }}
-          >
-            {subheaderData.title}
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <List>
-            {subheaderData.tabs.map((tab) => {
-              return (
-                <ListItemButton key={`${parentRoute}-${tab}`}>
-                  {tab}
-                </ListItemButton>
-              )
-            })}
-          </List>
-        </AccordionDetails>
-      </Accordion>
-    </>
+        {subheaderData.title}
+      </Typography>
+    </Box>
   )
 }
 
