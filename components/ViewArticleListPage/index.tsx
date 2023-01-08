@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { ArticleRowData, ARTICLE_ROWS } from './ArticleDataUtils'
+import { ArticleRowData, ARTICLE_ROWS } from '../../models/article'
 import { getComparator, Order, stableSort } from './ComparatorFunctions'
 import { ArticleTableHead } from './ArticleTableHead'
 import { Fab, Typography } from '@mui/material'
@@ -26,6 +26,7 @@ export default function EnhancedTable() {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [rows, setRows] = useState<ArticleRowData[]>(ARTICLE_ROWS)
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
