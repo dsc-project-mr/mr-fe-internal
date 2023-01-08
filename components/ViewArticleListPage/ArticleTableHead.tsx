@@ -44,7 +44,7 @@ const headCells: readonly HeadCell[] = [
 
 interface ArticleTableProps {
   onRequestSort: (
-    event: React.MouseEvent<unknown>,
+    event: React.MouseEvent<HTMLButtonElement>,
     property: keyof ArticleRowData
   ) => void
   order: Order
@@ -54,7 +54,8 @@ interface ArticleTableProps {
 export const ArticleTableHead = (props: ArticleTableProps) => {
   const { order, orderBy, onRequestSort } = props
   const createSortHandler =
-    (property: keyof ArticleRowData) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof ArticleRowData) =>
+    (event: React.MouseEvent<HTMLButtonElement>) => {
       onRequestSort(event, property)
     }
 
@@ -70,7 +71,7 @@ export const ArticleTableHead = (props: ArticleTableProps) => {
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : Order.ASC}
               onClick={createSortHandler(headCell.id)}
               sx={{
                 fontWeight: 700,
@@ -79,7 +80,9 @@ export const ArticleTableHead = (props: ArticleTableProps) => {
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === Order.DESC
+                    ? 'sorted descending'
+                    : 'sorted ascending'}
                 </Box>
               ) : null}
             </TableSortLabel>

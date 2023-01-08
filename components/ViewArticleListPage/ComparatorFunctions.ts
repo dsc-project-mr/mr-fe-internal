@@ -8,7 +8,10 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0
 }
 
-export type Order = 'asc' | 'desc'
+export enum Order {
+  ASC = 'asc',
+  DESC = 'desc',
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getComparator<Key extends keyof any>(
@@ -18,7 +21,7 @@ export function getComparator<Key extends keyof any>(
   a: { [key in Key]: number | string },
   b: { [key in Key]: number | string }
 ) => number {
-  return order === 'desc'
+  return order === Order.DESC
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy)
 }

@@ -21,7 +21,7 @@ import { DocumentStatus } from 'constants/DocumentStatus'
 
 export default function EnhancedTable() {
   const router = useRouter()
-  const [order, setOrder] = useState<Order>('asc')
+  const [order, setOrder] = useState<Order>(Order.ASC)
   const [orderBy, setOrderBy] = useState<keyof ArticleRowData>('name')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -29,7 +29,6 @@ export default function EnhancedTable() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
-  // Rename
 
   // Searchbar variables
   const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
@@ -40,15 +39,18 @@ export default function EnhancedTable() {
   const [status, setStatus] = useState(DocumentStatus.All)
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
+    event: React.MouseEvent<HTMLButtonElement>,
     property: keyof ArticleRowData
   ) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
+    const isAsc = orderBy === property && order === Order.ASC
+    setOrder(isAsc ? Order.DESC : Order.ASC)
     setOrderBy(property)
   }
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
     setPage(newPage)
   }
 
