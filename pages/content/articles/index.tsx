@@ -1,7 +1,7 @@
 import ViewArticleListPage from 'components/ViewArticleListPage'
 import type { NextPage } from 'next'
 
-const Home: NextPage = () => {
+const ArticleListPage: NextPage = () => {
   return (
     <div>
       <ViewArticleListPage />
@@ -9,4 +9,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default ArticleListPage
