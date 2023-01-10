@@ -88,6 +88,9 @@ export const ArticleTableHead = (props: ArticleTableProps) => {
             </TableSortLabel>
           </TableCell>
         ))}
+
+        {/* Empty Table cell here to create a column for KeyboardArrowRightIcon */}
+        <TableCell />
       </TableRow>
     </TableHead>
   )
