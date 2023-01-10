@@ -14,10 +14,10 @@ import { Fab, Typography } from '@mui/material'
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined'
 import { useRouter } from 'next/router'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { donationFilters } from 'components/Searchbar/defaults'
 import Searchbar from 'components/Searchbar'
 import DocumentListTabs from 'components/DocumentListTabs'
 import { DocumentStatus } from 'constants/DocumentStatus'
+import { contentFilters } from 'components/Searchbar/defaults'
 
 export default function EnhancedTable() {
   const router = useRouter()
@@ -34,7 +34,8 @@ export default function EnhancedTable() {
   // Searchbar variables
   const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
   const [search, setSearch] = useState<string>('')
-  const { filters } = donationFilters(tags)
+
+  const { filters } = contentFilters(tags)
 
   // DocumentListTab variables
   const [status, setStatus] = useState(DocumentStatus.All)
@@ -143,9 +144,11 @@ export default function EnhancedTable() {
                           >
                             <Typography noWrap>{row.name}</Typography>
                           </TableCell>
-                          <TableCell align="left">{row.date_created}</TableCell>
                           <TableCell align="left">
-                            {row.last_modified}
+                            {row.date_created.toLocaleDateString()}
+                          </TableCell>
+                          <TableCell align="left">
+                            {row.last_modified.toLocaleDateString()}
                           </TableCell>
                           <TableCell align="left">{row.status}</TableCell>
                           <TableCell
@@ -153,7 +156,6 @@ export default function EnhancedTable() {
                             onClick={() =>
                               router.push('/content/articles/dsadsa')
                             }
-                            padding="none"
                           >
                             <KeyboardArrowRightIcon
                               sx={{

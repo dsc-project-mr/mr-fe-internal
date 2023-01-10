@@ -1,6 +1,7 @@
 import { DateRange } from './DateRangeFilter'
 import { useFilter as createFilter } from '.'
 import { DonationFilters, Region, Urgency } from 'constants/Donation'
+import { ArticleType, ContentFilters, ContentState } from 'constants/Content'
 
 // TODO one for content
 
@@ -28,5 +29,43 @@ export const donationFilters = (tags: string[]) => {
       selectedTags: tagsFilter.value,
     },
     filters: [urgencyFilter, countryFilter, dateFilter, tagsFilter],
+  }
+}
+
+export const contentFilters = (tags: string[]) => {
+  const stateFilter = createFilter<ContentState[]>(
+    ContentFilters.STATE,
+    [],
+    Object.values(ContentState)
+  )
+  const typeFilter = createFilter<ArticleType[]>(
+    ContentFilters.TYPE,
+    [],
+    Object.values(ArticleType)
+  )
+  const createdDateFilter = createFilter<DateRange | undefined>(
+    ContentFilters.DATE_OF_CREATION,
+    undefined
+  )
+  const modifiedDateFilter = createFilter<DateRange | undefined>(
+    ContentFilters.DATE_LAST_MODIFIED,
+    undefined
+  )
+  const tagsFilter = createFilter<string[]>(ContentFilters.TAGS, [], tags)
+  return {
+    props: {
+      selectedStates: stateFilter.value,
+      selectedTypes: typeFilter.value,
+      selectedCreatedDateRange: createdDateFilter.value,
+      selectedModifiedDateRange: modifiedDateFilter.value,
+      selectedTags: tagsFilter.value,
+    },
+    filters: [
+      stateFilter,
+      typeFilter,
+      createdDateFilter,
+      modifiedDateFilter,
+      tagsFilter,
+    ],
   }
 }
