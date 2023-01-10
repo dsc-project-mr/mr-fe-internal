@@ -28,7 +28,7 @@ const CreateButton = () => {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are you sure that you would like to create this new user ---- ?
+              Are you sure that you would like to create this new user?
               The email cannot be changed after creation. 
             </DialogContentText>
           </DialogContent>
