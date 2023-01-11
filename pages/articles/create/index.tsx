@@ -1,9 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Grid,
-  TextField,
-} from '@mui/material'
+import { Avatar, Button, Grid, TextField } from '@mui/material'
 import { Editor } from '@tinymce/tinymce-react'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import router from 'next/router'
@@ -15,6 +10,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { useDropzone } from 'react-dropzone'
+import { Typography } from '@mui/material'
 const styleduploadbox = {
   borderWidth: 'thin',
   borderStyle: 'dashed',
@@ -44,7 +40,7 @@ const AlertDialog = ({
 }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle id="alert-dialog-title">{'Information'}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Information</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           {message}
@@ -58,8 +54,8 @@ const AlertDialog = ({
 }
 
 const CreateArticle = () => {
-  const [open, setOpen] = React.useState(false)
-  const [openSave, setOpenSave] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [openSave, setOpenSave] = useState(false)
   const [title, setTitle] = useState('')
   const [file, setFile] = useState<any[]>([])
   const { getRootProps, getInputProps } = useDropzone({
@@ -123,9 +119,9 @@ const CreateArticle = () => {
         </div>
         <div>
           <div style={styledtopbar}>
-            <h6 style={styledtitle}>
+            <Typography variant="h6" style={styledtitle}>
               Title of Article<span style={{ color: 'red' }}>*</span>
-            </h6>
+            </Typography>
             <div>
               <Button
                 sx={{ m: 5 }}
@@ -157,9 +153,9 @@ const CreateArticle = () => {
           />
         </div>
         <div>
-          <h6 style={styledtitle}>
+          <Typography variant="h6" style={styledtitle}>
             Cover Photo<span style={{ color: 'red' }}>*</span>
-          </h6>
+          </Typography>
         </div>
         {
           <section className="container">
@@ -220,9 +216,11 @@ const CreateArticle = () => {
           </section>
         }
         <div>
-          <h6 style={styledtitle}>Content</h6>
+          <Typography variant="h6" style={styledtitle}>
+            Content
+          </Typography>
           <Editor
-            apiKey="qkp2e0rjd9e286x3xoazfsvtniq91z7qm6j6iu65ad0g2o5s"
+            apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
             initialValue="<p></p>"
             init={{
               height: 500,
