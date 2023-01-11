@@ -1,11 +1,10 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Button, Typography, Stack } from '@mui/material';
 import { useField } from 'formik';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FileError, FileRejection, useDropzone } from 'react-dropzone';
 import SingleFileUploadWithProgress from './SingleFileUploadWithProgress';
 import { UploadError } from './UploadError';
 
-// import { makeStyles } from '@mui/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 let currentId = 0;
@@ -23,31 +22,8 @@ export interface UploadableFile {
 
 const theme = createTheme();
 
-// const useStyles = makeStyles((theme) => ({
-//   dropzone: {
-//     border: `2px dashed ${theme.palette.primary.main}`,
-//     borderRadius: theme.shape.borderRadius,
-//     display: 'flex',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     background: theme.palette.background.default,
-//     height: theme.spacing(10),
-//     outline: 'none',
-//   },
-// }));
-
-const styledTypo = {
-  textAlign: 'center',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-}
-
-
 const MultipleFileUploadField = ({ name }: { name: string }) => {
   const [_, __, helpers] = useField(name);
-//   const classes = useStyles();
-
   const [files, setFiles] = useState<UploadableFile[]>([]);
   const onDrop = useCallback((accFiles: File[], rejFiles: FileRejection[]) => {
     const mappedAcc = accFiles.map((file) => ({ file, errors: [], id: getNewId() }));
@@ -57,7 +33,6 @@ const MultipleFileUploadField = ({ name }: { name: string }) => {
 
   useEffect(() => {
     helpers.setValue(files);
-    // helpers.setTouched(true);
   }, [files]);
 
   function onUpload(file: File, url: string) {
@@ -89,8 +64,11 @@ const MultipleFileUploadField = ({ name }: { name: string }) => {
         <Grid item>
             <div {...getRootProps()}>
             <input {...getInputProps()} />
-            <Typography sx={styledTypo}>Click to upload or drag and drop</Typography>
-            <Typography sx={styledTypo}>PNG, GIF, JPEG, JPG or SVG files - max 3MB</Typography>
+            <Stack sx={styledStack}>
+              <Button variant="contained" sx={styledButton}>Click to upload or drag and drop</Button>
+              <Typography sx={styledTypo}>PNG, GIF, JPEG, JPG or SVG files - max 3MB</Typography>
+            </Stack>
+
             </div>
         </Grid>
 
@@ -117,5 +95,22 @@ const MultipleFileUploadField = ({ name }: { name: string }) => {
   );
 }
 
+const styledStack = {
+  display: 'flex',
+  justifyContent: 'center',
+}
+
+const styledTypo = {
+  textAlign: 'center',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontSize: '15px',
+  marginTop: '10px'
+}
+
+const styledButton = {
+  padding: '20px',
+}
 
 export default MultipleFileUploadField;

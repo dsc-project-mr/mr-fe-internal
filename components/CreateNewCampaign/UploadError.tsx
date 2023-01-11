@@ -12,14 +12,6 @@ import {
     errors: FileError[];
   }
   
-//   const ErrorLinearProgress = withStyles((theme) =>
-//     createStyles({
-//       bar: {
-//         backgroundColor: theme.palette.error.main,
-//       },
-//     })
-//   )(LinearProgress);
-  
   export function UploadError({ file, onDelete, errors }: UploadErrorProps) {
     return (
       <React.Fragment>

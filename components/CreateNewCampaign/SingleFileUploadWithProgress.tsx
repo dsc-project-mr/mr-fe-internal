@@ -25,9 +25,9 @@ const SingleFileUploadWithProgress = ({
   }, []);
 
   return (
-    <Grid item>
+    <Grid item sx={styledGrid}>
       <FileHeader file={file} onDelete={onDelete} />
-      <LinearProgress variant="determinate" value={progress} />
+      <LinearProgress variant="determinate" value={progress} sx={styledProgress}/>
     </Grid>
   );
 }
@@ -58,6 +58,16 @@ function uploadFile(file: File, onProgress: (percentage: number) => void) {
 
     xhr.send(formData);
   });
+}
+
+const styledProgress = {
+  width: '100%',
+}
+
+const styledGrid = {
+  marginLeft: '20px',
+  marginRight: '20px',
+  marginTop: '10px'
 }
 
 export default SingleFileUploadWithProgress;
