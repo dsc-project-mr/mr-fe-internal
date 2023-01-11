@@ -9,13 +9,6 @@ const CreateNewUserAccount = () => {
 
     const [inputValue, setInputValue] = React.useState(null);
 
-    //const usernameRef = React.useRef<HTMLInputElement>(null);
-
-    // const handleChange = (e) => {
-    //     console.log(`Typed : ${e.target.value}`);
-    //     setInputValue(e.target.value);
-    // }
-
     return (
         <Box>
             <Typography variant="h4" sx={styledTitle}>Create New User Account</Typography>
