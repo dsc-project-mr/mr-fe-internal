@@ -11,6 +11,7 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { useDropzone } from 'react-dropzone'
 import { Typography } from '@mui/material'
+import { ArticleType } from 'constants/content'
 const styleduploadbox = {
   borderWidth: 'thin',
   borderStyle: 'dashed',
@@ -58,6 +59,7 @@ const CreateArticle = () => {
   const [openSave, setOpenSave] = useState(false)
   const [title, setTitle] = useState('')
   const [file, setFile] = useState<any[]>([])
+  const [content, setContent] = useState('')
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       'image/*': [],
@@ -79,6 +81,7 @@ const CreateArticle = () => {
   }
 
   const handleOpen = () => {
+    submitArticle()
     setOpen(true)
   }
   const handleSaveOpen = () => {
@@ -91,6 +94,21 @@ const CreateArticle = () => {
   const handleClose = () => {
     setOpen(false)
   }
+
+  const submitArticle = async () => {
+    const response = await fetch('/api/content/article', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: title,
+        content: 'content',
+        latestEditorEmail: 'NA',
+        type: ArticleType.EXTERNAL,
+        imageUrl: file[0],
+        contentUrl: content,
+      }),
+    })
+  }
+
   return (
     <>
       <AlertDialog
@@ -222,6 +240,9 @@ const CreateArticle = () => {
           <Editor
             apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
             initialValue="<p></p>"
+            onEditorChange={(c) => {
+              setContent(c)
+            }}
             init={{
               height: 500,
               menubar: true,
