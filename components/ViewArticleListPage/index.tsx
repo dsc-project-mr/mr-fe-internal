@@ -8,7 +8,7 @@ import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { ArticleRowData, ARTICLE_ROWS } from '../../models/article'
-import { getComparator, Order, stableSort } from './ComparatorFunctions'
+import { getComparator, Order } from './ComparatorFunctions'
 import { ArticleTableHead } from './ArticleTableHead'
 import { Fab, Typography } from '@mui/material'
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined'
@@ -18,6 +18,41 @@ import Searchbar from 'components/Searchbar'
 import DocumentListTabs from 'components/DocumentListTabs'
 import { DocumentStatus } from 'constants/DocumentStatus'
 import { contentFilters } from 'components/Searchbar/defaults'
+import { DateRange } from '../Searchbar/DateRangeFilter'
+import { ContentState } from 'constants/Content'
+
+const isNotFiltered = (row: ArticleRowData, props: any) => {
+  return (
+    withinDateRange(row.date_created, props.selectedCreatedDateRange) &&
+    withinDateRange(row.last_modified, props.selectedModifiedDateRange) &&
+    isSelectedState(row.status, props.selectedStates)
+  )
+}
+
+const isSelectedState = (
+  state: ContentState,
+  selectedStates: ContentState[]
+): boolean => {
+  if (selectedStates.length === 0) {
+    return true
+  }
+
+  return selectedStates.includes(state)
+}
+
+const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
+  if (
+    range === undefined ||
+    range.start === undefined ||
+    range.end === undefined
+  ) {
+    return true
+  }
+
+  const start = range.start
+  const end = range.end
+  return start <= date && date <= end
+}
 
 export default function EnhancedTable() {
   const router = useRouter()
@@ -32,10 +67,9 @@ export default function EnhancedTable() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
   // Searchbar variables
-  const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
   const [search, setSearch] = useState<string>('')
-
-  const { filters } = contentFilters(tags)
+  const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
+  const { props, filters } = contentFilters(tags)
 
   // DocumentListTab variables
   const [status, setStatus] = useState(DocumentStatus.All)
@@ -68,6 +102,13 @@ export default function EnhancedTable() {
       return row.name.toLowerCase().includes(searchedVal.toLowerCase())
     })
     setRows(filteredRows)
+  }
+
+  const requestFilter = (props: any) => {
+    const filteredRows = ARTICLE_ROWS.filter((row) => {
+      return isNotFiltered(row, props)
+    })
+    return filteredRows
   }
 
   useEffect(() => {
@@ -114,9 +155,8 @@ export default function EnhancedTable() {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.sort(getComparator(order, orderBy)).slice() */}
-                  {stableSort(rows, getComparator(order, orderBy))
+                  {rows
+                    .sort(getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
                       const labelId = `enhanced-table-checkbox-${index}`
@@ -137,12 +177,14 @@ export default function EnhancedTable() {
                             component="th"
                             id={labelId}
                             scope="row"
-                            sx={{
-                              // Check how to calculate this dyanmically
-                              maxWidth: '150px',
+                            style={{
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis',
+                              maxWidth: '200px',
+                              overflow: 'hidden',
                             }}
                           >
-                            <Typography noWrap>{row.name}</Typography>
+                            {row.name}
                           </TableCell>
                           <TableCell align="left">
                             {row.date_created.toLocaleDateString()}
@@ -167,13 +209,8 @@ export default function EnhancedTable() {
                       )
                     })}
                   {emptyRows > 0 && (
-                    <TableRow
-                      style={{
-                        // TODO: Figure out how to get this value dynamically
-                        height: 57.3 * emptyRows,
-                      }}
-                    >
-                      <TableCell colSpan={6} />
+                    <TableRow sx={{ padding: '16px' }}>
+                      <TableCell colSpan={6} sx={{ height: 62 * emptyRows }} />
                     </TableRow>
                   )}
                 </TableBody>
