@@ -62,10 +62,6 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [rows, setRows] = useState<ArticleRowData[]>(ARTICLE_ROWS)
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
-
   // Searchbar variables
   const [search, setSearch] = useState<string>('')
   const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
@@ -73,6 +69,12 @@ export default function EnhancedTable() {
 
   // DocumentListTab variables
   const [status, setStatus] = useState(DocumentStatus.All)
+
+  const displayRows = rows.filter((row) => isNotFiltered(row, props))
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - displayRows.length) : 0
 
   const handleRequestSort = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -104,18 +106,18 @@ export default function EnhancedTable() {
     setRows(filteredRows)
   }
 
-  const requestFilter = (props: any) => {
-    const filteredRows = ARTICLE_ROWS.filter((row) => {
-      return isNotFiltered(row, props)
-    })
-    return filteredRows
-  }
-
   useEffect(() => {
     // Need to reset to the first page before filtering through search name
     setPage(0)
     requestSearch(search)
   }, [search])
+
+  useEffect(() => {
+    // Need to reset to the first page before any change in number of rows displayed
+    setPage(0)
+
+    // console.log('called')
+  }, [displayRows.length])
 
   return (
     <>
@@ -155,7 +157,7 @@ export default function EnhancedTable() {
                   onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {rows
+                  {displayRows
                     .sort(getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
@@ -219,7 +221,7 @@ export default function EnhancedTable() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={rows.length}
+              count={displayRows.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
