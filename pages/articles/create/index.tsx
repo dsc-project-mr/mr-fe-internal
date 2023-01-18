@@ -12,6 +12,9 @@ import DialogTitle from '@mui/material/DialogTitle'
 import { useDropzone } from 'react-dropzone'
 import { Typography } from '@mui/material'
 import { ArticleType } from 'constants/content'
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
+import CloseIcon from '@mui/icons-material/Close'
+import parse from 'html-react-parser'
 const styleduploadbox = {
   borderWidth: 'thin',
   borderStyle: 'dashed',
@@ -57,6 +60,7 @@ const AlertDialog = ({
 const CreateArticle = () => {
   const [open, setOpen] = useState(false)
   const [openSave, setOpenSave] = useState(false)
+  const [openPreview, setOpenPreview] = useState(false)
   const [title, setTitle] = useState('')
   const [file, setFile] = useState<any[]>([])
   const [content, setContent] = useState('')
@@ -94,6 +98,12 @@ const CreateArticle = () => {
   const handleClose = () => {
     setOpen(false)
   }
+  const handlePreviewOpen = () => {
+    setOpenPreview(true)
+  }
+  const handlePreviewClose = () => {
+    setOpenPreview(false)
+  }
 
   const submitArticle = async () => {
     const response = await fetch('/api/content/article', {
@@ -111,6 +121,47 @@ const CreateArticle = () => {
 
   return (
     <>
+      <Dialog open={openPreview} fullWidth maxWidth="sm">
+        <DialogTitle id="alert-dialog-title">
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            Article Preview
+            <Button onClick={handlePreviewClose}>
+              <CloseIcon />
+            </Button>
+          </div>
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="h5" style={styledtitle}>
+            {title}
+          </Typography>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {file.length !== 0 ? (
+              <img
+                src={URL.createObjectURL(file[0])}
+                height="250px"
+                onLoad={() => {
+                  URL.revokeObjectURL(URL.createObjectURL(file[0]))
+                }}
+              />
+            ) : (
+              <></>
+            )}
+            {parse(content)}
+          </div>
+        </DialogContent>
+      </Dialog>
       <AlertDialog
         message="Article Published Successfully!"
         open={open}
@@ -129,11 +180,39 @@ const CreateArticle = () => {
           padding: '10px',
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <Button onClick={() => router.back()}>
-            <ArrowBackIosNewIcon style={{ margin: 20 }} />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <Button onClick={() => router.back()}>
+              <ArrowBackIosNewIcon style={{ margin: 20 }} />
+            </Button>
+            <Typography variant="h4" style={styledtitle}>
+              Create Article
+            </Typography>
+          </div>
+          <Button
+            variant="contained"
+            style={{ width: '40px', height: '40px' }}
+            color="warning"
+            onClick={handlePreviewOpen}
+            disabled={
+              file.length === 0 || title.length === 0 || content.length === 0
+            }
+          >
+            <RemoveRedEyeIcon fontSize="small" />
           </Button>
-          <h4 style={styledtitle}>Create Article</h4>
         </div>
         <div>
           <div style={styledtopbar}>
@@ -146,7 +225,11 @@ const CreateArticle = () => {
                 variant="contained"
                 color="success"
                 onClick={handleOpen}
-                disabled={file.length === 0 || title.length === 0}
+                disabled={
+                  file.length === 0 ||
+                  title.length === 0 ||
+                  content.length === 0
+                }
               >
                 Publish
               </Button>
