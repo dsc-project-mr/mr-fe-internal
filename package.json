@@ -19,6 +19,7 @@
     }
   },
   "dependencies": {
+    "@dhaiwat10/react-link-preview": "^1.14.2",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.9",

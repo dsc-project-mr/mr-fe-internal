@@ -121,7 +121,7 @@ const CreateArticle = () => {
 
   return (
     <>
-      <Dialog open={openPreview} fullWidth maxWidth="sm">
+      <Dialog open={openPreview} fullWidth maxWidth="md">
         <DialogTitle id="alert-dialog-title">
           <div
             style={{
@@ -131,7 +131,7 @@ const CreateArticle = () => {
               alignItems: 'center',
             }}
           >
-            Article Preview
+            <Typography variant="h5">Article Preview</Typography>
             <Button onClick={handlePreviewClose}>
               <CloseIcon />
             </Button>
@@ -145,12 +145,16 @@ const CreateArticle = () => {
             style={{
               display: 'flex',
               flexDirection: 'column',
+              alignItems: 'center',
+              backgroundColor: '#f5f5f5',
+              padding: '15px',
             }}
           >
             {file.length !== 0 ? (
               <img
                 src={URL.createObjectURL(file[0])}
-                height="250px"
+                height="70%"
+                width="70%"
                 onLoad={() => {
                   URL.revokeObjectURL(URL.createObjectURL(file[0]))
                 }}
@@ -201,6 +205,7 @@ const CreateArticle = () => {
             <Typography variant="h4" style={styledtitle}>
               Create Article
             </Typography>
+            ;
           </div>
           <Button
             variant="contained"
@@ -219,6 +224,7 @@ const CreateArticle = () => {
             <Typography variant="h6" style={styledtitle}>
               Title of Article<span style={{ color: 'red' }}>*</span>
             </Typography>
+
             <div>
               <Button
                 sx={{ m: 5 }}
