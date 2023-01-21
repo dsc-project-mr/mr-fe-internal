@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { TextField, Typography, Box, Grid, Button } from "@mui/material";
+import { TextField, Typography, Box, Grid, Button, IconButton, Stack } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DateTimePicker } from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers';
 import { useState } from "react";
 import UploadMedia from '../../components/CreateNewCampaign/UploadMedia';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditIcon from '@mui/icons-material/Edit';
 
 const CreateNewCampaign = () => {
     const [startDate, setStartDate] = useState(null)
@@ -12,87 +14,57 @@ const CreateNewCampaign = () => {
   
     return (
       <Box sx={styledMainBox}>
-        <Typography variant="h4" gutterBottom sx={styledCreateNewCampaign}>
-          Create New Campaign
-        </Typography>
-        <Typography variant="h6" gutterBottom sx={styledNameOfCampaign}>
-          Name of campaign
-        </Typography>
-        <TextField
-          id="outlined-basic"
-          variant="outlined"
-          placeholder="Enter name"
-        />
-        <Typography variant="h6" gutterBottom sx={styledh4}>
-          Message
-        </Typography>
-        <TextField
-          id="outlined-basic"
-          variant="outlined"
-          placeholder="Enter message"
-          multiline
-          rows={7}
-        />
-        <Typography variant="h6" gutterBottom sx={styledh4}>
-          Duration
-        </Typography>
-        <LocalizationProvider
-          dateAdapter={AdapterDateFns}
-          localeText={{ start: 'Start date', end: 'End date' }}
-        >
+        <Box sx={styledTitleBox}>
+          <Typography variant="h4" gutterBottom sx={styledCreateNewCampaign}> Create New Campaign </Typography>
+          <Box sx={styledPreviewBox}>
+            <Stack direction="row" sx={styledStack}> 
+              <IconButton> <VisibilityIcon /> </IconButton>
+              <Typography sx={styledText} gutterBottom> PREVIEW</Typography>
+            </Stack>
+            <Stack direction="row" sx={styledStack}> 
+              <IconButton> <EditIcon /> </IconButton>
+              <Typography sx={styledText} gutterBottom> SAVE DRAFT</Typography>
+            </Stack>
+          </Box>
+        </Box>
+
+        <Typography variant="h6" gutterBottom sx={styledNameOfCampaign}> Name of campaign </Typography>
+        <TextField id="outlined-required" variant="outlined" placeholder="Campaign name" required label="Enter name"/>
+        <Typography variant="h6" gutterBottom sx={styledh4}> Message </Typography>
+        <TextField id="outlined-required" variant="outlined" placeholder="Your message" required label="Enter message" multiline rows={7} />
+        <Typography variant="h6" gutterBottom sx={styledh4}> Duration </Typography>
+
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Box sx={styledDateBox}>
-            <DateTimePicker
-              renderInput={(props) => <TextField {...props} />}
-              label="Start date"
-              disablePast
-              value={startDate}
-              onChange={(newValue) => {
-                setStartDate(newValue)
-              }}
+            <DatePicker label="Start Date" value={startDate} disablePast 
+              onChange={(newValue) => {setStartDate(newValue)}} 
+              renderInput={(params) => <TextField {...params} required/>}
             />
-            <DateTimePicker
-              renderInput={(props) => <TextField {...props} />}
-              label="End date"
-              disablePast
-              value={endDate}
-              onChange={(newValue) => {
-                setEndDate(newValue)
-              }}
+            <DatePicker label="End Date" value={endDate} disablePast 
+              onChange={(newValue) => {setEndDate(newValue)}} 
+              renderInput={(params) => <TextField {...params} required/>}
             />
           </Box>
-          <Typography variant="h6" gutterBottom sx={styledh4}>
-            Upload Media
-          </Typography>
         </LocalizationProvider>
+
+
+        <Typography variant="h6" gutterBottom sx={styledh4}> Upload Media </Typography>
         <UploadMedia />
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-        >
+        <Grid container direction="row" justifyContent="flex-end" alignItems="center">
           <Grid item>
-            <Button
-              variant="outlined"
-              color="primary"
-              type="submit"
-              sx={styledButton}
-            >
+            <Button variant="outlined" color="primary" type="submit" sx={styledButton}>
               Cancel
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              sx={styledButton}
-            >
-              Submit
+            <Button variant="contained" color="primary" type="submit" sx={styledButton}>
+              Publish
             </Button>
           </Grid>
         </Grid>
       </Box>
     )
   }
+
+
   export default CreateNewCampaign
   
   const styledMainBox = {
@@ -103,7 +75,30 @@ const CreateNewCampaign = () => {
     padding: '10px',
     backgroundColor: '',
   }
+
+  const styledTitleBox = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }
+
+  const styledPreviewBox = {
+    display: 'flex',
+    gap: '20px',
+    paddingTop: '8px',
+  }
   
+  const styledText = {
+    fontSize: '14px',
+    fontWeight: '500',
+  }
+
+  const styledStack = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+
   const styledCreateNewCampaign = {
     display: 'flex',
     alignItems: 'center',
@@ -115,10 +110,12 @@ const CreateNewCampaign = () => {
   
   const styledNameOfCampaign = {
     fontWeight: '700',
+    fontSize: '21px'
   }
   
   const styledh4 = {
     fontWeight: '700',
+    fontSize: '21px',
     marginTop: '1rem',
   }
   

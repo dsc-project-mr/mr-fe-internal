@@ -5,8 +5,6 @@ import { FileError, FileRejection, useDropzone } from 'react-dropzone';
 import SingleFileUploadWithProgress from './SingleFileUploadWithProgress';
 import { UploadError } from './UploadError';
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 let currentId = 0;
 
 function getNewId() {
@@ -19,8 +17,6 @@ export interface UploadableFile {
   errors: FileError[];
   url?: string;
 }
-
-const theme = createTheme();
 
 const MultipleFileUploadField = ({ name }: { name: string }) => {
   const [_, __, helpers] = useField(name);
@@ -59,39 +55,36 @@ const MultipleFileUploadField = ({ name }: { name: string }) => {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-        <React.Fragment>
-        <Grid item>
-            <div {...getRootProps()}>
-            <input {...getInputProps()} />
-            <Stack sx={styledStack}>
-              <Button variant="contained" sx={styledButton}>Click to upload or drag and drop</Button>
-              <Typography sx={styledTypo}>PNG, GIF, JPEG, JPG or SVG files - max 3MB</Typography>
-            </Stack>
+    <>
+      <Grid item>
+          <div {...getRootProps()}>
+          <input {...getInputProps()} />
+          <Stack sx={styledStack}>
+            <Button variant="contained" sx={styledButton}>Click to upload or drag and drop</Button>
+            <Typography sx={styledTypo}>PNG, GIF, JPEG, JPG or SVG files - max 3MB</Typography>
+          </Stack>
 
-            </div>
-        </Grid>
+          </div>
+      </Grid>
 
-        {files.map((fileWrapper) => (
-            <Grid item key={fileWrapper.id}>
-            {fileWrapper.errors.length ? (
-                <UploadError
-                file={fileWrapper.file}
-                errors={fileWrapper.errors}
-                onDelete={onDelete}
-                />
-            ) : (
-                <SingleFileUploadWithProgress
-                onDelete={onDelete}
-                onUpload={onUpload}
-                file={fileWrapper.file}
-                />
-            )}
-            </Grid>
-        ))}
-        </React.Fragment>
-    </ThemeProvider>
-
+      {files.map((fileWrapper) => (
+          <Grid item key={fileWrapper.id}>
+          {fileWrapper.errors.length ? (
+              <UploadError
+              file={fileWrapper.file}
+              errors={fileWrapper.errors}
+              onDelete={onDelete}
+              />
+          ) : (
+              <SingleFileUploadWithProgress
+              onDelete={onDelete}
+              onUpload={onUpload}
+              file={fileWrapper.file}
+              />
+          )}
+          </Grid>
+      ))}
+    </>
   );
 }
 
@@ -106,7 +99,7 @@ const styledTypo = {
   justifyContent: 'center',
   alignItems: 'center',
   fontSize: '15px',
-  marginTop: '10px'
+  marginTop: '20px',
 }
 
 const styledButton = {
