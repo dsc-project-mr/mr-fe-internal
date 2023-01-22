@@ -65,7 +65,7 @@ export default function EnhancedTable() {
   //   contentFetcher,
   //   { revalidateOnFocus: false }
   // )
-  // console.log('data: ' + data)
+  // console.log('data: ' + JSON.stringify(data)
   // console.log('error: ' + error)
 
   const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -84,8 +84,12 @@ export default function EnhancedTable() {
   const [status, setStatus] = useState(DocumentStatus.All)
 
   const displayRows = useMemo(() => {
-    return rows.filter((row) => isNotFiltered(row, props))
-  }, [props, rows])
+    return rows
+      .filter((row) => isNotFiltered(row, props))
+      .filter((row) => {
+        return row.title.toLowerCase().includes(search.toLowerCase())
+      })
+  }, [props, rows, search])
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -114,18 +118,18 @@ export default function EnhancedTable() {
     setPage(0)
   }
 
-  const requestSearch = (searchedVal: string) => {
-    const filteredRows = ARTICLE_ROWS.filter((row) => {
-      return row.title.toLowerCase().includes(searchedVal.toLowerCase())
-    })
-    setRows(filteredRows)
-  }
+  // const requestSearch = (searchedVal: string) => {
+  //   const filteredRows = ARTICLE_ROWS.filter((row) => {
+  //     return row.title.toLowerCase().includes(searchedVal.toLowerCase())
+  //   })
+  //   setRows(filteredRows)
+  // }
 
-  useEffect(() => {
-    // Need to reset to the first page before filtering through search name
-    setPage(0)
-    requestSearch(search)
-  }, [search])
+  // useEffect(() => {
+  //   // Need to reset to the first page before filtering through search name
+  //   setPage(0)
+  //   requestSearch(search)
+  // }, [search])
 
   useEffect(() => {
     // Need to reset to the first page before any change in number of rows displayed
