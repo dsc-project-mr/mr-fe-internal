@@ -1,6 +1,12 @@
 import { Box } from '@mui/system'
 import EditIcon from 'public/images/articles/edit_icon.png'
-const ArticlePanel = () => {
+const ArticlePanel = ({
+  imageUrl,
+  contentUrl,
+}: {
+  imageUrl: string
+  contentUrl: string
+}) => {
   return (
     <Box
       sx={{
@@ -9,6 +15,9 @@ const ArticlePanel = () => {
         height: 835,
         borderRadius: 2,
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
       }}
     >
       <Box
@@ -38,6 +47,7 @@ const ArticlePanel = () => {
           }}
         />
       </Box>
+      <Box component="img" src={imageUrl} width="100%" />
     </Box>
   )
 }
