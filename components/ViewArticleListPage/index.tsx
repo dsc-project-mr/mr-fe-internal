@@ -12,8 +12,6 @@ import { getComparator, Order } from './ComparatorFunctions'
 import { ArticleTableHead } from './ArticleTableHead'
 import { Fab, Typography } from '@mui/material'
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined'
-import { useRouter } from 'next/router'
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import Searchbar from 'components/Searchbar'
 import DocumentListTabs from 'components/DocumentListTabs'
 import { DocumentStatus } from 'constants/DocumentStatus'
@@ -26,6 +24,7 @@ import {
   getAllArticles,
 } from '../../apis/useGetContent'
 import useSWR from 'swr'
+import ArticleRow from './ArticleRow'
 
 const isNotFiltered = (row: ArticleRowData, props: any) => {
   return (
@@ -69,7 +68,6 @@ export default function EnhancedTable() {
   // console.log('data: ' + data)
   // console.log('error: ' + error)
 
-  const router = useRouter()
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [rows, setRows] = useState<ArticleRowData[]>(ARTICLE_ROWS)
 
@@ -179,50 +177,15 @@ export default function EnhancedTable() {
                       const labelId = `enhanced-table-checkbox-${index}`
 
                       return (
-                        <TableRow
-                          hover
-                          role="row"
-                          tabIndex={-1}
-                          key={row.title}
-                          sx={{
-                            '&:hover': {
-                              backgroundColor: '#1976D214 !important',
-                            },
-                          }}
-                        >
-                          <TableCell
-                            component="th"
-                            id={labelId}
-                            scope="row"
-                            style={{
-                              whiteSpace: 'nowrap',
-                              textOverflow: 'ellipsis',
-                              maxWidth: '200px',
-                              overflow: 'hidden',
-                            }}
-                          >
-                            {row.title}
-                          </TableCell>
-                          <TableCell align="left">
-                            {row.createdAt.toLocaleDateString()}
-                          </TableCell>
-                          <TableCell align="left">
-                            {row.updatedAt.toLocaleDateString()}
-                          </TableCell>
-                          <TableCell align="left">{row.state}</TableCell>
-                          <TableCell
-                            align="left"
-                            onClick={() =>
-                              router.push('/content/articles/' + row.id)
-                            }
-                          >
-                            <KeyboardArrowRightIcon
-                              sx={{
-                                cursor: 'pointer',
-                              }}
-                            />
-                          </TableCell>
-                        </TableRow>
+                        <ArticleRow
+                          key={index}
+                          labelId={labelId}
+                          title={row.title}
+                          createdAt={row.createdAt}
+                          updatedAt={row.updatedAt}
+                          state={row.state}
+                          id={row.id}
+                        />
                       )
                     })}
                   {emptyRows > 0 && (
