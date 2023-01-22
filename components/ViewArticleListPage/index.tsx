@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -20,12 +20,18 @@ import { DocumentStatus } from 'constants/DocumentStatus'
 import { contentFilters } from 'components/Searchbar/defaults'
 import { DateRange } from '../Searchbar/DateRangeFilter'
 import { ContentState } from 'constants/Content'
+import {
+  contentFetcher,
+  ContentResponse,
+  getAllArticles,
+} from '../../apis/useGetContent'
+import useSWR from 'swr'
 
 const isNotFiltered = (row: ArticleRowData, props: any) => {
   return (
-    withinDateRange(row.date_created, props.selectedCreatedDateRange) &&
-    withinDateRange(row.last_modified, props.selectedModifiedDateRange) &&
-    isSelectedState(row.status, props.selectedStates)
+    withinDateRange(row.createdAt, props.selectedCreatedDateRange) &&
+    withinDateRange(row.updatedAt, props.selectedModifiedDateRange) &&
+    isSelectedState(row.state, props.selectedStates)
   )
 }
 
@@ -55,12 +61,21 @@ const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
 }
 
 export default function EnhancedTable() {
+  // const { data, error } = useSWR<ContentResponse[]>(
+  //   'http://localhost:8000/api/content/article',
+  //   contentFetcher,
+  //   { revalidateOnFocus: false }
+  // )
+  // console.log('data: ' + data)
+  // console.log('error: ' + error)
+
   const router = useRouter()
-  const [order, setOrder] = useState<Order>(Order.ASC)
-  const [orderBy, setOrderBy] = useState<keyof ArticleRowData>('name')
-  const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [rows, setRows] = useState<ArticleRowData[]>(ARTICLE_ROWS)
+
+  const [order, setOrder] = useState<Order>(Order.ASC)
+  const [orderBy, setOrderBy] = useState<keyof ArticleRowData>('title')
+  const [page, setPage] = useState(0)
 
   // Searchbar variables
   const [search, setSearch] = useState<string>('')
@@ -70,7 +85,9 @@ export default function EnhancedTable() {
   // DocumentListTab variables
   const [status, setStatus] = useState(DocumentStatus.All)
 
-  const displayRows = rows.filter((row) => isNotFiltered(row, props))
+  const displayRows = useMemo(() => {
+    return rows.filter((row) => isNotFiltered(row, props))
+  }, [props, rows])
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -101,7 +118,7 @@ export default function EnhancedTable() {
 
   const requestSearch = (searchedVal: string) => {
     const filteredRows = ARTICLE_ROWS.filter((row) => {
-      return row.name.toLowerCase().includes(searchedVal.toLowerCase())
+      return row.title.toLowerCase().includes(searchedVal.toLowerCase())
     })
     setRows(filteredRows)
   }
@@ -115,8 +132,6 @@ export default function EnhancedTable() {
   useEffect(() => {
     // Need to reset to the first page before any change in number of rows displayed
     setPage(0)
-
-    // console.log('called')
   }, [displayRows.length])
 
   return (
@@ -168,7 +183,7 @@ export default function EnhancedTable() {
                           hover
                           role="row"
                           tabIndex={-1}
-                          key={row.name}
+                          key={row.title}
                           sx={{
                             '&:hover': {
                               backgroundColor: '#1976D214 !important',
@@ -186,19 +201,19 @@ export default function EnhancedTable() {
                               overflow: 'hidden',
                             }}
                           >
-                            {row.name}
+                            {row.title}
                           </TableCell>
                           <TableCell align="left">
-                            {row.date_created.toLocaleDateString()}
+                            {row.createdAt.toLocaleDateString()}
                           </TableCell>
                           <TableCell align="left">
-                            {row.last_modified.toLocaleDateString()}
+                            {row.updatedAt.toLocaleDateString()}
                           </TableCell>
-                          <TableCell align="left">{row.status}</TableCell>
+                          <TableCell align="left">{row.state}</TableCell>
                           <TableCell
                             align="left"
                             onClick={() =>
-                              router.push('/content/articles/dsadsa')
+                              router.push('/content/articles/' + row.id)
                             }
                           >
                             <KeyboardArrowRightIcon
