@@ -1,3 +1,4 @@
+import { ContentResponse } from 'apis/useGetContent'
 import { ArticleType, ContentState } from 'constants/Content'
 
 export interface ArticleRowData {
@@ -51,11 +52,64 @@ function createData(
   }
 }
 
+function mapResponseToArticleRowData(res: ContentResponse): ArticleRowData {
+  return {
+    _id: res._id,
+    title: res.title,
+    author: res.author,
+    updatedBy: res.updatedBy,
+    latestEditorEmail: res.latestEditorEmail,
+    state: res.state as ContentState,
+    tags: res.tags,
+    type: res.type as ArticleType,
+    imageUrl: res.imageUrl,
+    contentUrl: res.contentUrl,
+    createdAt: new Date(res.createdAt),
+    updatedAt: new Date(res.updatedAt),
+    __v: res.__v,
+    id: res._id,
+  }
+}
+
 const date_created = new Date(2012, 4, 20)
 const last_modified = new Date(2013, 4, 20)
 
 const date_created2 = new Date('2010-08-17T12:01:55.277Z')
 const last_modified2 = new Date('2014-12-31T12:01:55.277Z')
+
+export const SampleContentResponse = {
+  _id: '63bd53b3a9e78b04587d913b',
+  title: 'new article aft update',
+  author: '639f299c5b0af3b82a92c2b2',
+  updatedBy: '639f299c5b0af3b82a92c2b2',
+  latestEditorEmail: 'johndoe@gg.com',
+  state: 'Draft',
+  tags: [],
+  type: 'External',
+  imageUrl: '',
+  contentUrl: '',
+  createdAt: '2023-01-10T12:01:55.277Z',
+  updatedAt: '2023-01-10T12:01:55.277Z',
+  __v: 0,
+  id: '63bd53b3a9e78b04587d913b',
+}
+
+const SampleContentResponseTwo = {
+  _id: '63bd53b3a9e78b04587d913b',
+  title: 'Adsfdsfds',
+  author: '639f299c5b0af3b82a92c2b2',
+  updatedBy: '639f299c5b0af3b82a92c2b2',
+  latestEditorEmail: 'johndoe@gg.com',
+  state: 'Archived',
+  tags: [],
+  type: 'Internal',
+  imageUrl: '',
+  contentUrl: '',
+  createdAt: '2022-01-10T12:01:55.277Z',
+  updatedAt: '2022-01-10T12:01:55.277Z',
+  __v: 0,
+  id: '63bd53b3a9e78b04587d913b',
+}
 
 export const ARTICLE_ROWS: ArticleRowData[] = [
   createData(
@@ -170,15 +224,6 @@ export const ARTICLE_ROWS: ArticleRowData[] = [
     1.3,
     '6gcfdsfder23'
   ),
-
-  // createData('one', date_created, last_modified, ContentState.ARCHIVED),
-  // createData('two', date_created, last_modified, ContentState.ARCHIVED),
-  // createData('three', date_created, last_modified, ContentState.ARCHIVED),
-  // createData('four', date_created, last_modified, ContentState.DRAFT),
-  // createData('five', date_created, last_modified, ContentState.DRAFT),
-  // createData('six', date_created2, last_modified2, ContentState.DRAFT),
-  // createData('seven', date_created2, last_modified2, ContentState.PUBLISHED),
-  // createData('eight', date_created2, last_modified2, ContentState.PUBLISHED),
-  // createData('nine', date_created2, last_modified2, ContentState.PUBLISHED),
-  // createData('ten', date_created2, last_modified2, ContentState.PUBLISHED),
+  mapResponseToArticleRowData(SampleContentResponse),
+  mapResponseToArticleRowData(SampleContentResponseTwo),
 ]
