@@ -71,6 +71,12 @@ function mapResponseToArticleRowData(res: ContentResponse): ArticleRowData {
   }
 }
 
+export function mapGetAllResponseToArticleRowData(
+  res: ContentResponse[]
+): ArticleRowData[] {
+  return res.map((content) => mapResponseToArticleRowData(content))
+}
+
 const date_created = new Date(2012, 4, 20)
 const last_modified = new Date(2013, 4, 20)
 
