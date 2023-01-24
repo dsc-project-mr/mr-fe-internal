@@ -10,8 +10,6 @@ import useSWR from 'swr'
 import { getArticle } from 'apis/useGetContent'
 
 const ViewArticlePage = () => {
-  // Some code to ping backend for article data
-
   const router = useRouter()
   const { articlename_id } = router.query
 
@@ -23,10 +21,10 @@ const ViewArticlePage = () => {
 
   return (
     <>
-      {!data || data === undefined ? (
+      {error ? (
+        <div>Error: {error}</div>
+      ) : !data || data === undefined ? (
         <div>Loading...</div>
-      ) : error ? (
-        <div>Error...</div>
       ) : (
         <Grid
           container
@@ -72,7 +70,7 @@ const ViewArticlePage = () => {
               {data.state !== ContentState.DRAFT && (
                 <ArticleCountPanel count={100} countType={CountType.VIEWS} />
               )}
-              <ButtonsPanel articleState={data.state} />
+              <ButtonsPanel articleState={data.state} article_id={data.id} />
             </Grid>
           </Grid>
         </Grid>

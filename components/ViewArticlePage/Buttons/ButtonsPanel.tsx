@@ -4,7 +4,13 @@ import ArchiveButton from './ArchiveButton'
 import DeleteButton from './DeleteButton'
 import PublishButton from './PublishButton'
 
-const ButtonsPanel = ({ articleState }: { articleState: ContentState }) => {
+const ButtonsPanel = ({
+  articleState,
+  article_id,
+}: {
+  articleState: ContentState
+  article_id: string
+}) => {
   return (
     <>
       <Box
@@ -13,7 +19,7 @@ const ButtonsPanel = ({ articleState }: { articleState: ContentState }) => {
           justifyContent: 'space-evenly',
         }}
       >
-        <DeleteButton />
+        <DeleteButton article_id={article_id} />
         {articleState === ContentState.PUBLISHED ? (
           <ArchiveButton />
         ) : (

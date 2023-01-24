@@ -1,9 +1,13 @@
 import { Button } from '@mui/material'
+import { deleteContent } from 'apis/useDeleteContent'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import ActionPopup from './ActionPopup'
 
-const DeleteButton = () => {
+const DeleteButton = ({ article_id }: { article_id: string }) => {
   const [open, setOpen] = useState<boolean>(false)
+
+  const router = useRouter()
 
   const handleOpen = () => {
     setOpen(true)
@@ -11,6 +15,16 @@ const DeleteButton = () => {
 
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const handleAction = () => {
+    deleteContent(article_id)
+      .then(() => {
+        router.push('/content/articles')
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 
   return (
@@ -24,6 +38,7 @@ const DeleteButton = () => {
         action="DELETE"
         open={open}
         handleClose={handleClose}
+        handleAction={handleAction}
       />
     </>
   )
