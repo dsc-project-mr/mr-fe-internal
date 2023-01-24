@@ -7,6 +7,10 @@ const ArticlePanel = ({
   imageUrl: string
   contentUrl: string
 }) => {
+  const openInNewTab = (url: string) => {
+    window.open(url, '_blank', 'noreferrer')
+  }
+
   return (
     <Box
       sx={{
@@ -47,7 +51,15 @@ const ArticlePanel = ({
           }}
         />
       </Box>
-      <Box component="img" src={imageUrl} width="100%" />
+      <Box
+        component="img"
+        src={imageUrl}
+        width="100%"
+        onClick={() => openInNewTab(contentUrl)}
+        sx={{
+          cursor: contentUrl ? 'pointer' : 'default',
+        }}
+      />
     </Box>
   )
 }
