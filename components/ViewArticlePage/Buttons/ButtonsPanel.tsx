@@ -21,9 +21,9 @@ const ButtonsPanel = ({
       >
         <DeleteButton article_id={article_id} />
         {articleState === ContentState.PUBLISHED ? (
-          <ArchiveButton />
+          <ArchiveButton article_id={article_id} />
         ) : (
-          <PublishButton />
+          <PublishButton article_id={article_id} />
         )}
       </Box>
     </>

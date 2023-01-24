@@ -1,8 +1,10 @@
 import { Button } from '@mui/material'
+import { putContent } from 'apis/usePutContent'
+import { ContentState } from 'constants/Content'
 import { useState } from 'react'
 import ActionPopup from './ActionPopup'
 
-const PublishButton = () => {
+const PublishButton = ({ article_id }: { article_id: string }) => {
   const [open, setOpen] = useState<boolean>(false)
 
   const handleOpen = () => {
@@ -10,6 +12,13 @@ const PublishButton = () => {
   }
 
   const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleAction = () => {
+    putContent(article_id, {
+      state: ContentState.PUBLISHED,
+    })
     setOpen(false)
   }
 
@@ -24,6 +33,7 @@ const PublishButton = () => {
         action="PUBLISH"
         open={open}
         handleClose={handleClose}
+        handleAction={handleAction}
       />
     </>
   )
