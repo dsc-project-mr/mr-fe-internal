@@ -59,6 +59,34 @@ export interface ContentResponse {
   id: string
 }
 
+// "_id": "639f299c5b0af3b82a92c2b2",
+//               "name": "John Doe",
+//               "email": "johndoe@gg.com",
+//               "role": "super admin",
+//               "active": true,
+//               "createdAt": "2022-12-18T14:54:20.615Z",
+//               "updatedAt": "2022-12-18T14:54:20.615Z",
+//               "__v": 0,
+//               "id": "639f299c5b0af3b82a92c2b2"
+
+interface UserResponse {
+  status: string
+  message: string
+  data: {
+    user: {
+      _id: string
+      name: string
+      email: string
+      role: string
+      active: boolean
+      createdAt: string
+      updatedAt: string
+      __v: number
+      id: string
+    }
+  }
+}
+
 export const contentFetcher = async (url: string, body: { id: string }) => {
   console.log(url, body)
   const response = await getFetcher(url)
@@ -66,10 +94,41 @@ export const contentFetcher = async (url: string, body: { id: string }) => {
   return response
 }
 
+export const getUser = async (url: string) => {
+  const response: UserResponse = await contentFetcher(url, {
+    id: '',
+  })
+  return response
+}
+
 export const getArticle = async (url: string) => {
   const response: ContentResponse = await contentFetcher(url, {
     id: '',
   })
+  const author_id = response.author
+  const updated_by_id = response.updatedBy
+
+  const author_name: string = await getUser(
+    'http://localhost:8000/api/user/' + author_id
+  )
+    .then((res) => res.data.user.name)
+    .catch((e) => {
+      console.log(e)
+      return 'NOT_FOUND'
+    })
+
+  const updated_by_name: string = await getUser(
+    'http://localhost:8000/api/user/' + updated_by_id
+  )
+    .then((res) => res.data.user.name)
+    .catch((e) => {
+      console.log(e)
+      return 'NOT_FOUND'
+    })
+
+  response.author = author_name
+  response.updatedBy = updated_by_name
+
   const articles = mapResponseToArticleRowData(response)
   return articles
 }
