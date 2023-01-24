@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { ArticleRowData, ARTICLE_ROWS } from '../../models/article'
+import { ArticleRowData } from '../../models/article'
 import { getComparator, Order } from './ComparatorFunctions'
 import { ArticleTableHead } from './ArticleTableHead'
 import { Fab, Typography } from '@mui/material'
@@ -18,11 +18,7 @@ import { DocumentStatus } from 'constants/DocumentStatus'
 import { contentFilters } from 'components/Searchbar/defaults'
 import { DateRange } from '../Searchbar/DateRangeFilter'
 import { ContentState } from 'constants/Content'
-import {
-  contentFetcher,
-  ContentResponse,
-  getAllArticles,
-} from '../../apis/useGetContent'
+import { getAllArticles } from '../../apis/useGetContent'
 import useSWR from 'swr'
 import ArticleRow from './ArticleRow'
 
@@ -60,36 +56,53 @@ const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
 }
 
 export default function EnhancedTable() {
-  // const { data, error } = useSWR<ContentResponse[]>(
-  //   'http://localhost:8000/api/content/article',
-  //   contentFetcher,
-  //   { revalidateOnFocus: false }
-  // )
-  // console.log('data: ' + JSON.stringify(data)
-  // console.log('error: ' + error)
+  const { data, error } = useSWR<ArticleRowData[]>(
+    'http://localhost:8000/api/content/article',
+    getAllArticles,
+    { revalidateOnFocus: false }
+  )
 
-  const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [rows, setRows] = useState<ArticleRowData[]>(ARTICLE_ROWS)
-
+  // Sort states
   const [order, setOrder] = useState<Order>(Order.ASC)
   const [orderBy, setOrderBy] = useState<keyof ArticleRowData>('title')
-  const [page, setPage] = useState(0)
 
-  // Searchbar variables
+  // Pagination states
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+
+  // Searchbar states
   const [search, setSearch] = useState<string>('')
   const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
   const { props, filters } = contentFilters(tags)
 
-  // DocumentListTab variables
+  // DocumentListTab states
   const [status, setStatus] = useState(DocumentStatus.All)
 
   const displayRows = useMemo(() => {
-    return rows
+    console.log('Memo called')
+    // console.log(data)
+    // console.log(props)
+    // console.log(search)
+    return (data === undefined ? [] : data)
       .filter((row) => isNotFiltered(row, props))
       .filter((row) => {
         return row.title.toLowerCase().includes(search.toLowerCase())
       })
-  }, [props, rows, search])
+  }, [props, data, search])
+
+  // const displayRows = (data === undefined ? [] : data)
+  //   .filter((row) => isNotFiltered(row, props))
+  //   .filter((row) => {
+  //     return row.title.toLowerCase().includes(search.toLowerCase())
+  //   })
+
+  useEffect(() => {
+    console.log('Length changed')
+
+    // Need to reset to the first page before any change in number of rows displayed
+    // setLength(displayRows.length)
+    setPage(0)
+  }, [displayRows.length])
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -118,25 +131,11 @@ export default function EnhancedTable() {
     setPage(0)
   }
 
-  // const requestSearch = (searchedVal: string) => {
-  //   const filteredRows = ARTICLE_ROWS.filter((row) => {
-  //     return row.title.toLowerCase().includes(searchedVal.toLowerCase())
-  //   })
-  //   setRows(filteredRows)
-  // }
-
-  // useEffect(() => {
-  //   // Need to reset to the first page before filtering through search name
-  //   setPage(0)
-  //   requestSearch(search)
-  // }, [search])
-
-  useEffect(() => {
-    // Need to reset to the first page before any change in number of rows displayed
-    setPage(0)
-  }, [displayRows.length])
-
-  return (
+  return error ? (
+    <div>Error</div>
+  ) : !data || data === undefined ? (
+    <div>Loading...</div>
+  ) : (
     <>
       <Typography variant="h3" marginTop="25px">
         Manage Articles
