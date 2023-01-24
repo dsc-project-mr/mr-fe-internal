@@ -1,5 +1,4 @@
 import { Grid, Typography } from '@mui/material'
-import { useState } from 'react'
 import ArticlePanel from './ArticlePanel'
 import ButtonsPanel from './Buttons/ButtonsPanel'
 import DetailsPanel from './DetailsPanel'
