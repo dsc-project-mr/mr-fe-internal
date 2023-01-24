@@ -52,7 +52,9 @@ function createData(
   }
 }
 
-function mapResponseToArticleRowData(res: ContentResponse): ArticleRowData {
+export function mapResponseToArticleRowData(
+  res: ContentResponse
+): ArticleRowData {
   return {
     _id: res._id,
     title: res.title,
