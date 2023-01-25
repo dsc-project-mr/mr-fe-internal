@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { ReactNode } from 'react'
+import { Fragment, ReactNode } from 'react'
 import theme from 'styles/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -8,9 +8,31 @@ import { Box } from '@mui/system'
 
 type Props = {
   children: ReactNode
+  enableSidebar?: boolean
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, enableSidebar }: Props) => {
+  enableSidebar = enableSidebar ?? true
+
+  const sidebarWithChildren = !enableSidebar ? (
+    children
+  ) : (
+    <Fragment>
+      <Sidebar />
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          margin: '0 24px',
+          height: '100%',
+          maxWidth: `calc(100vw - ${DRAWER_WIDTH}px - 48px)`,
+        }}
+      >
+        {children}
+      </Box>
+    </Fragment>
+  )
+
   return (
     <div>
       <Head>
@@ -33,18 +55,7 @@ const Layout = ({ children }: Props) => {
             }}
           >
             <CssBaseline />
-            <Sidebar />
-            <Box
-              component="main"
-              sx={{
-                flexGrow: 1,
-                margin: '0 24px',
-                height: '100%',
-                maxWidth: `calc(100vw - ${DRAWER_WIDTH}px - 48px)`,
-              }}
-            >
-              {children}
-            </Box>
+            {sidebarWithChildren}
           </Box>
         </ThemeProvider>
       </main>
