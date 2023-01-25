@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { ArticleRowData, ARTICLE_ROWS } from '../../models/article'
+import { ArticleRowData, ARTICLE_ROWS } from 'models/article'
 import { getComparator, Order } from './ComparatorFunctions'
 import { ArticleTableHead } from './ArticleTableHead'
 import { Fab, Typography } from '@mui/material'
@@ -17,11 +17,14 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import Searchbar from 'components/Searchbar'
 import DocumentListTabs from 'components/DocumentListTabs'
 import { DocumentStatus } from 'constants/DocumentStatus'
-import { contentFilters } from 'components/Searchbar/defaults'
-import { DateRange } from '../Searchbar/DateRangeFilter'
+import {
+  contentFilters,
+  ContentFiltersProps,
+} from 'components/Searchbar/defaults'
+import { DateRange } from 'components/Searchbar/DateRangeFilter'
 import { ContentState } from 'constants/Content'
 
-const isNotFiltered = (row: ArticleRowData, props: any) => {
+const isNotFiltered = (row: ArticleRowData, props: ContentFiltersProps) => {
   return (
     withinDateRange(row.date_created, props.selectedCreatedDateRange) &&
     withinDateRange(row.last_modified, props.selectedModifiedDateRange) &&
@@ -32,13 +35,7 @@ const isNotFiltered = (row: ArticleRowData, props: any) => {
 const isSelectedState = (
   state: ContentState,
   selectedStates: ContentState[]
-): boolean => {
-  if (selectedStates.length === 0) {
-    return true
-  }
-
-  return selectedStates.includes(state)
-}
+): boolean => selectedStates.length === 0 || selectedStates.includes(state)
 
 const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
   if (
@@ -49,8 +46,7 @@ const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
     return true
   }
 
-  const start = range.start
-  const end = range.end
+  const { start, end } = range
   return start <= date && date <= end
 }
 
