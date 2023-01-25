@@ -11,10 +11,11 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { useDropzone } from 'react-dropzone'
 import { Typography } from '@mui/material'
-import { ArticleType } from 'constants/content'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
 import CloseIcon from '@mui/icons-material/Close'
 import parse from 'html-react-parser'
+import Image from 'next/image'
+
 const styleduploadbox = {
   borderWidth: 'thin',
   borderStyle: 'dashed',
@@ -22,7 +23,6 @@ const styleduploadbox = {
   padding: '20px 0 20px 0',
 }
 const styledtitle = {
-  fontFamily: 'Roboto',
   fontWeight: 700,
   margin: '20px 0 20px 0',
 }
@@ -40,7 +40,7 @@ const AlertDialog = ({
 }: {
   message: string
   open: boolean
-  handleClose: any
+  handleClose: () => void
 }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -62,7 +62,7 @@ const CreateArticle = () => {
   const [openSave, setOpenSave] = useState(false)
   const [openPreview, setOpenPreview] = useState(false)
   const [title, setTitle] = useState('')
-  const [file, setFile] = useState<any[]>([])
+  const [file, setFile] = useState<File[]>([])
   const [content, setContent] = useState('')
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -106,18 +106,21 @@ const CreateArticle = () => {
   }
 
   const submitArticle = async () => {
-    const response = await fetch('/api/content/article', {
-      method: 'POST',
-      body: JSON.stringify({
-        title: title,
-        content: 'content',
-        latestEditorEmail: 'NA',
-        type: ArticleType.EXTERNAL,
-        imageUrl: file[0],
-        contentUrl: content,
-      }),
-    })
+    // const response = await fetch('/api/content/article', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     title: title,
+    //     content: 'content',
+    //     latestEditorEmail: 'NA',
+    //     type: ArticleType.EXTERNAL,
+    //     imageUrl: file[0],
+    //     contentUrl: content,
+    //   }),
+    // })
   }
+
+  const isButtonDisabled =
+    file.length === 0 || title.length === 0 || content.length === 0
 
   return (
     <>
@@ -150,17 +153,24 @@ const CreateArticle = () => {
               padding: '15px',
             }}
           >
-            {file.length !== 0 ? (
-              <img
-                src={URL.createObjectURL(file[0])}
-                height="70%"
-                width="70%"
-                onLoad={() => {
-                  URL.revokeObjectURL(URL.createObjectURL(file[0]))
+            {file.length !== 0 && (
+              <div
+                style={{
+                  height: '250px',
+                  width: '100%',
+                  position: 'relative',
                 }}
-              />
-            ) : (
-              <></>
+              >
+                <Image
+                  src={URL.createObjectURL(file[0] as Blob)}
+                  layout="fill"
+                  objectFit="contain"
+                  onLoad={() => {
+                    URL.revokeObjectURL(URL.createObjectURL(file[0] as Blob))
+                  }}
+                  alt="article image"
+                />
+              </div>
             )}
             {parse(content)}
           </div>
@@ -199,22 +209,23 @@ const CreateArticle = () => {
               alignItems: 'center',
             }}
           >
-            <Button onClick={() => router.back()}>
-              <ArrowBackIosNewIcon style={{ margin: 20 }} />
+            <Button
+              onClick={() => router.back()}
+              variant="contained"
+              style={{ marginRight: '10px' }}
+            >
+              <ArrowBackIosNewIcon />
             </Button>
             <Typography variant="h4" style={styledtitle}>
               Create Article
             </Typography>
-            ;
           </div>
           <Button
             variant="contained"
             style={{ width: '40px', height: '40px' }}
             color="warning"
             onClick={handlePreviewOpen}
-            disabled={
-              file.length === 0 || title.length === 0 || content.length === 0
-            }
+            disabled={isButtonDisabled}
           >
             <RemoveRedEyeIcon fontSize="small" />
           </Button>
@@ -231,11 +242,7 @@ const CreateArticle = () => {
                 variant="contained"
                 color="success"
                 onClick={handleOpen}
-                disabled={
-                  file.length === 0 ||
-                  title.length === 0 ||
-                  content.length === 0
-                }
+                disabled={isButtonDisabled}
               >
                 Publish
               </Button>
@@ -243,6 +250,7 @@ const CreateArticle = () => {
                 variant="contained"
                 color="secondary"
                 onClick={handleSaveOpen}
+                disabled={isButtonDisabled}
               >
                 Save
               </Button>
@@ -278,13 +286,25 @@ const CreateArticle = () => {
                 columns={12}
               >
                 {file.length !== 0 ? (
-                  <img
-                    src={URL.createObjectURL(file[0])}
-                    height="250px"
-                    onLoad={() => {
-                      URL.revokeObjectURL(URL.createObjectURL(file[0]))
+                  <div
+                    style={{
+                      height: '250px',
+                      width: '100%',
+                      position: 'relative',
                     }}
-                  />
+                  >
+                    <Image
+                      src={URL.createObjectURL(file[0] as Blob)}
+                      layout="fill"
+                      objectFit="contain"
+                      onLoad={() => {
+                        URL.revokeObjectURL(
+                          URL.createObjectURL(file[0] as Blob)
+                        )
+                      }}
+                      alt="article image"
+                    />
+                  </div>
                 ) : (
                   <div>
                     <Grid
@@ -329,9 +349,7 @@ const CreateArticle = () => {
           <Editor
             apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
             initialValue="<p></p>"
-            onEditorChange={(c) => {
-              setContent(c)
-            }}
+            onEditorChange={(c) => setContent(c)}
             init={{
               height: 500,
               menubar: true,
