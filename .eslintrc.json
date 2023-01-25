@@ -17,6 +17,7 @@
         "args": "after-used",
         "argsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "eqeqeq": 1
   }
 }
