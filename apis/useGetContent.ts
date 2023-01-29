@@ -59,16 +59,6 @@ export interface ContentResponse {
   id: string
 }
 
-// "_id": "639f299c5b0af3b82a92c2b2",
-//               "name": "John Doe",
-//               "email": "johndoe@gg.com",
-//               "role": "super admin",
-//               "active": true,
-//               "createdAt": "2022-12-18T14:54:20.615Z",
-//               "updatedAt": "2022-12-18T14:54:20.615Z",
-//               "__v": 0,
-//               "id": "639f299c5b0af3b82a92c2b2"
-
 interface UserResponse {
   status: string
   message: string
@@ -109,7 +99,7 @@ export const getArticle = async (url: string) => {
   const updated_by_id = response.updatedBy
 
   const author_name: string = await getUser(
-    'http://localhost:8000/api/user/' + author_id
+    process.env.NEXT_PUBLIC_API_URL + '/user/' + author_id
   )
     .then((res) => res.data.user.name)
     .catch((e) => {
@@ -118,7 +108,7 @@ export const getArticle = async (url: string) => {
     })
 
   const updated_by_name: string = await getUser(
-    'http://localhost:8000/api/user/' + updated_by_id
+    process.env.NEXT_PUBLIC_API_URL + '/user/' + updated_by_id
   )
     .then((res) => res.data.user.name)
     .catch((e) => {

@@ -5,7 +5,7 @@ import DetailsPanel from './DetailsPanel'
 import ArticleCountPanel, { CountType } from './ArticleCountPanel'
 import { useRouter } from 'next/router'
 import { ArticleRowData } from 'models/article'
-import { ContentState } from 'constants/Content'
+import { ContentState, CONTENT_ARTICLE_URL } from 'constants/Content'
 import useSWR from 'swr'
 import { getArticle } from 'apis/useGetContent'
 
@@ -14,7 +14,7 @@ const ViewArticlePage = () => {
   const { articlename_id } = router.query
 
   const { data, error } = useSWR<ArticleRowData>(
-    'http://localhost:8000/api/content/article/' + articlename_id,
+    process.env.NEXT_PUBLIC_API_URL + CONTENT_ARTICLE_URL + articlename_id,
     getArticle,
     { revalidateOnFocus: false }
   )

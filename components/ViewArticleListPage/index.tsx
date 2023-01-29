@@ -17,7 +17,7 @@ import DocumentListTabs from 'components/DocumentListTabs'
 import { DocumentStatus } from 'constants/DocumentStatus'
 import { contentFilters } from 'components/Searchbar/defaults'
 import { DateRange } from '../Searchbar/DateRangeFilter'
-import { ContentState } from 'constants/Content'
+import { ContentState, CONTENT_ARTICLE_URL } from 'constants/Content'
 import { getAllArticles } from '../../apis/useGetContent'
 import useSWR from 'swr'
 import ArticleRow from './ArticleRow'
@@ -57,7 +57,7 @@ const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
 
 export default function EnhancedTable() {
   const { data, error } = useSWR<ArticleRowData[]>(
-    'http://localhost:8000/api/content/article',
+    process.env.NEXT_PUBLIC_API_URL + CONTENT_ARTICLE_URL,
     getAllArticles,
     { revalidateOnFocus: false }
   )
@@ -80,9 +80,7 @@ export default function EnhancedTable() {
 
   const displayRows = useMemo(() => {
     console.log('Memo called')
-    // console.log(data)
-    // console.log(props)
-    // console.log(search)
+
     return (data === undefined ? [] : data)
       .filter((row) => isNotFiltered(row, props))
       .filter((row) => {
@@ -100,7 +98,6 @@ export default function EnhancedTable() {
     console.log('Length changed')
 
     // Need to reset to the first page before any change in number of rows displayed
-    // setLength(displayRows.length)
     setPage(0)
   }, [displayRows.length])
 
