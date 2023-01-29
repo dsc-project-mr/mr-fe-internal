@@ -8,6 +8,9 @@ const ArticlePanel = ({
   contentUrl: string
 }) => {
   const openInNewTab = (url: string) => {
+    if (url === null || url === undefined) {
+      return
+    }
     window.open(url, '_blank', 'noreferrer')
   }
 
