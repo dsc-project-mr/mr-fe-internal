@@ -70,7 +70,11 @@ const ViewArticlePage = () => {
               {data.state !== ContentState.DRAFT && (
                 <ArticleCountPanel count={100} countType={CountType.VIEWS} />
               )}
-              <ButtonsPanel articleState={data.state} article_id={data.id} />
+              <ButtonsPanel
+                article_id={data.id}
+                articleState={data.state}
+                article_title={data.title}
+              />
             </Grid>
           </Grid>
         </Grid>

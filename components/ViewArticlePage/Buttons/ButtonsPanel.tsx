@@ -5,11 +5,13 @@ import DeleteButton from './DeleteButton'
 import PublishButton from './PublishButton'
 
 const ButtonsPanel = ({
-  articleState,
   article_id,
+  articleState,
+  article_title,
 }: {
-  articleState: ContentState
   article_id: string
+  articleState: ContentState
+  article_title: string
 }) => {
   return (
     <>
@@ -23,7 +25,10 @@ const ButtonsPanel = ({
         {articleState === ContentState.PUBLISHED ? (
           <ArchiveButton article_id={article_id} />
         ) : (
-          <PublishButton article_id={article_id} />
+          <PublishButton
+            article_id={article_id}
+            article_title={article_title}
+          />
         )}
       </Box>
     </>
