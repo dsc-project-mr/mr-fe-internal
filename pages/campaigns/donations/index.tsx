@@ -10,10 +10,11 @@ import { CampaignStatus } from 'constants/Donation'
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import { Campaign, campaignColumns } from 'models/campaign'
+import { useRouter } from 'next/router'
 
 const testData: Campaign[] = [
   {
-    id: 1,
+    id: '63ca0a0acbb59fb5e90a541e',
     name: 'Impact Fund',
     details: 'Details of Impact Fund go here',
     donors: 15,
@@ -22,7 +23,7 @@ const testData: Campaign[] = [
     status: CampaignStatus.PUBLISHED,
   },
   {
-    id: 2,
+    id: '63ca0a0acbb59fb5e90a5424',
     name: 'Impact Fund v2',
     details: 'Details of Impact Fund v2 go here',
     donors: 10,
@@ -31,7 +32,7 @@ const testData: Campaign[] = [
     status: CampaignStatus.ARCHIVED,
   },
   {
-    id: 3,
+    id: '63ca0a0acbb59fb5e90a5427',
     name: 'Impact Fund v3',
     details: 'Details of Impact Fund v3 go here',
     donors: 19,
@@ -52,14 +53,16 @@ const CampaignList: NextPage = () => {
   const [status, setStatus] = useState<DocumentStatus>(DocumentStatus.All)
   const { props: _props, filters } = donationFilters(tags)
 
+  const router = useRouter()
   useEffect(() => {
-    const props = { ..._props, status }
+    //const props = { ..._props, status }
     setCampaigns(testData)
     // setCampaigns(someApi(search, props))
   }, [_props, status, search])
 
   const handleView = (row: Campaign) => {
-    // route(`/donation/view/${row.id}`, row)
+    console.log(row.id)
+    router.push(`/campaigns/donations/${row.id}`)
   }
 
   return (

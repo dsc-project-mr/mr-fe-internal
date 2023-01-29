@@ -10,11 +10,12 @@ import {
 // properties described here: https://mui.com/x/react-data-grid/column-definition/#special-properties
 // So I've created this monstrosity. Forgive me.
 const UntypesafeBox = (props: any) => {
+  // eslint-disable-line @typescript-eslint/no-explicit-any
   return <GridActionsCellItem {...props} />
 }
 
 export interface Campaign {
-  id: number
+  id: string
   name: string
   details: string
   donors: number

@@ -8,6 +8,14 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:8000/*',
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

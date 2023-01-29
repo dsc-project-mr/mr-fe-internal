@@ -3,8 +3,7 @@ import { Box, Grid } from '@mui/material'
 
 import { CampaignStatus } from 'constants/campaign'
 import { Campaign } from 'models/campaign'
-import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const styledmainbox = {
   display: 'flex',
@@ -62,72 +61,102 @@ const campaignStateColor = {
 }
 
 interface Props {
-  campaign: Campaign
+  campaignID: string
 }
 
-const CampaignCard = ({ campaign }: Props) => {
-  const { id, name, details, donors, amount, country, status } = campaign
+const CampaignCard = ({ campaignID }: Props) => {
+  const renderCampaign: Campaign = {
+    id: '0',
+    name: 'Loading...',
+    details: 'Loading...',
+    donors: 0,
+    amount: 0,
+    country: 'Loading...',
+    status: CampaignStatus.DRAFT,
+  }
+  const [campaign, setCampaign] = React.useState<Campaign>(renderCampaign)
+  useEffect(() => {
+    fetch('http://localhost:8000/api/donation/campaign/' + campaignID)
+      .then((res) => res.json())
+      .then((data) => {
+        const response: Campaign = {
+          id: data.id,
+          name: data.name,
+          details: 'some details',
+          donors: 50,
+          amount: 100,
+          country: 'SG',
+          status:
+            data['state'] === 'Published'
+              ? CampaignStatus.PUBLISHED
+              : data.status === 'Archived'
+              ? CampaignStatus.ARCHIVED
+              : CampaignStatus.DRAFT,
+        }
+        setCampaign(response)
+      })
+  }, [campaignID])
   return (
     <Grid>
-      <Link href={'/campaigns/' + id} passHref legacyBehavior>
-        <Box sx={styledmainbox}>
-          <Box sx={styledmainbody}>
-            <div
+      <Box sx={styledmainbox}>
+        <Box sx={styledmainbody}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexDirection: 'row',
+              height: '60px',
+              margin: '15x 0px 15px 0px',
+            }}
+          >
+            <h5 style={{ color: '#009DD7', fontWeight: '500' }}>
+              {campaign?.name}
+            </h5>
+            <ArchiveOutlinedIcon
+              sx={{
+                color: '#009DD7',
+                fontSize: '2.5rem',
+              }}
+            />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+              alignItems: 'center',
+              height: '60px',
+              margin: '15x 0px 15px 0px',
+            }}
+          >
+            <p style={styledoverview}>{'details'}</p>
+            <h6
               style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexDirection: 'row',
-                height: '60px',
-                margin: '15x 0px 15px 0px',
+                color: campaignStateColor[campaign.status],
+                marginLeft: 50,
               }}
             >
-              <h5 style={{ color: '#009DD7', fontWeight: '500' }}>{name}</h5>
-              <ArchiveOutlinedIcon
-                sx={{
-                  color: '#009DD7',
-                  fontSize: '2.5rem',
-                }}
-              />
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                alignItems: 'center',
-                height: '60px',
-                margin: '15x 0px 15px 0px',
-              }}
-            >
-              <p style={styledoverview}>{details}</p>
-              <h6
-                style={{
-                  color: campaignStateColor[status],
-                  marginLeft: 50,
-                }}
-              >
-                {status}
-              </h6>
-            </div>
-          </Box>
-          <Box sx={styledcontentbox}>{details}</Box>
-          <Box sx={styledbottombox}>
-            <div style={styledbottomitems}>
-              <p>Donors:</p>&nbsp;
-              <p style={styledinput}> {donors.toString()}</p>
-            </div>
-            <div style={styledbottomitems}>
-              <p>Total Amount Received: </p>&nbsp;
-              <p style={styledinput}>${amount.toString()}</p>
-            </div>
-            <div style={styledbottomitems}>
-              <p>Country: </p>&nbsp;
-              <p style={styledinput}>{country}</p>
-            </div>
-          </Box>
+              {campaign?.status}
+            </h6>
+          </div>
         </Box>
-      </Link>
+        <Box sx={styledcontentbox}>{campaign.details}</Box>
+        <Box sx={styledbottombox}>
+          <div style={styledbottomitems}>
+            <p>Donors:</p>&nbsp;
+            <p style={styledinput}> {campaign.donors.toString()}</p>
+          </div>
+          <div style={styledbottomitems}>
+            <p>Total Amount Received: </p>&nbsp;
+            <p style={styledinput}>${campaign.amount.toString()}</p>
+          </div>
+          <div style={styledbottomitems}>
+            <p>Country: </p>&nbsp;
+            <p style={styledinput}>{campaign.country}</p>
+          </div>
+        </Box>
+      </Box>
     </Grid>
   )
 }
