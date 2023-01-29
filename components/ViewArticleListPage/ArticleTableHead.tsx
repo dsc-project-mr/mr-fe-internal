@@ -5,7 +5,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import { visuallyHidden } from '@mui/utils'
-import { ArticleRowData } from '../../models/article'
+import { ArticleRowData } from 'models/article'
 import { Order } from './ComparatorFunctions'
 
 interface HeadCell {

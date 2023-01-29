@@ -33,13 +33,7 @@ const isNotFiltered = (row: ArticleRowData, props: any) => {
 const isSelectedState = (
   state: ContentState,
   selectedStates: ContentState[]
-): boolean => {
-  if (selectedStates.length === 0) {
-    return true
-  }
-
-  return selectedStates.includes(state)
-}
+): boolean => selectedStates.length === 0 || selectedStates.includes(state)
 
 const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
   if (
@@ -50,8 +44,7 @@ const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
     return true
   }
 
-  const start = range.start
-  const end = range.end
+  const { start, end } = range
   return start <= date && date <= end
 }
 
