@@ -73,7 +73,6 @@ export default function EnhancedTable() {
 
   const displayRows = useMemo(() => {
     console.log('Memo called')
-
     return (data === undefined ? [] : data)
       .filter((row) => isNotFiltered(row, props))
       .filter((row) => {
