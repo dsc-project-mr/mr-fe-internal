@@ -4,7 +4,12 @@ import { SnackbarProvider } from 'notistack'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SnackbarProvider>
+    <SnackbarProvider
+      preventDuplicate
+      maxSnack={3}
+      autoHideDuration={3000}
+      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+    >
       <Layout>
         <Component {...pageProps} />
       </Layout>

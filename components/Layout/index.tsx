@@ -5,26 +5,12 @@ import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import Sidebar, { DRAWER_WIDTH } from 'components/Sidebar'
 import { Box } from '@mui/system'
-import { Button } from '@mui/material'
-import { useSnackbar } from 'notistack'
 
 type Props = {
   children: ReactNode
 }
 
 const Layout = ({ children }: Props) => {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-
-  const handleClick = () => {
-    enqueueSnackbar('I love hooks', {
-      variant: 'error',
-      persist: false,
-      autoHideDuration: 1000,
-      anchorOrigin: { horizontal: 'right', vertical: 'top' },
-      preventDuplicate: true,
-    })
-  }
-
   return (
     <div>
       <Head>
@@ -57,7 +43,6 @@ const Layout = ({ children }: Props) => {
                 maxWidth: `calc(100vw - ${DRAWER_WIDTH}px - 48px)`,
               }}
             >
-              <Button onClick={handleClick}>Click</Button>
               {children}
             </Box>
           </Box>
