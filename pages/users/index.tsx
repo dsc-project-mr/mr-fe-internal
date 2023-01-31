@@ -4,17 +4,29 @@ import SelectRoleTextField from "../../components/CreateNewUserAccount/SelectRol
 import UploadProfileImage from "../../components/CreateNewUserAccount/UploadProfileImage";
 import CreateButton from "../../components/CreateNewUserAccount/CreateButton";
 
-
 const CreateNewUserAccount = () => {
+    const [name, setName] = React.useState('');
 
-    const [inputValue, setInputValue] = React.useState(null);
+    // the submitName handler is for POST 
+    const submitName = async () => {
+        const response = await fetch('process.env.NEXT_PUBLIC_API_URL/user', {
+            method: 'POST',
+            body: JSON.stringify({ name }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        const data = await response.json();
+        console.log(data);
+    }
 
     return (
         <Box>
             <Typography variant="h4" sx={styledTitle}>Create New User Account</Typography>
             <Stack spacing={10} sx={styledStack}>
                 <UploadProfileImage />
-                <TextField id="outlined-basic" label="Name of User" variant="outlined" required value={inputValue}/>
+                <TextField id="outlined-basic" label="Name of User" variant="outlined" required onChange={(e) => setName(e.target.value)}/>
                 <TextField id="outlined-basic" label="Email Address" variant="outlined" required/>
                 <SelectRoleTextField />
 
@@ -23,8 +35,6 @@ const CreateNewUserAccount = () => {
                     <CreateButton />
                 </Stack>
             </Stack>
-
-
         </Box>
 
     )
