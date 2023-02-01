@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { ArticleRowData } from '../../models/article'
+import { ArticleRowData } from 'models/article'
 import { getComparator, Order } from './ComparatorFunctions'
 import { ArticleTableHead } from './ArticleTableHead'
 import { Fab, Typography } from '@mui/material'
@@ -15,14 +15,16 @@ import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined'
 import Searchbar from 'components/Searchbar'
 import DocumentListTabs from 'components/DocumentListTabs'
 import { DocumentStatus } from 'constants/DocumentStatus'
-import { contentFilters } from 'components/Searchbar/defaults'
-import { DateRange } from '../Searchbar/DateRangeFilter'
-import { ContentState, CONTENT_ARTICLE_URL } from 'constants/Content'
-import { getAllArticles } from '../../apis/useGetContent'
-import useSWR from 'swr'
+import {
+  contentFilters,
+  ContentFiltersProps,
+} from 'components/Searchbar/defaults'
+import { DateRange } from 'components/Searchbar/DateRangeFilter'
+import { ContentState } from 'constants/Content'
 import ArticleRow from './ArticleRow'
+import useGetAllArticles from 'apis/content/useGetAllArticles'
 
-const isNotFiltered = (row: ArticleRowData, props: any) => {
+const isNotFiltered = (row: ArticleRowData, props: ContentFiltersProps) => {
   return (
     withinDateRange(row.createdAt, props.selectedCreatedDateRange) &&
     withinDateRange(row.updatedAt, props.selectedModifiedDateRange) &&
@@ -49,12 +51,7 @@ const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
 }
 
 export default function EnhancedTable() {
-  const { data, error } = useSWR<ArticleRowData[]>(
-    process.env.NEXT_PUBLIC_API_URL + CONTENT_ARTICLE_URL,
-    getAllArticles,
-    { revalidateOnFocus: false }
-  )
-
+  const { data, error } = useGetAllArticles()
   // Sort states
   const [order, setOrder] = useState<Order>(Order.ASC)
   const [orderBy, setOrderBy] = useState<keyof ArticleRowData>('title')
@@ -122,7 +119,7 @@ export default function EnhancedTable() {
 
   return error ? (
     <div>Error</div>
-  ) : !data || data === undefined ? (
+  ) : data === undefined ? (
     <div>Loading...</div>
   ) : (
     <>

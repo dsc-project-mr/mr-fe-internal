@@ -4,26 +4,34 @@ import ButtonsPanel from './Buttons/ButtonsPanel'
 import DetailsPanel from './DetailsPanel'
 import ArticleCountPanel, { CountType } from './ArticleCountPanel'
 import { useRouter } from 'next/router'
-import { ArticleRowData } from 'models/article'
-import { ContentState, CONTENT_ARTICLE_URL } from 'constants/Content'
-import useSWR from 'swr'
-import { getArticle } from 'apis/useGetContent'
+import { ContentState } from 'constants/Content'
+import useGetArticle from 'apis/content/useGetArticle'
+import useGetUser from 'apis/user/useGetUser'
 
 const ViewArticlePage = () => {
   const router = useRouter()
   const { articlename_id } = router.query
 
-  const { data, error } = useSWR<ArticleRowData>(
-    process.env.NEXT_PUBLIC_API_URL + CONTENT_ARTICLE_URL + articlename_id,
-    getArticle,
-    { revalidateOnFocus: false }
+  const { data: article, error: getArticleError } = useGetArticle(
+    router.isReady,
+    articlename_id as string
+  )
+
+  const { data: author, error: getAuthorError } = useGetUser(
+    article !== undefined,
+    article?.author as string
+  )
+
+  const { data: updatedByUser, error: getUpdatedByError } = useGetUser(
+    article !== undefined,
+    article?.updatedBy as string
   )
 
   return (
     <>
-      {error ? (
-        <div>Error: {error}</div>
-      ) : !data || data === undefined ? (
+      {getArticleError ? (
+        <div>Error: {getArticleError}</div>
+      ) : article === undefined ? (
         <div>Loading...</div>
       ) : (
         <Grid
@@ -51,29 +59,33 @@ const ViewArticlePage = () => {
           <Grid container item wrap="nowrap">
             <Grid>
               <ArticlePanel
-                imageUrl={data.imageUrl}
-                contentUrl={data.contentUrl}
+                imageUrl={article.imageUrl}
+                contentUrl={article.contentUrl}
               />
             </Grid>
             <Grid width="24px" />
             <Grid width={370}>
               <DetailsPanel
-                title={data.title}
-                state={data.state}
-                createdAt={data.createdAt}
-                updatedAt={data.updatedAt}
-                author={data.author}
-                updatedBy={data.updatedBy}
-                version={data.__v}
+                title={article.title}
+                state={article.state}
+                createdAt={article.createdAt}
+                updatedAt={article.updatedAt}
+                author={getAuthorError ? 'NOT FOUND' : (author?.name as string)}
+                updatedBy={
+                  getUpdatedByError
+                    ? 'NOT FOUND'
+                    : (updatedByUser?.name as string)
+                }
+                version={article.__v}
               />
               <ArticleCountPanel count={13} countType={CountType.REVISION} />
-              {data.state !== ContentState.DRAFT && (
+              {article.state !== ContentState.DRAFT && (
                 <ArticleCountPanel count={100} countType={CountType.VIEWS} />
               )}
               <ButtonsPanel
-                article_id={data.id}
-                articleState={data.state}
-                article_title={data.title}
+                article_id={article.id}
+                articleState={article.state}
+                article_title={article.title}
               />
             </Grid>
           </Grid>

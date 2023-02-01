@@ -32,6 +32,14 @@ export const donationFilters = (tags: string[]) => {
   }
 }
 
+export interface ContentFiltersProps {
+  selectedStates: ContentState[]
+  selectedTypes: ArticleType[]
+  selectedCreatedDateRange: DateRange | undefined
+  selectedModifiedDateRange: DateRange | undefined
+  selectedTags: string[]
+}
+
 export const contentFilters = (tags: string[]) => {
   const stateFilter = createFilter<ContentState[]>(
     ContentFilters.STATE,
@@ -59,7 +67,7 @@ export const contentFilters = (tags: string[]) => {
       selectedCreatedDateRange: createdDateFilter.value,
       selectedModifiedDateRange: modifiedDateFilter.value,
       selectedTags: tagsFilter.value,
-    },
+    } as ContentFiltersProps,
     filters: [
       stateFilter,
       typeFilter,

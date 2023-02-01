@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { deleteContent } from 'apis/useDeleteContent'
+import { deleteContent } from 'apis/content/useDeleteContent'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import ActionPopup from './ActionPopup'

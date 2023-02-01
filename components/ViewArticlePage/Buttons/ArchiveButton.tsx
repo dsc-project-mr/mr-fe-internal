@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { putContent } from 'apis/usePutContent'
+import { putContent } from 'apis/content/usePutContent'
 import { ContentState } from 'constants/Content'
 import { useState } from 'react'
 import ActionPopup from './ActionPopup'

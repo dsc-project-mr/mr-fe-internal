@@ -49,7 +49,7 @@ const ArticleRow = ({
       <TableCell align="left">{state}</TableCell>
       <TableCell
         align="left"
-        onClick={() => router.push('/content/articles/' + id)}
+        onClick={() => router.push(`/content/articles/${title}_${id}`)}
       >
         <KeyboardArrowRightIcon
           sx={{

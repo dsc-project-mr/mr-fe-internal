@@ -1,5 +1,21 @@
-import { ContentResponse } from 'apis/useGetContent'
 import { ArticleType, ContentState } from 'constants/Content'
+
+export interface Article {
+  _id: string
+  title: string
+  author: string
+  updatedBy: string
+  latestEditorEmail: string
+  state: string
+  tags: string[]
+  type: string
+  imageUrl: string
+  contentUrl: string
+  createdAt: string
+  updatedAt: string
+  __v: number
+  id: string
+}
 
 export interface ArticleRowData {
   _id: string
@@ -52,9 +68,7 @@ function createData(
   }
 }
 
-export function mapResponseToArticleRowData(
-  res: ContentResponse
-): ArticleRowData {
+export function mapResponseToArticleRowData(res: Article): ArticleRowData {
   return {
     _id: res._id,
     title: res.title,
@@ -74,7 +88,7 @@ export function mapResponseToArticleRowData(
 }
 
 export function mapGetAllResponseToArticleRowData(
-  res: ContentResponse[]
+  res: Article[]
 ): ArticleRowData[] {
   return res.map((content) => mapResponseToArticleRowData(content))
 }
