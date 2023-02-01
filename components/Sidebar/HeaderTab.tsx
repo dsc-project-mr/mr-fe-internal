@@ -7,17 +7,26 @@ import {
 } from '@mui/material'
 import { Dispatch, SetStateAction, memo, useState } from 'react'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import SubheaderTab from './SubheaderTab'
 import { SidebarData } from 'constants/sidebarData'
 import { useRouter } from 'next/router'
+
 import { DRAWER_WIDTH } from '.'
-import { MR_GRAY_1 } from 'styles/theme'
+import SubheaderTab from './SubheaderTab'
+
+const SELECTED_TAB_COLOR = '#FAB800'
+const UNSELECTED_TAB_COLOR = 'white'
+const SELECTED_FONT_COLOR = 'white'
+const UNSELECTED_FONT_COLOR = 'black'
+const SELECTED_ICON_COLOR = 'white'
+const UNSELECTED_ICON_COLOR = '#009DD7'
 
 const HeaderTab = ({
+  isSidebarOpen,
   headerData,
   tabSelected,
   setTabSelected,
 }: {
+  isSidebarOpen: boolean
   headerData: SidebarData
   tabSelected: string
   setTabSelected: Dispatch<SetStateAction<string>>
@@ -25,14 +34,12 @@ const HeaderTab = ({
   const [expanded, setExpanded] = useState<boolean>(false)
   const hasSubheaders: boolean = headerData.subheaders.length > 0
   const router = useRouter()
-  // Being re-rendered twice, even on opening and closing, not sure why
-  // console.log('Rendered')
 
   return (
     <>
       <ListItem key={headerData.title} disablePadding>
         <Accordion
-          expanded={expanded}
+          expanded={isSidebarOpen && expanded}
           // Disable routing if header has subheaders
           onClick={() => !hasSubheaders && router.push(headerData.route)}
           onChange={() => {
@@ -47,27 +54,59 @@ const HeaderTab = ({
           sx={{
             width: DRAWER_WIDTH,
             boxShadow: 'none',
-            borderRadius: 0,
           }}
         >
           <AccordionSummary
-            expandIcon={hasSubheaders && <ArrowDropDownIcon />}
+            expandIcon={isSidebarOpen && hasSubheaders && <ArrowDropDownIcon />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
             sx={{
-              '&.MuiButtonBase-root.MuiAccordionSummary-root': {
-                cursor: hasSubheaders ? 'pointer' : 'default',
+              '& .MuiAccordionSummary-content': {
+                justifyContent: isSidebarOpen ? 'normal' : 'center',
               },
-              '&.MuiButtonBase-root.MuiAccordionSummary-root:hover': {
-                cursor: hasSubheaders ? 'pointer' : 'default',
+              '&:hover': {
+                filter: 'brightness(93%)',
               },
               backgroundColor:
-                tabSelected == headerData.title ? MR_GRAY_1 : 'white',
+                tabSelected === headerData.title
+                  ? SELECTED_TAB_COLOR
+                  : UNSELECTED_TAB_COLOR,
+              width: DRAWER_WIDTH,
             }}
           >
+            <div
+              style={{
+                minWidth: '20px',
+                height: '20px',
+                margin: '0px 10px',
+                background:
+                  tabSelected === headerData.title
+                    ? SELECTED_ICON_COLOR
+                    : UNSELECTED_ICON_COLOR,
+
+                // This allows us to set the color of the icon image
+                // regardless of the its original color
+                WebkitMask:
+                  'url(/images/sidebar/' +
+                  headerData.imgSrc +
+                  ') center/contain',
+                mask:
+                  'url(/images/sidebar/' +
+                  headerData.imgSrc +
+                  ') center/contain',
+              }}
+            ></div>
             <Typography
-              sx={{
-                color: 'text.primary',
+              fontWeight={700}
+              fontSize={14}
+              color={
+                tabSelected === headerData.title
+                  ? SELECTED_FONT_COLOR
+                  : UNSELECTED_FONT_COLOR
+              }
+              whiteSpace="normal"
+              style={{
+                display: isSidebarOpen ? 'block' : 'none',
               }}
             >
               {headerData.title}
@@ -78,10 +117,10 @@ const HeaderTab = ({
               paddingLeft: '0px',
             }}
           >
-            {headerData.subheaders.map((subheaderData, index) => {
+            {headerData.subheaders.map((subheaderData) => {
               return (
                 <SubheaderTab
-                  key={index}
+                  key={subheaderData.title}
                   subheaderData={subheaderData}
                   tabSelected={tabSelected}
                   setTabSelected={setTabSelected}
@@ -96,4 +135,12 @@ const HeaderTab = ({
   )
 }
 
+export {
+  SELECTED_TAB_COLOR,
+  UNSELECTED_TAB_COLOR,
+  SELECTED_FONT_COLOR,
+  UNSELECTED_FONT_COLOR,
+  SELECTED_ICON_COLOR,
+  UNSELECTED_ICON_COLOR,
+}
 export default memo(HeaderTab)
