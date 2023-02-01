@@ -15,6 +15,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
 import CloseIcon from '@mui/icons-material/Close'
 import parse from 'html-react-parser'
 import Image from 'next/image'
+import TagBar from 'components/TagBar'
 
 const styleduploadbox = {
   borderWidth: 'thin',
@@ -24,13 +25,15 @@ const styleduploadbox = {
 }
 const styledtitle = {
   fontWeight: 700,
-  margin: '20px 0 20px 0',
+  margin: '10px 0 10px 0',
 }
 
 const styledtopbar = {
   display: 'flex',
+  height: '45px',
   flexDirection: 'row' as const,
   justifyContent: 'space-between',
+  alignItems: 'center',
 }
 
 const AlertDialog = ({
@@ -58,6 +61,7 @@ const AlertDialog = ({
 }
 
 const CreateArticle = () => {
+  const [tags, setTags] = useState([''])
   const [open, setOpen] = useState(false)
   const [openSave, setOpenSave] = useState(false)
   const [openPreview, setOpenPreview] = useState(false)
@@ -78,6 +82,10 @@ const CreateArticle = () => {
       )
     },
   })
+  const handleTagChange = (tags: string[]) => {
+    setTags(tags)
+  }
+
   const handleTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -134,11 +142,29 @@ const CreateArticle = () => {
               alignItems: 'center',
             }}
           >
-            <Typography variant="h5">Article Preview</Typography>
+            <Typography marginBottom={5} fontWeight={600} variant="h4">
+              Article Preview
+            </Typography>
             <Button onClick={handlePreviewClose}>
               <CloseIcon />
             </Button>
           </div>
+          {tags.map((tag, index) => (
+            <div
+              key={index}
+              style={{
+                fontSize: '15px',
+                color: 'white',
+                backgroundColor: '#009DD7',
+                display: 'inline-block',
+                padding: '0.5em 0.75em',
+                borderRadius: '5px',
+                margin: '0 3px',
+              }}
+            >
+              {tag}
+            </div>
+          ))}
         </DialogTitle>
         <DialogContent>
           <Typography variant="h5" style={styledtitle}>
@@ -191,7 +217,7 @@ const CreateArticle = () => {
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
-          padding: '10px',
+          margin: '30px 0px 30px 0px',
         }}
       >
         <div
@@ -200,6 +226,7 @@ const CreateArticle = () => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            marginBottom: '20px',
           }}
         >
           <div
@@ -231,31 +258,37 @@ const CreateArticle = () => {
           </Button>
         </div>
         <div>
-          <div style={styledtopbar}>
-            <Typography variant="h6" style={styledtitle}>
-              Title of Article<span style={{ color: 'red' }}>*</span>
-            </Typography>
-
-            <div>
-              <Button
-                sx={{ m: 5 }}
-                variant="contained"
-                color="success"
-                onClick={handleOpen}
-                disabled={isButtonDisabled}
-              >
-                Publish
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleSaveOpen}
-                disabled={isButtonDisabled}
-              >
-                Save
-              </Button>
+          <div>
+            <div style={styledtopbar}>
+              <Typography variant="h6" style={styledtitle}>
+                Tags
+              </Typography>
+              <div>
+                <Button
+                  sx={{ m: 5 }}
+                  variant="contained"
+                  color="success"
+                  onClick={handleOpen}
+                  disabled={isButtonDisabled}
+                >
+                  Publish
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleSaveOpen}
+                  disabled={isButtonDisabled}
+                >
+                  Save
+                </Button>
+              </div>
             </div>
+            <TagBar onChange={handleTagChange} />
           </div>
+          <Typography variant="h6" style={styledtitle}>
+            Title of Article
+            <span style={{ color: 'red' }}>*</span>
+          </Typography>
           <TextField
             hiddenLabel
             id="filled-hidden-label-normal"
