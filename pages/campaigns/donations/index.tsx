@@ -6,41 +6,41 @@ import DocumentListTabs from 'components/DocumentListTabs'
 import Searchbar from 'components/Searchbar'
 import { donationFilters } from 'components/Searchbar/defaults'
 import { DocumentStatus } from 'constants/DocumentStatus'
-import { CampaignStatus } from 'constants/Donation'
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Campaign, campaignColumns } from 'models/campaign'
 import { useRouter } from 'next/router'
+import useGetCampaigns from 'apis/campaign/useGetCampaigns'
 
-const testData: Campaign[] = [
-  {
-    id: '63ca0a0acbb59fb5e90a541e',
-    name: 'Impact Fund',
-    details: 'Details of Impact Fund go here',
-    donors: 15,
-    amount: 15,
-    country: 'Singapore',
-    status: CampaignStatus.PUBLISHED,
-  },
-  {
-    id: '63ca0a0acbb59fb5e90a5424',
-    name: 'Impact Fund v2',
-    details: 'Details of Impact Fund v2 go here',
-    donors: 10,
-    amount: 200,
-    country: 'Singapore',
-    status: CampaignStatus.ARCHIVED,
-  },
-  {
-    id: '63ca0a0acbb59fb5e90a5427',
-    name: 'Impact Fund v3',
-    details: 'Details of Impact Fund v3 go here',
-    donors: 19,
-    amount: 50000,
-    country: 'Singapore',
-    status: CampaignStatus.DRAFT,
-  },
-]
+// const testData: Campaign[] = [
+//   {
+//     id: '63ca0a0acbb59fb5e90a541e',
+//     name: 'Impact Fund',
+//     details: 'Details of Impact Fund go here',
+//     donors: 15,
+//     amount: 15,
+//     country: 'Singapore',
+//     state: CampaignStatus.PUBLISHED,
+//   },
+//   {
+//     id: '63ca0a0acbb59fb5e90a5424',
+//     name: 'Impact Fund v2',
+//     details: 'Details of Impact Fund v2 go here',
+//     donors: 10,
+//     amount: 200,
+//     country: 'Singapore',
+//     state: CampaignStatus.ARCHIVED,
+//   },
+//   {
+//     id: '63ca0a0acbb59fb5e90a5427',
+//     name: 'Impact Fund v3',
+//     details: 'Details of Impact Fund v3 go here',
+//     donors: 19,
+//     amount: 50000,
+//     country: 'Singapore',
+//     state: CampaignStatus.DRAFT,
+//   },
+// ]
 
 const CampaignList: NextPage = () => {
   // TODO get this from a API call
@@ -48,21 +48,26 @@ const CampaignList: NextPage = () => {
 
   // TODO: we might need to have 4 diff data storing, otherwise we will have to keep
   // recalling the APIs when we switch tabs
-  const [campaigns, setCampaigns] = useState<Campaign[]>([])
+
+  const { data: campaigns, error } = useGetCampaigns()
+
   const [search, setSearch] = useState<string>('')
   const [status, setStatus] = useState<DocumentStatus>(DocumentStatus.All)
-  const { props: _props, filters } = donationFilters(tags)
+  const { props, filters } = donationFilters(tags)
 
   const router = useRouter()
-  useEffect(() => {
-    //const props = { ..._props, status }
-    setCampaigns(testData)
-    // setCampaigns(someApi(search, props))
-  }, [_props, status, search])
 
   const handleView = (row: Campaign) => {
     console.log(row.id)
-    router.push(`/campaigns/donations/${row.id}`)
+    router.push(`/campaigns/donations/${row.name}_${row.id}`)
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>
+  }
+
+  if (campaigns === undefined) {
+    return <div>Loading...</div>
   }
 
   return (
@@ -83,6 +88,7 @@ const CampaignList: NextPage = () => {
             rows={campaigns}
             autoHeight
             pageSize={10}
+            rowsPerPageOptions={[10]}
           />
         </DocumentListTabs>
       </Box>

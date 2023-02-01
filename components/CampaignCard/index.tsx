@@ -3,7 +3,7 @@ import { Box, Grid } from '@mui/material'
 
 import { CampaignStatus } from 'constants/campaign'
 import { Campaign } from 'models/campaign'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 const styledmainbox = {
   display: 'flex',
@@ -61,41 +61,10 @@ const campaignStateColor = {
 }
 
 interface Props {
-  campaignID: string
+  campaign: Campaign
 }
 
-const CampaignCard = ({ campaignID }: Props) => {
-  const renderCampaign: Campaign = {
-    id: '0',
-    name: 'Loading...',
-    details: 'Loading...',
-    donors: 0,
-    amount: 0,
-    country: 'Loading...',
-    status: CampaignStatus.DRAFT,
-  }
-  const [campaign, setCampaign] = React.useState<Campaign>(renderCampaign)
-  useEffect(() => {
-    fetch('http://localhost:8000/api/donation/campaign/' + campaignID)
-      .then((res) => res.json())
-      .then((data) => {
-        const response: Campaign = {
-          id: data.id,
-          name: data.name,
-          details: 'some details',
-          donors: 50,
-          amount: 100,
-          country: 'SG',
-          status:
-            data['state'] === 'Published'
-              ? CampaignStatus.PUBLISHED
-              : data.status === 'Archived'
-              ? CampaignStatus.ARCHIVED
-              : CampaignStatus.DRAFT,
-        }
-        setCampaign(response)
-      })
-  }, [campaignID])
+const CampaignCard = ({ campaign }: Props) => {
   return (
     <Grid>
       <Box sx={styledmainbox}>
@@ -133,11 +102,11 @@ const CampaignCard = ({ campaignID }: Props) => {
             <p style={styledoverview}>{'details'}</p>
             <h6
               style={{
-                color: campaignStateColor[campaign.status],
+                color: campaignStateColor[campaign.state],
                 marginLeft: 50,
               }}
             >
-              {campaign?.status}
+              {campaign?.state}
             </h6>
           </div>
         </Box>

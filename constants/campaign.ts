@@ -4,11 +4,4 @@ export enum CampaignStatus {
   ARCHIVED = 'Archived',
 }
 
-export type Campaign = {
-  name: string
-  content: string
-  donors: number
-  amount: number
-  country: string
-  status: CampaignStatus
-}
+export const DONATION_CAMPAIGN_URL = '/donation/campaign/'
