@@ -1,24 +1,18 @@
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined'
-import { Box, Grid } from '@mui/material'
+import { Box, Typography } from '@mui/material'
+import { DRAWER_WIDTH } from 'components/Sidebar'
 
 import { CampaignStatus } from 'constants/campaign'
 import { Campaign } from 'models/campaign'
-import Link from 'next/link'
 import React from 'react'
 
 const styledmainbox = {
-  display: 'flex',
-  flexDirection: 'column',
   padding: '10px',
   backgroundColor: '#EAF9FF',
-  width: '100%',
 }
 
 const styledmainbody = {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  padding: '0px 20px 0px 20px',
+  padding: '0px 20px',
 }
 
 const styledcontentbox = {
@@ -42,18 +36,13 @@ const styledbottombox = {
 
 const styledbottomitems = {
   display: 'flex',
+  alignItems: 'center',
 }
 
 const styledinput = {
   fontSize: '15',
   fontWeight: '700',
 }
-
-const styledoverview = {
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-} as React.CSSProperties
 
 const campaignStateColor = {
   [CampaignStatus.PUBLISHED]: '#16A64A',
@@ -66,69 +55,68 @@ interface Props {
 }
 
 const CampaignCard = ({ campaign }: Props) => {
-  const { id, name, details, donors, amount, country, status } = campaign
+  const { name, details, donors, amount, country, status } = campaign
   return (
-    <Grid>
-      <Link href={'/campaigns/' + id} passHref legacyBehavior>
-        <Box sx={styledmainbox}>
-          <Box sx={styledmainbody}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexDirection: 'row',
-                height: '60px',
-                margin: '15x 0px 15px 0px',
-              }}
-            >
-              <h5 style={{ color: '#009DD7', fontWeight: '500' }}>{name}</h5>
-              <ArchiveOutlinedIcon
-                sx={{
-                  color: '#009DD7',
-                  fontSize: '2.5rem',
-                }}
-              />
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                alignItems: 'center',
-                height: '60px',
-                margin: '15x 0px 15px 0px',
-              }}
-            >
-              <p style={styledoverview}>{details}</p>
-              <h6
-                style={{
-                  color: campaignStateColor[status],
-                  marginLeft: 50,
-                }}
-              >
-                {status}
-              </h6>
-            </div>
-          </Box>
-          <Box sx={styledcontentbox}>{details}</Box>
-          <Box sx={styledbottombox}>
-            <div style={styledbottomitems}>
-              <p>Donors:</p>&nbsp;
-              <p style={styledinput}> {donors.toString()}</p>
-            </div>
-            <div style={styledbottomitems}>
-              <p>Total Amount Received: </p>&nbsp;
-              <p style={styledinput}>${amount.toString()}</p>
-            </div>
-            <div style={styledbottomitems}>
-              <p>Country: </p>&nbsp;
-              <p style={styledinput}>{country}</p>
-            </div>
-          </Box>
+    <Box sx={styledmainbox}>
+      <Box sx={styledmainbody}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexDirection: 'row',
+            height: '60px',
+            margin: '15x 0px 15px 0px',
+          }}
+        >
+          <Typography variant="h5" color="#009DD7">
+            {name}
+          </Typography>
+          <ArchiveOutlinedIcon
+            sx={{
+              color: '#009DD7',
+              fontSize: '2.5rem',
+            }}
+          />
         </Box>
-      </Link>
-    </Grid>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            alignItems: 'center',
+            height: '60px',
+          }}
+        >
+          <Box
+            sx={{
+              width: `calc(100vw - ${DRAWER_WIDTH}px - 18px - 48px - 20px - 40px - 80px)`,
+            }}
+          >
+            <Typography noWrap>{details}</Typography>
+          </Box>
+
+          <Typography color={campaignStateColor[status]} variant="h6">
+            {status}
+          </Typography>
+        </Box>
+      </Box>
+      <Box sx={styledcontentbox}>{details}</Box>
+      <Box sx={styledbottombox}>
+        <Box style={styledbottomitems}>
+          <Typography>Donors:&nbsp;</Typography>
+          <Typography sx={styledinput}>{donors.toString()}</Typography>
+        </Box>
+        <Box style={styledbottomitems}>
+          <Typography>Total Amount Received:&nbsp;</Typography>
+          <Typography sx={styledinput}>${amount.toString()}</Typography>
+        </Box>
+        <Box style={styledbottomitems}>
+          <Typography>Country:&nbsp;</Typography>
+          <Typography sx={styledinput}>{country}</Typography>
+        </Box>
+      </Box>
+    </Box>
   )
 }
 

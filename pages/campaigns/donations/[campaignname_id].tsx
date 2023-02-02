@@ -1,10 +1,8 @@
-import { Button, CircularProgress, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import CampaignCard from 'components/CampaignCard'
 import { CampaignStatus } from 'constants/Donation'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { useRouter } from 'next/router'
-import useGetCampaign from 'apis/useGetCampaign'
-import { useEffect } from 'react'
 
 const TEST_DATA = {
   id: 123,
@@ -19,31 +17,25 @@ const TEST_DATA = {
 
 export default function ViewCampaign() {
   const router = useRouter()
-  const { campaignname_id } = router.query
-  const campaignid = (campaignname_id as string)?.split('-')?.at(-1) as string
+  //const { campaignname_id } = router.query
+  //const campaignid = (campaignname_id as string)?.split('-')?.at(-1) as string
 
   // TODO: call api to get campaign
   // const { data, isLoading, error } = useGetCampaign(campaignid)
 
   return (
-    <>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <Button onClick={() => router.back()}>
           <ArrowBackIosNewIcon style={{ margin: 20 }} />
         </Button>
         <Typography variant="h4">Donations</Typography>
-      </div>
+      </Box>
       {/* {isLoading ? (
         <CircularProgress />
       ) : ( */}
       <CampaignCard campaign={TEST_DATA} />
       {/* )} */}
-    </>
+    </Box>
   )
 }
