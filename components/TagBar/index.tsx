@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import type { Property } from 'csstype'
 
 const tagItem = {
   backgroundColor: 'rgb(218, 216, 216)',
@@ -19,7 +20,7 @@ const tagInput = {
 
 const tagContainer = {
   border: '2px solid #DDE2E5',
-  flexWrap: 'wrap',
+  flexWrap: 'wrap' as Property.FlexWrap,
   padding: '0.5em',
   borderRadius: '3px',
   width: '100%',
@@ -35,25 +36,25 @@ interface Props {
 
 const TagBar = ({ onChange }: Props) => {
   const [tags, setTags] = useState(['Press Release'])
+
   useEffect(() => {
     onChange(tags)
   }, [tags, onChange])
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  function handleKeyDown(e: any) {
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    const target = e.target as HTMLInputElement
     if (e.code === 'Enter') {
-      console.log('set tag')
-      setTags([...tags, e.target.value])
-      e.target.value = ''
+      setTags((tags) => [...tags, target.value])
+      target.value = ''
     }
-    if (e.code === 'Backspace' && e.target.value === '') {
-      console.log('remove tag')
-      setTags(tags.slice(0, -1))
+    if (e.code === 'Backspace' && target.value === '') {
+      setTags((tags) => tags.slice(0, -1))
     }
     if (!e.key.trim()) return
   }
 
-  function removeTag(index: number) {
-    setTags([...tags.slice(0, index), ...tags.slice(index + 1)])
+  const removeTag = (index: number) => {
+    setTags((tags) => [...tags.slice(0, index), ...tags.slice(index + 1)])
   }
   return (
     <div style={tagContainer}>
@@ -61,7 +62,7 @@ const TagBar = ({ onChange }: Props) => {
         <div style={tagItem} key={index}>
           <span className="text">{tags}</span>
           <span
-            style={{ marginLeft: '5px' }}
+            style={{ marginLeft: '5px', cursor: 'pointer' }}
             onClick={() => removeTag(index)}
             className="close"
           >
