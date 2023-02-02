@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import CampaignCard from 'components/CampaignCard'
 import { CampaignStatus } from 'constants/Donation'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
@@ -24,24 +24,18 @@ export default function ViewCampaign() {
   // const { data, isLoading, error } = useGetCampaign(campaignid)
 
   return (
-    <>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <Button onClick={() => router.back()}>
           <ArrowBackIosNewIcon style={{ margin: 20 }} />
         </Button>
         <Typography variant="h4">Donations</Typography>
-      </div>
+      </Box>
       {/* {isLoading ? (
         <CircularProgress />
       ) : ( */}
       <CampaignCard campaign={TEST_DATA} />
       {/* )} */}
-    </>
+    </Box>
   )
 }
