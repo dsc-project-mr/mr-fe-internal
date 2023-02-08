@@ -5,7 +5,7 @@ import { Article } from 'models/article'
 export const putContent = async (id: string, body: Partial<Article>) => {
   console.log(id)
   const response = await putFetcher(
-    process.env.NEXT_PUBLIC_API_URL + CONTENT_ARTICLE_URL + id,
+    `${process.env.NEXT_PUBLIC_API_URL}${CONTENT_ARTICLE_URL}${id}`,
     body
   )
   console.log({ response })

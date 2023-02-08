@@ -1,24 +1,19 @@
 import { TableCell, TableRow } from '@mui/material'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { useRouter } from 'next/router'
-import { ContentState } from 'constants/Content'
+import { ArticleRowData } from 'models/article'
 
 const ArticleRow = ({
   labelId,
-  title,
-  createdAt,
-  updatedAt,
-  state,
-  id,
+  article,
 }: {
   labelId: string
-  title: string
-  createdAt: Date
-  updatedAt: Date
-  state: ContentState
-  id: string
+  article: ArticleRowData
 }) => {
   const router = useRouter()
+
+  const { title, createdAt, updatedAt, state, id } = article
+
   return (
     <TableRow
       hover

@@ -118,7 +118,7 @@ export default function EnhancedTable() {
   }
 
   return error ? (
-    <div>Error</div>
+    <div>Error : {error}</div>
   ) : data === undefined ? (
     <div>Loading...</div>
   ) : (
@@ -169,11 +169,7 @@ export default function EnhancedTable() {
                         <ArticleRow
                           key={index}
                           labelId={labelId}
-                          title={row.title}
-                          createdAt={row.createdAt}
-                          updatedAt={row.updatedAt}
-                          state={row.state}
-                          id={row.id}
+                          article={row}
                         />
                       )
                     })}
