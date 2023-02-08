@@ -9,6 +9,7 @@ import {
 // GridActionsCellItem seems to be badly defined, I can't set the
 // properties described here: https://mui.com/x/react-data-grid/column-definition/#special-properties
 // So I've created this monstrosity. Forgive me.
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 const UntypesafeBox = (props: any) => {
   return <GridActionsCellItem {...props} />
 }

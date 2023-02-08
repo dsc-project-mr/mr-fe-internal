@@ -100,7 +100,7 @@ const Searchbar = ({
       f.resetValue()
     }
   }, [filters])
-
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   const FilterComponent = useCallback((f: Filter<any>) => {
     switch (f.name) {
       case ContentFilters.STATE:

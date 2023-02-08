@@ -53,14 +53,16 @@ const CampaignList: NextPage = () => {
   const { props: _props, filters } = donationFilters(tags)
 
   useEffect(() => {
-    const props = { ..._props, status }
+    //const props = { ..._props, status }
     setCampaigns(testData)
     // setCampaigns(someApi(search, props))
   }, [_props, status, search])
-
-  const handleView = (row: Campaign) => {
-    // route(`/donation/view/${row.id}`, row)
+  const handleView = () => {
+    //route(`/donation/view/${row.id}`, row)
   }
+  // const handleView = (row: Campaign) => {
+  //   //route(`/donation/view/${row.id}`, row)
+  // }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
