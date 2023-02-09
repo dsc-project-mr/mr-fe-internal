@@ -118,7 +118,7 @@ export default function EnhancedTable() {
   }
 
   return error ? (
-    <div>Error : {error}</div>
+    <div>Error : {error.message}</div>
   ) : data === undefined ? (
     <div>Loading...</div>
   ) : (

@@ -30,7 +30,7 @@ const ViewArticlePage = () => {
   return (
     <>
       {getArticleError ? (
-        <div>Error: {getArticleError}</div>
+        <div>Error: {getArticleError.message}</div>
       ) : article === undefined ? (
         <div>Loading...</div>
       ) : (
