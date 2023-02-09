@@ -20,7 +20,7 @@ import {
   ContentFiltersProps,
 } from 'components/Searchbar/defaults'
 import { DateRange } from 'components/Searchbar/DateRangeFilter'
-import { ContentState } from 'constants/Content'
+import { ContentState } from 'constants/content'
 import ArticleRow from './ArticleRow'
 import useGetAllArticles from 'apis/content/useGetAllArticles'
 

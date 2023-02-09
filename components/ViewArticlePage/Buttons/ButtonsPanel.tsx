@@ -1,5 +1,5 @@
 import { Box } from '@mui/system'
-import { ContentState } from 'constants/Content'
+import { ContentState } from 'constants/content'
 import ArchiveButton from './ArchiveButton'
 import DeleteButton from './DeleteButton'
 import PublishButton from './PublishButton'

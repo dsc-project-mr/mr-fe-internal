@@ -1,6 +1,8 @@
 import { Button } from '@mui/material'
 import { putContent } from 'apis/content/usePutContent'
-import { ContentState } from 'constants/Content'
+import { AxiosError } from 'axios'
+import { ContentState } from 'constants/content'
+import { useSnackbar } from 'notistack'
 import { useState } from 'react'
 import ActionPopup from './ActionPopup'
 
@@ -12,6 +14,7 @@ const PublishButton = ({
   article_title: string
 }) => {
   const [open, setOpen] = useState<boolean>(false)
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleOpen = () => {
     setOpen(true)
@@ -25,6 +28,16 @@ const PublishButton = ({
     putContent(article_id, {
       state: ContentState.PUBLISHED,
     })
+      .then(() => {
+        enqueueSnackbar('Article published successfully', {
+          variant: 'success',
+        })
+      })
+      .catch((e: AxiosError) => {
+        enqueueSnackbar(`Failed to publish article: ${e.message}`, {
+          variant: 'error',
+        })
+      })
     setOpen(false)
   }
 

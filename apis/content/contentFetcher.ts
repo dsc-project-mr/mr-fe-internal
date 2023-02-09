@@ -1,4 +1,4 @@
-import { CONTENT_ARTICLE_URL } from 'constants/Content'
+import { CONTENT_ARTICLE_URL } from 'constants/content'
 import { getFetcher } from 'fetchers'
 import { Article } from 'models/article'
 
