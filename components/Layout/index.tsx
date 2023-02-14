@@ -29,13 +29,18 @@ const Layout = ({ children }: Props) => {
             sx={{
               display: 'flex',
               height: '100vh',
+              width: `100vw`,
             }}
           >
             <CssBaseline />
             <Sidebar />
             <Box
               component="main"
-              sx={{ flexGrow: 1, margin: '0 24px', height: '100%' }}
+              sx={{
+                flexGrow: 1,
+                margin: '0 24px',
+                height: '100%',
+              }}
             >
               {children}
             </Box>

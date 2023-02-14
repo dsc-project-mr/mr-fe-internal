@@ -17,6 +17,7 @@ import { DynamicMultiSelectFilter } from './DynamicMultiSelectFilter'
 import { DateRange, DateRangeFilter } from './DateRangeFilter'
 import isEqual from 'lodash/isEqual'
 import { DonationFilters, Region, Urgency } from 'constants/Donation'
+import { ArticleType, ContentFilters, ContentState } from 'constants/Content'
 
 export interface Filter<T> {
   name: string
@@ -48,6 +49,8 @@ type SearchbarProps = {
   setSearch: Dispatch<SetStateAction<string>>
 
   filters: (
+    | Filter<ContentState[]>
+    | Filter<ArticleType[]>
     | Filter<Urgency[]>
     | Filter<Region[]>
     | Filter<DateRange | undefined>
@@ -97,9 +100,42 @@ const Searchbar = ({
       f.resetValue()
     }
   }, [filters])
-
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   const FilterComponent = useCallback((f: Filter<any>) => {
     switch (f.name) {
+      case ContentFilters.STATE:
+        return (
+          <MultiSelectFilter
+            valueSet={f.valueSet}
+            values={f.value}
+            setValues={f.setValue}
+          />
+        )
+
+      case ContentFilters.TYPE:
+        return (
+          <MultiSelectFilter
+            valueSet={f.valueSet}
+            values={f.value}
+            setValues={f.setValue}
+          />
+        )
+
+      case ContentFilters.DATE_OF_CREATION:
+        return <DateRangeFilter value={f.value} setValue={f.setValue} />
+
+      case ContentFilters.DATE_LAST_MODIFIED:
+        return <DateRangeFilter value={f.value} setValue={f.setValue} />
+
+      case ContentFilters.TAGS:
+        return (
+          <DynamicMultiSelectFilter
+            valueSet={f.valueSet}
+            values={f.value}
+            setValues={f.setValue}
+          />
+        )
+
       case DonationFilters.URGENCY:
       case DonationFilters.COUNTRY:
         return (
