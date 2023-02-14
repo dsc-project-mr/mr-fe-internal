@@ -1,39 +1,27 @@
 import * as React from 'react';
-import { Box, TextField, MenuItem } from '@mui/material';
-
-const role = [
-    {
-        value: 'role1',
-        label: 'Article Editor',
-    },
-
-    {
-        value: 'role2',
-        label: 'Donation Campaign Editor',
-    },
-
-    {
-        value: 'role3',
-        label: 'Internal Users'
-    }
-]
+import { Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 const SelectRoleTextField = () => {
+    const [chosenRole, setChosenRole] = React.useState('');
+
     return (
         <Box>
-            <TextField select label="Role" required helperText="Please select your role." sx={styledSelectRole}>
-                {role.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
+            <FormControl fullWidth required>
+                <InputLabel id="role-choosing-label">Role</InputLabel>
+                <Select
+                    labelId="role-choosing-label"
+                    id="role-choosing"
+                    value={chosenRole}
+                    label="Role"
+                    onChange={e => setChosenRole(e.target.value)}
+                >
+                    <MenuItem value={'Article Editor'}>Article Editor</MenuItem>
+                    <MenuItem value={'Donation Campaign Editor'}>Donation Campaign Editor</MenuItem>
+                    <MenuItem value={'Internal User'}>Internal User</MenuItem>
+                </Select>
+            </FormControl>
         </Box>
     )
 }
 
 export default SelectRoleTextField;
-
-const styledSelectRole = {
-    width: '100%'
-}
