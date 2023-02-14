@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
-const CreateButton = () => {
+type Props = {
+  name : string;
+}
+
+const CreateButton: React.FC<Props> = (props) => {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -23,12 +27,12 @@ const CreateButton = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title" variant="h5">
-            {"Create New User?"}
+          <DialogTitle id="alert-dialog-title" variant="h5" sx={styledDialogTitle}>
+            Create New User
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are you sure that you would like to create this new user?
+              Are you sure that you would like to create this new user <span style={{fontWeight: 700}}>{props.name}</span> ?
               The email cannot be changed after creation. 
             </DialogContentText>
           </DialogContent>
@@ -45,3 +49,6 @@ const CreateButton = () => {
 
 export default CreateButton; 
 
+const styledDialogTitle = {
+  fontWeight : 700
+}

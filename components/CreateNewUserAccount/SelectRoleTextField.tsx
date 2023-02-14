@@ -1,8 +1,17 @@
 import * as React from 'react';
-import { Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Box, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
 
-const SelectRoleTextField = () => {
-    const [chosenRole, setChosenRole] = React.useState('');
+type Props = {
+    selectRole : (e : SelectChangeEvent) => void;
+}
+
+const SelectRoleTextField: React.FC<Props> = (props) => {
+    const [role, setRole] = React.useState('');
+
+    const handleChange = (event: SelectChangeEvent) => {
+        props.selectRole(event)
+        setRole(event.target.value);
+    }
 
     return (
         <Box>
@@ -11,9 +20,9 @@ const SelectRoleTextField = () => {
                 <Select
                     labelId="role-choosing-label"
                     id="role-choosing"
-                    value={chosenRole}
+                    value={role}
                     label="Role"
-                    onChange={e => setChosenRole(e.target.value)}
+                    onChange={(e) => handleChange(e)}
                 >
                     <MenuItem value={'Article Editor'}>Article Editor</MenuItem>
                     <MenuItem value={'Donation Campaign Editor'}>Donation Campaign Editor</MenuItem>
