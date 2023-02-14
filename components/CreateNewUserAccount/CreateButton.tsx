@@ -6,6 +6,7 @@ type Props = {
   name : string;
   email : string;
   role : string;
+  isCompleted : boolean;
 }
 
 const CreateButton: React.FC<Props> = (props) => {
@@ -36,7 +37,7 @@ const CreateButton: React.FC<Props> = (props) => {
   
     return (
         <div>
-        <Button variant="contained" onClick={handleClickOpen}>
+        <Button variant="contained" onClick={handleClickOpen} disabled={props.isCompleted ? false : true}>
           CREATE
         </Button>
         <Dialog

@@ -8,6 +8,7 @@ const CreateNewUserAccount = () => {
     const [name, setName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [role, setRole] = React.useState('');
+    const completed = (name !== '' && email !== '' && role !== '') ? true : false;
 
     const selectRole = (e : SelectChangeEvent) => {
         setRole(e.target.value)
@@ -24,7 +25,7 @@ const CreateNewUserAccount = () => {
 
                 <Stack direction="row" spacing={6}>
                     <Button variant="contained">BACK</Button>
-                    <CreateButton name={name} email={email} role={role}/>
+                    <CreateButton name={name} email={email} role={role} isCompleted={completed}/>
                 </Stack>
             </Stack>
         </Box>
