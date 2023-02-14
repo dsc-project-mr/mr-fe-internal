@@ -9,20 +9,6 @@ const CreateNewUserAccount = () => {
     const [email, setEmail] = React.useState('');
     const [role, setRole] = React.useState('');
 
-    // the submitName handler is for POST 
-    const submitName = async () => {
-        const response = await fetch('process.env.NEXT_PUBLIC_API_URL/user', {
-            method: 'POST',
-            body: JSON.stringify({ name }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-
-        const data = await response.json();
-        console.log(data);
-    }
-
     const selectRole = (e : SelectChangeEvent) => {
         setRole(e.target.value)
     }
@@ -38,7 +24,7 @@ const CreateNewUserAccount = () => {
 
                 <Stack direction="row" spacing={6}>
                     <Button variant="contained">BACK</Button>
-                    <CreateButton name={name}/>
+                    <CreateButton name={name} email={email} role={role}/>
                 </Stack>
             </Stack>
         </Box>

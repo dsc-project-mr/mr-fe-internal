@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import axios from 'axios';
 
 type Props = {
   name : string;
+  email : string;
+  role : string;
 }
 
 const CreateButton: React.FC<Props> = (props) => {
@@ -11,10 +14,25 @@ const CreateButton: React.FC<Props> = (props) => {
     const handleClickOpen = () => {
       setOpen(true);
     };
-  
+
     const handleClose = () => {
-      setOpen(false);
+      setOpen(false)
     };
+
+    const handleSubmit = () => {
+      setOpen(false);
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
+        name: props.name,
+        email: props.email,
+        role: props.role,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
   
     return (
         <div>
@@ -38,7 +56,7 @@ const CreateButton: React.FC<Props> = (props) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose} autoFocus>
+            <Button onClick={handleSubmit} autoFocus>
               Create
             </Button>
           </DialogActions>
