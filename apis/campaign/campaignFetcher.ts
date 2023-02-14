@@ -7,7 +7,7 @@ type CampaignResponse = BackendCampaign | BackendCampaign[]
 // TODO: error handling
 export const campaignFetcher = async (url = '') => {
   const response: CampaignResponse = await getFetcher(
-    `${process.env.NEXT_PUBLIC_API_URL}${DONATION_CAMPAIGN_URL}${url}`
+    `http://localhost:8000/api${DONATION_CAMPAIGN_URL}${url}`
   )
   return response
 }

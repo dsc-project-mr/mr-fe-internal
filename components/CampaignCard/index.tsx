@@ -1,4 +1,5 @@
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { Box, Grid } from '@mui/material'
 
 import { CampaignStatus } from 'constants/campaign'
@@ -6,22 +7,18 @@ import { Campaign } from 'models/campaign'
 import React from 'react'
 
 const styledmainbox = {
-  display: 'flex',
-  flexDirection: 'column',
   padding: '10px',
   backgroundColor: '#EAF9FF',
   width: '100%',
 }
 
 const styledmainbody = {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  padding: '0px 20px 0px 20px',
+  padding: '0px 20px',
 }
 
 const styledcontentbox = {
   display: 'flex',
+  flexDirection: 'column',
   height: '300px',
   backgroundColor: '#D9D9D9',
   padding: '15px',
@@ -41,18 +38,13 @@ const styledbottombox = {
 
 const styledbottomitems = {
   display: 'flex',
+  alignItems: 'center',
 }
 
 const styledinput = {
   fontSize: '15',
   fontWeight: '700',
 }
-
-const styledoverview = {
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-} as React.CSSProperties
 
 const campaignStateColor = {
   [CampaignStatus.PUBLISHED]: '#16A64A',
@@ -66,7 +58,7 @@ interface Props {
 
 const CampaignCard = ({ campaign }: Props) => {
   return (
-    <Grid>
+    <Grid alignItems={'center'}>
       <Box sx={styledmainbox}>
         <Box sx={styledmainbody}>
           <div
@@ -82,12 +74,22 @@ const CampaignCard = ({ campaign }: Props) => {
             <h5 style={{ color: '#009DD7', fontWeight: '500' }}>
               {campaign?.name}
             </h5>
-            <ArchiveOutlinedIcon
-              sx={{
-                color: '#009DD7',
-                fontSize: '2.5rem',
-              }}
-            />
+            <div>
+              <EditOutlinedIcon
+                sx={{
+                  color: '#009DD7',
+                  fontSize: '2.5rem',
+                  margin: '0px 10px',
+                }}
+              />
+              <ArchiveOutlinedIcon
+                sx={{
+                  color: '#009DD7',
+                  fontSize: '2.5rem',
+                  margin: '0px 10px',
+                }}
+              />
+            </div>
           </div>
           <div
             style={{
@@ -99,7 +101,7 @@ const CampaignCard = ({ campaign }: Props) => {
               margin: '15x 0px 15px 0px',
             }}
           >
-            <p style={styledoverview}>{'details'}</p>
+            <p>{'details'}</p>
             <h6
               style={{
                 color: campaignStateColor[campaign.state],
@@ -110,7 +112,19 @@ const CampaignCard = ({ campaign }: Props) => {
             </h6>
           </div>
         </Box>
-        <Box sx={styledcontentbox}>{campaign.details}</Box>
+        <Box sx={styledcontentbox}>
+          {/* <Image
+            style={{
+              display: 'block',
+              maxWidth: '400px',
+              maxHeight: '200px',
+              width: 'auto',
+              height: 'auto',
+            }}
+            src="https://foodtank.com/wp-content/uploads/2020/04/COVID-19-Relief_Small-Farms-.jpg"
+          /> */}
+          <div>{campaign.details}</div>
+        </Box>
         <Box sx={styledbottombox}>
           <div style={styledbottomitems}>
             <p>Donors:</p>&nbsp;

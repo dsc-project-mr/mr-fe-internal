@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material'
+import { Box, Button, Stack, Typography } from '@mui/material'
 import CampaignCard from 'components/CampaignCard'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { useRouter } from 'next/router'
@@ -44,20 +44,14 @@ export default function ViewCampaign() {
   const campaign = { ...renderCampaign, ...data }
 
   return (
-    <>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
+    <Box>
+      <Stack alignItems={'center'} justifyContent={'start'} direction={'row'}>
         <Button onClick={() => router.back()}>
           <ArrowBackIosNewIcon style={{ margin: 20 }} />
         </Button>
         <Typography variant="h4">Donations</Typography>
-      </div>
+      </Stack>
       <CampaignCard campaign={campaign} />
-    </>
+    </Box>
   )
 }

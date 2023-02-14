@@ -53,7 +53,7 @@ const CampaignList: NextPage = () => {
 
   const [search, setSearch] = useState<string>('')
   const [status, setStatus] = useState<DocumentStatus>(DocumentStatus.All)
-  const { props, filters } = donationFilters(tags)
+  const { filters } = donationFilters(tags)
 
   const router = useRouter()
 
@@ -67,7 +67,17 @@ const CampaignList: NextPage = () => {
   }
 
   if (campaigns === undefined) {
-    return <div>Loading...</div>
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        Loading Campaigns...
+      </div>
+    )
   }
 
   return (
