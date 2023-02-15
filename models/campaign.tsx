@@ -41,6 +41,7 @@ export interface Campaign {
   isTaxDeductible: boolean
   createdAt: string
   updatedAt: string
+  imageUrl: string
   __v: number
   id: string
 }

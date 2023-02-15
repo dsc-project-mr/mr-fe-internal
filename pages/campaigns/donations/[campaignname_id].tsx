@@ -21,6 +21,8 @@ const renderCampaign: Campaign = {
   updatedAt: '2023-01-20T03:27:06.422Z',
   isTaxDeductible: true,
   __v: 0,
+  imageUrl:
+    'https://www.mercyrelief.org/site/wp-content/uploads/logo-mercyrelief@2x.png',
 }
 
 export default function ViewCampaign() {

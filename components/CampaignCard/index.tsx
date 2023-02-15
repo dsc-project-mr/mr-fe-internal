@@ -5,6 +5,7 @@ import { Box, Grid } from '@mui/material'
 import { CampaignStatus } from 'constants/campaign'
 import { Campaign } from 'models/campaign'
 import React from 'react'
+import Image from 'next/image'
 
 const styledmainbox = {
   padding: '10px',
@@ -113,16 +114,14 @@ const CampaignCard = ({ campaign }: Props) => {
           </div>
         </Box>
         <Box sx={styledcontentbox}>
-          {/* <Image
-            style={{
-              display: 'block',
-              maxWidth: '400px',
-              maxHeight: '200px',
-              width: 'auto',
-              height: 'auto',
-            }}
-            src="https://foodtank.com/wp-content/uploads/2020/04/COVID-19-Relief_Small-Farms-.jpg"
-          /> */}
+          <Box width="100%" height="200px" position="relative">
+            <Image
+              layout="fill"
+              objectFit="contain"
+              src={campaign.imageUrl}
+              alt=""
+            />
+          </Box>
           <div>{campaign.details}</div>
         </Box>
         <Box sx={styledbottombox}>

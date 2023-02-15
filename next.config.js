@@ -8,13 +8,13 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  async rewrites() {
-    return [
+  images: {
+    remotePatterns: [
       {
-        source: '/api/:path*',
-        destination: 'http://localhost:8000/*',
+        protocol: 'https',
+        hostname: 'www.mercyrelief.org',
       },
-    ]
+    ],
   },
 }
 
