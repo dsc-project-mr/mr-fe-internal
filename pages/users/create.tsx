@@ -45,7 +45,12 @@ const CreateNewUserAccount = () => {
         <SelectRoleTextField selectRole={(e) => selectRole(e)} />
 
         <Stack direction="row" spacing={6}>
-          <Button variant="contained">BACK</Button>
+          <Button
+            variant="contained"
+            sx={{ marginLeft: 'auto', marginRight: 0 }}
+          >
+            BACK
+          </Button>
           <CreateButton
             name={name}
             email={email}
