@@ -9,13 +9,14 @@ const getArticle = async (id: string) => {
 
 const useGetArticle = (shouldFetch: boolean, articlename_id: string) => {
   const id = articlename_id?.split('_')?.at(-1)
-  const { data, error } = useSWR(shouldFetch ? id : null, getArticle, {
+  const { data, error, mutate } = useSWR(shouldFetch ? id : null, getArticle, {
     revalidateOnFocus: false,
   })
 
   return {
     data: data && mapResponseToArticleRowData(data),
     error,
+    mutate,
   }
 }
 

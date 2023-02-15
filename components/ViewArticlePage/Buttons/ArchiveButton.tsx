@@ -2,11 +2,19 @@ import { Button } from '@mui/material'
 import { putContent } from 'apis/content/usePutContent'
 import { AxiosError } from 'axios'
 import { ContentState } from 'constants/content'
+import { Article } from 'models/article'
 import { useSnackbar } from 'notistack'
 import { useState } from 'react'
+import { KeyedMutator } from 'swr'
 import ActionPopup from './ActionPopup'
 
-const ArchiveButton = ({ article_id }: { article_id: string }) => {
+const ArchiveButton = ({
+  article_id,
+  refetchArticle,
+}: {
+  article_id: string
+  refetchArticle: KeyedMutator<Article>
+}) => {
   const [open, setOpen] = useState<boolean>(false)
 
   const { enqueueSnackbar } = useSnackbar()
@@ -23,10 +31,11 @@ const ArchiveButton = ({ article_id }: { article_id: string }) => {
     putContent(article_id, {
       state: ContentState.ARCHIVED,
     })
-      .then(() => {
+      .then((response) => {
         enqueueSnackbar('Article archived successfully', {
           variant: 'success',
         })
+        refetchArticle(response.data)
       })
       .catch((e: AxiosError) => {
         enqueueSnackbar(

@@ -12,10 +12,11 @@ const ViewArticlePage = () => {
   const router = useRouter()
   const { articlename_id } = router.query
 
-  const { data: article, error: getArticleError } = useGetArticle(
-    router.isReady,
-    articlename_id as string
-  )
+  const {
+    data: article,
+    error: getArticleError,
+    mutate: refetchArticle,
+  } = useGetArticle(router.isReady, articlename_id as string)
 
   const { data: author, error: getAuthorError } = useGetUser(
     article !== undefined,
@@ -86,6 +87,7 @@ const ViewArticlePage = () => {
                 article_id={article.id}
                 articleState={article.state}
                 article_title={article.title}
+                refetchArticle={refetchArticle}
               />
             </Grid>
           </Grid>
