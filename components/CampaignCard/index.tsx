@@ -8,9 +8,10 @@ import React from 'react'
 import Image from 'next/image'
 
 const styledmainbox = {
+  margin: '0px 35px',
   padding: '10px',
   backgroundColor: '#EAF9FF',
-  width: '100%',
+  width: '90%',
 }
 
 const styledmainbody = {
@@ -59,7 +60,7 @@ interface Props {
 
 const CampaignCard = ({ campaign }: Props) => {
   return (
-    <Grid alignItems={'center'}>
+    <Grid sx={{ marginLeft: '30px' }} alignItems={'center'}>
       <Box sx={styledmainbox}>
         <Box sx={styledmainbody}>
           <div

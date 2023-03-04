@@ -11,7 +11,8 @@ const useGetCampaigns = () => {
   const { data, error } = useSWR('getAllCampaigns', getCampaigns, {
     revalidateOnFocus: false,
   })
-
+  console.log('data', data)
+  console.log('error', error)
   return {
     data,
     error,

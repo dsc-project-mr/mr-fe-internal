@@ -10,37 +10,61 @@ import type { NextPage } from 'next'
 import { useState } from 'react'
 import { Campaign, campaignColumns } from 'models/campaign'
 import { useRouter } from 'next/router'
-import useGetCampaigns from 'apis/campaign/useGetCampaigns'
+import { CampaignStatus } from 'constants/campaign'
 
-// const testData: Campaign[] = [
-//   {
-//     id: '63ca0a0acbb59fb5e90a541e',
-//     name: 'Impact Fund',
-//     details: 'Details of Impact Fund go here',
-//     donors: 15,
-//     amount: 15,
-//     country: 'Singapore',
-//     state: CampaignStatus.PUBLISHED,
-//   },
-//   {
-//     id: '63ca0a0acbb59fb5e90a5424',
-//     name: 'Impact Fund v2',
-//     details: 'Details of Impact Fund v2 go here',
-//     donors: 10,
-//     amount: 200,
-//     country: 'Singapore',
-//     state: CampaignStatus.ARCHIVED,
-//   },
-//   {
-//     id: '63ca0a0acbb59fb5e90a5427',
-//     name: 'Impact Fund v3',
-//     details: 'Details of Impact Fund v3 go here',
-//     donors: 19,
-//     amount: 50000,
-//     country: 'Singapore',
-//     state: CampaignStatus.DRAFT,
-//   },
-// ]
+const campaigns: Campaign[] = [
+  {
+    _id: '63ca0a0acbb59fb5e90a541e',
+    name: 'Impact Fund',
+    tags: [],
+    details: 'Details of Impact Fund go here',
+    category: '',
+    donors: 15,
+    amount: 200,
+    country: 'Singapore',
+    state: CampaignStatus.DRAFT,
+    isTaxDeductible: true,
+    createdAt: '',
+    updatedAt: '',
+    imageUrl: '',
+    __v: 0,
+    id: '63ca0a0acbb59fb5e90a541e',
+  },
+  {
+    _id: '63ca0a0acbb59fb5e90a5424',
+    name: 'professor',
+    tags: [],
+    details: 'Details of Impact Fund go here',
+    category: '',
+    donors: 10,
+    amount: 300,
+    country: 'Singapore',
+    state: CampaignStatus.PUBLISHED,
+    isTaxDeductible: true,
+    createdAt: '',
+    updatedAt: '',
+    imageUrl: '',
+    __v: 0,
+    id: '63ca0a0acbb59fb5e90a5424',
+  },
+  {
+    _id: '63ca0a0acbb59fb5e90a5421',
+    name: 'duck',
+    tags: [],
+    details: 'Details of Impact Fund go here',
+    category: '',
+    donors: 15,
+    amount: 200,
+    country: 'Singapore',
+    state: CampaignStatus.DRAFT,
+    isTaxDeductible: true,
+    createdAt: '',
+    updatedAt: '',
+    imageUrl: '',
+    __v: 0,
+    id: '63ca0a0acbb59fb5e90a5421',
+  },
+]
 
 const CampaignList: NextPage = () => {
   // TODO get this from a API call
@@ -49,7 +73,8 @@ const CampaignList: NextPage = () => {
   // TODO: we might need to have 4 diff data storing, otherwise we will have to keep
   // recalling the APIs when we switch tabs
 
-  const { data: campaigns, error } = useGetCampaigns()
+  // Commented this out for now as API for get all campaign is not ready, will result in axios not found error
+  // const { data: campaigns, error } = useGetCampaigns()
 
   const [search, setSearch] = useState<string>('')
   const [status, setStatus] = useState<DocumentStatus>(DocumentStatus.All)
@@ -62,23 +87,23 @@ const CampaignList: NextPage = () => {
     router.push(`/campaigns/donations/${row.name}_${row.id}`)
   }
 
-  if (error) {
-    return <div>Error: {error}</div>
-  }
+  // if (error) {
+  //   return <div>Error: {error}</div>
+  // }
 
-  if (campaigns === undefined) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        Loading Campaigns...
-      </div>
-    )
-  }
+  // if (campaigns === undefined) {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: 'flex',
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //       }}
+  //     >
+  //       Loading Campaigns...
+  //     </div>
+  //   )
+  // }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
