@@ -17,25 +17,25 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: 'name',
+    id: 'title',
     numeric: false,
     disablePadding: false,
     label: 'Name',
   },
   {
-    id: 'date_created',
+    id: 'createdAt',
     numeric: true,
     disablePadding: false,
     label: 'Date Of Creation',
   },
   {
-    id: 'last_modified',
+    id: 'updatedAt',
     numeric: true,
     disablePadding: false,
     label: 'Last Modified',
   },
   {
-    id: 'status',
+    id: 'state',
     numeric: true,
     disablePadding: false,
     label: 'Status',

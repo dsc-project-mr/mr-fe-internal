@@ -1,6 +1,15 @@
 import { Box } from '@mui/system'
 import EditIcon from 'public/images/articles/edit_icon.png'
-const ArticlePanel = () => {
+import parse from 'html-react-parser'
+import Image from 'next/image'
+
+const ArticlePanel = ({
+  imageUrl,
+  contentUrl,
+}: {
+  imageUrl: string
+  contentUrl: string
+}) => {
   return (
     <Box
       sx={{
@@ -9,6 +18,9 @@ const ArticlePanel = () => {
         height: 835,
         borderRadius: 2,
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
       }}
     >
       <Box
@@ -37,6 +49,12 @@ const ArticlePanel = () => {
             height: 32,
           }}
         />
+      </Box>
+      <Box width="100%" height="100%" position="relative">
+        <Image layout="fill" objectFit="contain" src={imageUrl} alt="" />
+      </Box>
+      <Box display="flex" justifyContent="center" alignItems="center">
+        {parse(contentUrl)}
       </Box>
     </Box>
   )

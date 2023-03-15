@@ -13,12 +13,14 @@ const ActionPopup = ({
   action,
   open,
   handleClose,
+  handleAction,
 }: {
   title: string
   desc: string
   action: string
   open: boolean
   handleClose: () => void
+  handleAction: () => void
 }) => {
   return (
     <>
@@ -35,7 +37,7 @@ const ActionPopup = ({
           <Button autoFocus onClick={handleClose}>
             Cancel
           </Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleAction} autoFocus>
             {action}
           </Button>
         </DialogActions>

@@ -1,10 +1,22 @@
 import { Box } from '@mui/system'
-import { CampaignStatus } from 'constants/campaign'
+import { ContentState } from 'constants/Content'
+import { Article } from 'models/article'
+import { KeyedMutator } from 'swr'
 import ArchiveButton from './ArchiveButton'
 import DeleteButton from './DeleteButton'
 import PublishButton from './PublishButton'
 
-const ButtonsPanel = ({ articleType }: { articleType: CampaignStatus }) => {
+const ButtonsPanel = ({
+  article_id,
+  articleState,
+  article_title,
+  refetchArticle,
+}: {
+  article_id: string
+  articleState: ContentState
+  article_title: string
+  refetchArticle: KeyedMutator<Article>
+}) => {
   return (
     <>
       <Box
@@ -13,11 +25,18 @@ const ButtonsPanel = ({ articleType }: { articleType: CampaignStatus }) => {
           justifyContent: 'space-evenly',
         }}
       >
-        <DeleteButton />
-        {articleType === CampaignStatus.PUBLISHED ? (
-          <ArchiveButton />
+        <DeleteButton article_id={article_id} />
+        {articleState === ContentState.PUBLISHED ? (
+          <ArchiveButton
+            article_id={article_id}
+            refetchArticle={refetchArticle}
+          />
         ) : (
-          <PublishButton />
+          <PublishButton
+            article_id={article_id}
+            article_title={article_title}
+            refetchArticle={refetchArticle}
+          />
         )}
       </Box>
     </>

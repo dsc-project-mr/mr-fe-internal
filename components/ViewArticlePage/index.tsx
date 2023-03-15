@@ -1,55 +1,98 @@
 import { Grid, Typography } from '@mui/material'
-import { useState } from 'react'
 import ArticlePanel from './ArticlePanel'
 import ButtonsPanel from './Buttons/ButtonsPanel'
 import DetailsPanel from './DetailsPanel'
 import ArticleCountPanel, { CountType } from './ArticleCountPanel'
-import { CampaignStatus } from 'constants/campaign'
+import { useRouter } from 'next/router'
+import { ContentState } from 'constants/Content'
+import useGetArticle from 'apis/content/useGetArticle'
+import useGetUser from 'apis/user/useGetUser'
 
 const ViewArticlePage = () => {
-  // Some code to ping backend for article data
+  const router = useRouter()
+  const { articlename_id } = router.query
 
-  const [articleType] = useState<CampaignStatus>(CampaignStatus.DRAFT)
+  const {
+    data: article,
+    error: getArticleError,
+    mutate: refetchArticle,
+  } = useGetArticle(router.isReady, articlename_id as string)
+
+  const { data: author, error: getAuthorError } = useGetUser(
+    article !== undefined,
+    article?.author as string
+  )
+
+  const { data: updatedByUser, error: getUpdatedByError } = useGetUser(
+    article !== undefined,
+    article?.updatedBy as string
+  )
 
   return (
     <>
-      <Grid
-        container
-        sx={{
-          height: '100%',
-          width: '100%',
-        }}
-      >
-        <Grid container item height="90px" alignItems="center">
-          <Typography
-            fontSize={28}
-            letterSpacing={0}
-            fontWeight={550}
-            color="#00000099"
-          >
-            View Article
-          </Typography>
-        </Grid>
-        <Grid container item height="50px">
-          <Typography fontSize={21} letterSpacing={0} fontWeight={700}>
-            Preview of Article
-          </Typography>
-        </Grid>
-        <Grid container item wrap="nowrap">
-          <Grid>
-            <ArticlePanel />
+      {getArticleError ? (
+        <div>Error: {getArticleError.message}</div>
+      ) : article === undefined ? (
+        <div>Loading...</div>
+      ) : (
+        <Grid
+          container
+          sx={{
+            height: '100%',
+            width: '100%',
+          }}
+        >
+          <Grid container item height="90px" alignItems="center">
+            <Typography
+              fontSize={28}
+              letterSpacing={0}
+              fontWeight={550}
+              color="#00000099"
+            >
+              View Article
+            </Typography>
           </Grid>
-          <Grid width="24px" />
-          <Grid width={370}>
-            <DetailsPanel />
-            <ArticleCountPanel count={13} countType={CountType.REVISION} />
-            {articleType !== CampaignStatus.DRAFT && (
-              <ArticleCountPanel count={100} countType={CountType.VIEWS} />
-            )}
-            <ButtonsPanel articleType={articleType} />
+          <Grid container item height="50px">
+            <Typography fontSize={21} letterSpacing={0} fontWeight={700}>
+              Preview of Article
+            </Typography>
+          </Grid>
+          <Grid container item wrap="nowrap">
+            <Grid>
+              <ArticlePanel
+                imageUrl={article.imageUrl}
+                contentUrl={article.contentUrl}
+              />
+            </Grid>
+            <Grid width="24px" />
+            <Grid width={370}>
+              <DetailsPanel
+                title={article.title}
+                state={article.state}
+                createdAt={article.createdAt}
+                updatedAt={article.updatedAt}
+                author={getAuthorError ? 'NOT FOUND' : (author?.name as string)}
+                updatedBy={
+                  getUpdatedByError
+                    ? 'NOT FOUND'
+                    : (updatedByUser?.name as string)
+                }
+                version={article.__v}
+              />
+              <ArticleCountPanel count={13} countType={CountType.REVISION} />
+              {article.state !== ContentState.DRAFT && (
+                <ArticleCountPanel count={100} countType={CountType.VIEWS} />
+              )}
+              <ButtonsPanel
+                article_id={article.id}
+                articleState={article.state}
+                article_title={article.title}
+                refetchArticle={refetchArticle}
+              />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
     </>
   )
 }

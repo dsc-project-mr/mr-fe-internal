@@ -14,6 +14,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.mercyrelief.org',
       },
+      {
+        protocol: 'https',
+        hostname: '*',
+      },
     ],
   },
 }

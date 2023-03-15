@@ -2,7 +2,7 @@ import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { Box, Grid } from '@mui/material'
 
-import { CampaignStatus } from 'constants/campaign'
+import { CampaignStatus } from 'constants/Campaign'
 import { Campaign } from 'models/campaign'
 import React from 'react'
 import Image from 'next/image'
