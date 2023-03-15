@@ -16,3 +16,5 @@ export enum ContentFilters {
   DATE_LAST_MODIFIED = 'Last Modified',
   TAGS = 'Tags',
 }
+
+export const CONTENT_ARTICLE_URL = '/content/article/'

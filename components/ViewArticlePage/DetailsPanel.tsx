@@ -1,10 +1,17 @@
 import { Paper, Typography } from '@mui/material'
+import { ContentState } from 'constants/content'
 
-const DetailSegment = ({ title, desc }: { title: string; desc: string }) => {
+const DetailSegment = ({
+  header,
+  desc,
+}: {
+  header: string
+  desc: string | number
+}) => {
   return (
     <>
       <Typography fontSize="12px" fontWeight={300}>
-        {title}
+        {header}
       </Typography>
       <Typography fontSize="16px" fontWeight={400} marginBottom="2px">
         {desc}
@@ -13,7 +20,23 @@ const DetailSegment = ({ title, desc }: { title: string; desc: string }) => {
   )
 }
 
-const DetailsPanel = () => {
+const DetailsPanel = ({
+  title,
+  state,
+  createdAt,
+  updatedAt,
+  author,
+  updatedBy,
+  version,
+}: {
+  title: string
+  author: string
+  updatedBy: string
+  state: ContentState
+  createdAt: Date
+  updatedAt: Date
+  version: number
+}) => {
   return (
     <Paper
       elevation={2}
@@ -28,16 +51,19 @@ const DetailsPanel = () => {
         Details
       </Typography>
 
+      <DetailSegment header="Article Name:" desc={title} />
+      <DetailSegment header="Status:" desc={state} />
       <DetailSegment
-        title="Article Name:"
-        desc="What we have done for the past two years?"
+        header="Date of Creation: "
+        desc={createdAt.toDateString()}
       />
-      <DetailSegment title="Status:" desc="Published" />
-      <DetailSegment title="Date of Creation: " desc="10 Sep 2022 09:00" />
-      <DetailSegment title="Author: " desc="Jane Doe (Article Editor)" />
-      <DetailSegment title="Last Modified On: " desc="12 Sep 2022 13:00" />
-      <DetailSegment title="Last Modified By: " desc="John Doe (Super Admin)" />
-      <DetailSegment title="Version: " desc="9.0.0" />
+      <DetailSegment header="Author: " desc={author} />
+      <DetailSegment
+        header="Last Modified On: "
+        desc={updatedAt.toDateString()}
+      />
+      <DetailSegment header="Last Modified By: " desc={updatedBy} />
+      <DetailSegment header="Version: " desc={version} />
     </Paper>
   )
 }

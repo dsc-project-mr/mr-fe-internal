@@ -17,7 +17,7 @@ import { DynamicMultiSelectFilter } from './DynamicMultiSelectFilter'
 import { DateRange, DateRangeFilter } from './DateRangeFilter'
 import isEqual from 'lodash/isEqual'
 import { DonationFilters, Region, Urgency } from 'constants/Donation'
-import { ArticleType, ContentFilters, ContentState } from 'constants/Content'
+import { ArticleType, ContentFilters, ContentState } from 'constants/content'
 
 export interface Filter<T> {
   name: string

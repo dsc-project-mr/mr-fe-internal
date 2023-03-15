@@ -8,6 +8,18 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.mercyrelief.org',
+      },
+      {
+        protocol: 'https',
+        hostname: '*',
+      },
+    ],
+  },
 }
 
 module.exports = nextConfig
