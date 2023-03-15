@@ -1,7 +1,7 @@
 import { DateRange } from './DateRangeFilter'
 import { useFilter as createFilter } from '.'
 import { DonationFilters, Region, Urgency } from 'constants/Donation'
-import { ArticleType, ContentFilters, ContentState } from 'constants/content'
+import { ArticleType, ContentFilters, ContentState } from 'constants/Content'
 
 // TODO one for content
 

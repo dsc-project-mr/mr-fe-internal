@@ -1,4 +1,4 @@
-import { CONTENT_ARTICLE_URL } from 'constants/content'
+import { CONTENT_ARTICLE_URL } from 'constants/Content'
 import { deleteFetcher } from 'fetchers'
 
 export const deleteContent = async (id: string) => {

@@ -4,7 +4,7 @@ import ButtonsPanel from './Buttons/ButtonsPanel'
 import DetailsPanel from './DetailsPanel'
 import ArticleCountPanel, { CountType } from './ArticleCountPanel'
 import { useRouter } from 'next/router'
-import { ContentState } from 'constants/content'
+import { ContentState } from 'constants/Content'
 import useGetArticle from 'apis/content/useGetArticle'
 import useGetUser from 'apis/user/useGetUser'
 

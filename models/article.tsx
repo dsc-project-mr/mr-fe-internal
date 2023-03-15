@@ -1,4 +1,4 @@
-import { ArticleType, ContentState } from 'constants/content'
+import { ArticleType, ContentState } from 'constants/Content'
 
 export interface Article {
   _id: string

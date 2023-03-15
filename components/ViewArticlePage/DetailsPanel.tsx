@@ -1,5 +1,5 @@
 import { Paper, Typography } from '@mui/material'
-import { ContentState } from 'constants/content'
+import { ContentState } from 'constants/Content'
 
 const DetailSegment = ({
   header,

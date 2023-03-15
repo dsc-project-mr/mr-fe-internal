@@ -1,5 +1,5 @@
 import { Box } from '@mui/system'
-import { ContentState } from 'constants/content'
+import { ContentState } from 'constants/Content'
 import { Article } from 'models/article'
 import { KeyedMutator } from 'swr'
 import ArchiveButton from './ArchiveButton'

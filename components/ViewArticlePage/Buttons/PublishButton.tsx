@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import { putContent } from 'apis/content/usePutContent'
 import { AxiosError } from 'axios'
-import { ContentState } from 'constants/content'
+import { ContentState } from 'constants/Content'
 import { Article } from 'models/article'
 import { useSnackbar } from 'notistack'
 import { useState } from 'react'
