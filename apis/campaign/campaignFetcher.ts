@@ -1,4 +1,4 @@
-import { DONATION_CAMPAIGN_URL } from 'constants/campaign'
+import { DONATION_CAMPAIGN_URL } from 'constants/Campaign'
 import { getFetcher } from 'fetchers'
 import { BackendCampaign } from 'models/campaign'
 

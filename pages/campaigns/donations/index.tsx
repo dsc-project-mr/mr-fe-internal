@@ -10,7 +10,7 @@ import type { NextPage } from 'next'
 import { useState } from 'react'
 import { Campaign, campaignColumns } from 'models/campaign'
 import { useRouter } from 'next/router'
-import { CampaignStatus } from 'constants/campaign'
+import { CampaignStatus } from 'constants/Campaign'
 
 const campaigns: Campaign[] = [
   {
