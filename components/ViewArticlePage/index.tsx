@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material'
+import { Button, Grid, Typography } from '@mui/material'
 import ArticlePanel from './ArticlePanel'
 import ButtonsPanel from './Buttons/ButtonsPanel'
 import DetailsPanel from './DetailsPanel'
@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { ContentState } from 'constants/Content'
 import useGetArticle from 'apis/content/useGetArticle'
 import useGetUser from 'apis/user/useGetUser'
+import ChevronLeft from '@mui/icons-material/ChevronLeft'
 
 const ViewArticlePage = () => {
   const router = useRouter()
@@ -43,6 +44,19 @@ const ViewArticlePage = () => {
           }}
         >
           <Grid container item height="90px" alignItems="center">
+            <Button
+              color="primary"
+              variant="contained"
+              sx={{
+                minWidth: 30,
+                width: 30,
+                height: 30,
+                marginRight: '20px',
+              }}
+              onClick={() => router.back()}
+            >
+              <ChevronLeft />
+            </Button>
             <Typography
               fontSize={28}
               letterSpacing={0}
