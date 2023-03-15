@@ -6,40 +6,11 @@ import DocumentListTabs from 'components/DocumentListTabs'
 import Searchbar from 'components/Searchbar'
 import { donationFilters } from 'components/Searchbar/defaults'
 import { DocumentStatus } from 'constants/DocumentStatus'
-import { CampaignStatus } from 'constants/Donation'
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Campaign, campaignColumns } from 'models/campaign'
-
-const testData: Campaign[] = [
-  {
-    id: 1,
-    name: 'Impact Fund',
-    details: 'Details of Impact Fund go here',
-    donors: 15,
-    amount: 15,
-    country: 'Singapore',
-    status: CampaignStatus.PUBLISHED,
-  },
-  {
-    id: 2,
-    name: 'Impact Fund v2',
-    details: 'Details of Impact Fund v2 go here',
-    donors: 10,
-    amount: 200,
-    country: 'Singapore',
-    status: CampaignStatus.ARCHIVED,
-  },
-  {
-    id: 3,
-    name: 'Impact Fund v3',
-    details: 'Details of Impact Fund v3 go here',
-    donors: 19,
-    amount: 50000,
-    country: 'Singapore',
-    status: CampaignStatus.DRAFT,
-  },
-]
+import { useRouter } from 'next/router'
+import useGetCampaigns from 'apis/campaign/useGetCampaigns'
 
 const CampaignList: NextPage = () => {
   // TODO get this from a API call
@@ -47,22 +18,36 @@ const CampaignList: NextPage = () => {
 
   // TODO: we might need to have 4 diff data storing, otherwise we will have to keep
   // recalling the APIs when we switch tabs
-  const [campaigns, setCampaigns] = useState<Campaign[]>([])
+
+  const { data: campaigns, error } = useGetCampaigns()
+
   const [search, setSearch] = useState<string>('')
   const [status, setStatus] = useState<DocumentStatus>(DocumentStatus.All)
-  const { props: _props, filters } = donationFilters(tags)
+  const { filters } = donationFilters(tags)
 
-  useEffect(() => {
-    //const props = { ..._props, status }
-    setCampaigns(testData)
-    // setCampaigns(someApi(search, props))
-  }, [_props, status, search])
-  const handleView = () => {
-    //route(`/donation/view/${row.id}`, row)
+  const router = useRouter()
+
+  const handleView = (row: Campaign) => {
+    router.push(`/campaigns/donations/${row.name}_${row.id}`)
   }
-  // const handleView = (row: Campaign) => {
-  //   //route(`/donation/view/${row.id}`, row)
-  // }
+
+  if (error) {
+    return <div>Error: {error}</div>
+  }
+
+  if (campaigns === undefined) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        Loading Campaigns...
+      </div>
+    )
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -82,6 +67,7 @@ const CampaignList: NextPage = () => {
             rows={campaigns}
             autoHeight
             pageSize={10}
+            rowsPerPageOptions={[10]}
           />
         </DocumentListTabs>
       </Box>

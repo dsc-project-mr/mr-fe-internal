@@ -9,19 +9,26 @@ import {
 // GridActionsCellItem seems to be badly defined, I can't set the
 // properties described here: https://mui.com/x/react-data-grid/column-definition/#special-properties
 // So I've created this monstrosity. Forgive me.
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const UntypesafeBox = (props: any) => {
   return <GridActionsCellItem {...props} />
 }
 
 export interface Campaign {
-  id: number
+  _id: string
   name: string
-  details: string
+  tags: string[]
+  description: string
   donors: number
-  amount: number
+  amountDonated: number
   country: string
-  status: CampaignStatus
+  state: CampaignStatus
+  isTaxDeductible: boolean
+  createdAt: string
+  updatedAt: string
+  imageUrl: string
+  __v: number
+  id: string
 }
 
 export const campaignColumns = (
@@ -44,7 +51,7 @@ export const campaignColumns = (
     { field: 'name', headerName: 'Name', minWidth: 200, flex: 1 },
     { field: 'country', headerName: 'Country', minWidth: 150, flex: 1 },
     { field: 'donors', headerName: 'Total Donors', minWidth: 100, flex: 1 },
-    { field: 'status', headerName: 'Status', minWidth: 100, flex: 1 },
+    { field: 'state', headerName: 'Status', minWidth: 100, flex: 1 },
     navAction,
   ]
 }
