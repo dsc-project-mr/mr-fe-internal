@@ -1,4 +1,4 @@
-import { USER_URL } from 'constants/user'
+import { USER_URL } from 'constants/User'
 import { getFetcher } from 'fetchers'
 import { User } from 'models/user'
 

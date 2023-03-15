@@ -7,7 +7,7 @@ import {
   InputLabel,
   SelectChangeEvent,
 } from '@mui/material'
-import { Role } from 'constants/user'
+import { Role } from 'constants/User'
 
 type Props = {
   selectRole: (e: SelectChangeEvent) => void
