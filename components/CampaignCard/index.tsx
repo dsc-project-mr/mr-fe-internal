@@ -2,7 +2,7 @@ import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined'
 import { Box, Typography } from '@mui/material'
 import { DRAWER_WIDTH } from 'components/Sidebar'
 
-import { CampaignStatus } from 'constants/campaign'
+import { CampaignStatus } from 'constants/Campaign'
 import { Campaign } from 'models/campaign'
 import React from 'react'
 
