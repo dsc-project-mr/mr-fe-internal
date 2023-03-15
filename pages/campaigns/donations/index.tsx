@@ -10,61 +10,7 @@ import type { NextPage } from 'next'
 import { useState } from 'react'
 import { Campaign, campaignColumns } from 'models/campaign'
 import { useRouter } from 'next/router'
-import { CampaignStatus } from 'constants/Campaign'
-
-const campaigns: Campaign[] = [
-  {
-    _id: '63ca0a0acbb59fb5e90a541e',
-    name: 'Impact Fund',
-    tags: [],
-    details: 'Details of Impact Fund go here',
-    category: '',
-    donors: 15,
-    amount: 200,
-    country: 'Singapore',
-    state: CampaignStatus.DRAFT,
-    isTaxDeductible: true,
-    createdAt: '',
-    updatedAt: '',
-    imageUrl: '',
-    __v: 0,
-    id: '63ca0a0acbb59fb5e90a541e',
-  },
-  {
-    _id: '63ca0a0acbb59fb5e90a5424',
-    name: 'professor',
-    tags: [],
-    details: 'Details of Impact Fund go here',
-    category: '',
-    donors: 10,
-    amount: 300,
-    country: 'Singapore',
-    state: CampaignStatus.PUBLISHED,
-    isTaxDeductible: true,
-    createdAt: '',
-    updatedAt: '',
-    imageUrl: '',
-    __v: 0,
-    id: '63ca0a0acbb59fb5e90a5424',
-  },
-  {
-    _id: '63ca0a0acbb59fb5e90a5421',
-    name: 'duck',
-    tags: [],
-    details: 'Details of Impact Fund go here',
-    category: '',
-    donors: 15,
-    amount: 200,
-    country: 'Singapore',
-    state: CampaignStatus.DRAFT,
-    isTaxDeductible: true,
-    createdAt: '',
-    updatedAt: '',
-    imageUrl: '',
-    __v: 0,
-    id: '63ca0a0acbb59fb5e90a5421',
-  },
-]
+import useGetCampaigns from 'apis/campaign/useGetCampaigns'
 
 const CampaignList: NextPage = () => {
   // TODO get this from a API call
@@ -73,8 +19,7 @@ const CampaignList: NextPage = () => {
   // TODO: we might need to have 4 diff data storing, otherwise we will have to keep
   // recalling the APIs when we switch tabs
 
-  // Commented this out for now as API for get all campaign is not ready, will result in axios not found error
-  // const { data: campaigns, error } = useGetCampaigns()
+  const { data: campaigns, error } = useGetCampaigns()
 
   const [search, setSearch] = useState<string>('')
   const [status, setStatus] = useState<DocumentStatus>(DocumentStatus.All)
@@ -83,27 +28,26 @@ const CampaignList: NextPage = () => {
   const router = useRouter()
 
   const handleView = (row: Campaign) => {
-    console.log(row.id)
     router.push(`/campaigns/donations/${row.name}_${row.id}`)
   }
 
-  // if (error) {
-  //   return <div>Error: {error}</div>
-  // }
+  if (error) {
+    return <div>Error: {error}</div>
+  }
 
-  // if (campaigns === undefined) {
-  //   return (
-  //     <div
-  //       style={{
-  //         display: 'flex',
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}
-  //     >
-  //       Loading Campaigns...
-  //     </div>
-  //   )
-  // }
+  if (campaigns === undefined) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        Loading Campaigns...
+      </div>
+    )
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>

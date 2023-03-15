@@ -3,33 +3,12 @@ import CampaignCard from 'components/CampaignCard'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { useRouter } from 'next/router'
 import useGetCampaign from 'apis/campaign/useGetCampaign'
-import { Campaign } from 'models/campaign'
-import { CampaignStatus } from 'constants/Donation'
-
-const renderCampaign: Campaign = {
-  _id: '0',
-  id: '0',
-  name: 'Title',
-  details: 'Details of campaign',
-  donors: 0,
-  amount: 0,
-  country: 'Loading...',
-  state: CampaignStatus.DRAFT,
-  tags: [],
-  category: '63ca0a0acbb59fb5e90a5426',
-  createdAt: '2023-01-20T03:27:06.422Z',
-  updatedAt: '2023-01-20T03:27:06.422Z',
-  isTaxDeductible: true,
-  __v: 0,
-  imageUrl:
-    'https://www.mercyrelief.org/site/wp-content/uploads/logo-mercyrelief@2x.png',
-}
 
 export default function ViewCampaign() {
   const router = useRouter()
   const { campaignname_id } = router.query
 
-  const { data, error } = useGetCampaign(
+  const { data: campaign, error } = useGetCampaign(
     router.isReady,
     campaignname_id as string
   )
@@ -38,12 +17,9 @@ export default function ViewCampaign() {
     return <div>Error: {error}</div>
   }
 
-  if (data === undefined) {
+  if (campaign === undefined) {
     return <div>Loading...</div>
   }
-
-  // I did this to force the type to be Campaign
-  const campaign = { ...renderCampaign, ...data }
 
   return (
     <Box>

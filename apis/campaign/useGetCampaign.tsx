@@ -1,9 +1,9 @@
-import { BackendCampaign } from 'models/campaign'
+import { Campaign } from 'models/campaign'
 import useSWR from 'swr'
 import { campaignFetcher } from './campaignFetcher'
 
 const getCampaign = async (id: string) => {
-  const response = (await campaignFetcher(id)) as BackendCampaign
+  const response = (await campaignFetcher(id)) as Campaign
   return response
 }
 

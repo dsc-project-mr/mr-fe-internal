@@ -1,15 +1,11 @@
 import { DONATION_CAMPAIGN_URL } from 'constants/Campaign'
 import { getFetcher } from 'fetchers'
-import { BackendCampaign } from 'models/campaign'
+import { Campaign } from 'models/campaign'
 
-type CampaignResponse = BackendCampaign | BackendCampaign[]
+type CampaignResponse = Campaign | Campaign[]
 
 // TODO: error handling
 export const campaignFetcher = async (url = '') => {
-  console.log('FETCH CAMPAIGNS')
-  console.log(
-    `${process.env.NEXT_PUBLIC_API_URL}${DONATION_CAMPAIGN_URL}${url}`
-  )
   const response: CampaignResponse = await getFetcher(
     `${process.env.NEXT_PUBLIC_API_URL}${DONATION_CAMPAIGN_URL}${url}`
   )

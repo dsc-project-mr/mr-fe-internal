@@ -115,15 +115,17 @@ const CampaignCard = ({ campaign }: Props) => {
           </div>
         </Box>
         <Box sx={styledcontentbox}>
-          <Box width="100%" height="200px" position="relative">
-            <Image
-              layout="fill"
-              objectFit="contain"
-              src={campaign.imageUrl}
-              alt=""
-            />
-          </Box>
-          <div>{campaign.details}</div>
+          {campaign.imageUrl && (
+            <Box width="100%" height="200px" position="relative">
+              <Image
+                layout="fill"
+                objectFit="contain"
+                src={campaign?.imageUrl || ''}
+                alt=""
+              />
+            </Box>
+          )}
+          <div>{campaign.description}</div>
         </Box>
         <Box sx={styledbottombox}>
           <div style={styledbottomitems}>
@@ -132,7 +134,7 @@ const CampaignCard = ({ campaign }: Props) => {
           </div>
           <div style={styledbottomitems}>
             <p>Total Amount Received: </p>&nbsp;
-            <p style={styledinput}>${campaign.amount.toString()}</p>
+            <p style={styledinput}>${campaign.amountDonated.toString()}</p>
           </div>
           <div style={styledbottomitems}>
             <p>Country: </p>&nbsp;
