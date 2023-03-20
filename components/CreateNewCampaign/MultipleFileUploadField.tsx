@@ -1,109 +1,132 @@
-import { Grid, Button, Typography, Stack } from '@mui/material';
-import { useField } from 'formik';
-import React, { useCallback, useEffect, useState } from 'react';
-import { FileError, FileRejection, useDropzone } from 'react-dropzone';
-import SingleFileUploadWithProgress from './SingleFileUploadWithProgress';
-import { UploadError } from './UploadError';
-
-let currentId = 0;
+import { Grid, Avatar, Box } from '@mui/material'
+import { useField } from 'formik'
+import React, { useCallback, useEffect, useState } from 'react'
+import { FileError, FileRejection, useDropzone } from 'react-dropzone'
+import SingleFileUploadWithProgress from './SingleFileUploadWithProgress'
+import { UploadError } from './UploadError'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
+let currentId = 0
 
 function getNewId() {
-  return ++currentId;
+  return ++currentId
 }
 
 export interface UploadableFile {
-  id: number;
-  file: File;
-  errors: FileError[];
-  url?: string;
+  id: number
+  file: File
+  errors: FileError[]
+  url?: string
 }
 
 const MultipleFileUploadField = ({ name }: { name: string }) => {
-  const [_, __, helpers] = useField(name);
-  const [files, setFiles] = useState<UploadableFile[]>([]);
+  const [, , helpers] = useField(name)
+  const [files, setFiles] = useState<UploadableFile[]>([])
   const onDrop = useCallback((accFiles: File[], rejFiles: FileRejection[]) => {
-    const mappedAcc = accFiles.map((file) => ({ file, errors: [], id: getNewId() }));
-    const mappedRej = rejFiles.map((r) => ({ ...r, id: getNewId() }));
-    setFiles((curr) => [...curr, ...mappedAcc, ...mappedRej]);
-  }, []);
+    const mappedAcc = accFiles.map((file) => ({
+      file,
+      errors: [],
+      id: getNewId(),
+    }))
+    const mappedRej = rejFiles.map((r) => ({ ...r, id: getNewId() }))
+    setFiles((curr) => [...curr, ...mappedAcc, ...mappedRej])
+  }, [])
 
   useEffect(() => {
-    helpers.setValue(files);
-  }, [files]);
+    helpers.setValue(files)
+  }, [files, helpers])
 
   function onUpload(file: File, url: string) {
     setFiles((curr) =>
       curr.map((fw) => {
         if (fw.file === file) {
-          return { ...fw, url };
+          return { ...fw, url }
         }
-        return fw;
+        return fw
       })
-    );
+    )
   }
 
   function onDelete(file: File) {
-    setFiles((curr) => curr.filter((fw) => fw.file !== file));
+    setFiles((curr) => curr.filter((fw) => fw.file !== file))
   }
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
-        'image/*': ['.png','.gif', '.jpeg', '.jpg', '.svg']
+      'image/*': ['.png', '.gif', '.jpeg', '.jpg', '.svg'],
     },
     maxSize: 3000 * 1024, // 3MB
-  });
+  })
 
   return (
     <>
       <Grid item>
-          <div {...getRootProps()}>
+        <div {...getRootProps()}>
           <input {...getInputProps()} />
-          <Stack sx={styledStack}>
-            <Button variant="contained" sx={styledButton}>Click to upload or drag and drop</Button>
-            <Typography sx={styledTypo}>PNG, GIF, JPEG, JPG or SVG files - max 3MB</Typography>
-          </Stack>
-
-          </div>
+          <Box sx={styledContainer}>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
+              <Avatar sx={{ bgcolor: '#bbdefb' }}>
+                <UploadFileIcon
+                  sx={{
+                    color: '#1976D2',
+                  }}
+                />
+              </Avatar>
+            </Grid>
+            <Grid item xs={12}>
+              <p style={{ justifyContent: 'center' }}>
+                <span
+                  style={{
+                    textDecoration: 'underline',
+                    color: '#1976D2',
+                  }}
+                >
+                  Click To Upload
+                </span>
+                &nbsp;or Drag and Drop
+              </p>
+              <p style={{ color: '#9e9e9e' }}>
+                SVG, PNG, JPG or GIF (max. 3MB)
+              </p>
+            </Grid>
+          </Box>
+        </div>
       </Grid>
 
       {files.map((fileWrapper) => (
-          <Grid item key={fileWrapper.id}>
+        <Grid item key={fileWrapper.id}>
           {fileWrapper.errors.length ? (
-              <UploadError
+            <UploadError
               file={fileWrapper.file}
               errors={fileWrapper.errors}
               onDelete={onDelete}
-              />
+            />
           ) : (
-              <SingleFileUploadWithProgress
+            <SingleFileUploadWithProgress
               onDelete={onDelete}
               onUpload={onUpload}
               file={fileWrapper.file}
-              />
+            />
           )}
-          </Grid>
+        </Grid>
       ))}
     </>
-  );
+  )
 }
 
-const styledStack = {
+const styledContainer = {
   display: 'flex',
-  justifyContent: 'center',
-}
-
-const styledTypo = {
-  textAlign: 'center',
-  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  border: '3px dashed #F2F2F2',
   justifyContent: 'center',
   alignItems: 'center',
-  fontSize: '15px',
-  marginTop: '20px',
+  margin: '0px',
+  padding: '20px 0',
 }
 
-const styledButton = {
-  padding: '20px',
-}
-
-export default MultipleFileUploadField;
+export default MultipleFileUploadField
