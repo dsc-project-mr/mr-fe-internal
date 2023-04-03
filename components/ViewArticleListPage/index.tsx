@@ -24,18 +24,20 @@ import { ContentState } from 'constants/Content'
 import ArticleRow from './ArticleRow'
 import useGetAllArticles from 'apis/content/useGetAllArticles'
 
-const isNotFiltered = (row: ArticleRowData, props: ContentFiltersProps) => {
+const isNotFiltered = (
+  row: ArticleRowData,
+  props: ContentFiltersProps,
+  search: string,
+  status: DocumentStatus
+) => {
   return (
     withinDateRange(row.createdAt, props.selectedCreatedDateRange) &&
     withinDateRange(row.updatedAt, props.selectedModifiedDateRange) &&
-    isSelectedState(row.state, props.selectedStates)
+    isSelectedState(row.state, props.selectedStates) &&
+    row.title.toLowerCase().includes(search.toLowerCase()) &&
+    (status === DocumentStatus.All || row.state === DocumentStatus[status])
   )
 }
-
-const isSelectedState = (
-  state: ContentState,
-  selectedStates: ContentState[]
-): boolean => selectedStates.length === 0 || selectedStates.includes(state)
 
 const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
   if (
@@ -49,6 +51,11 @@ const withinDateRange = (date: Date, range: DateRange | undefined): boolean => {
   const { start, end } = range
   return start <= date && date <= end
 }
+
+const isSelectedState = (
+  state: ContentState,
+  selectedStates: ContentState[]
+): boolean => selectedStates.length === 0 || selectedStates.includes(state)
 
 export default function EnhancedTable() {
   const { data, error } = useGetAllArticles()
@@ -70,18 +77,10 @@ export default function EnhancedTable() {
 
   const displayRows = useMemo(() => {
     console.log('Memo called')
-    return (data === undefined ? [] : data)
-      .filter((row) => isNotFiltered(row, props))
-      .filter((row) => {
-        return row.title.toLowerCase().includes(search.toLowerCase())
-      })
-  }, [props, data, search])
-
-  // const displayRows = (data === undefined ? [] : data)
-  //   .filter((row) => isNotFiltered(row, props))
-  //   .filter((row) => {
-  //     return row.title.toLowerCase().includes(search.toLowerCase())
-  //   })
+    return (data === undefined ? [] : data).filter((row) =>
+      isNotFiltered(row, props, search, status)
+    )
+  }, [props, data, search, status])
 
   useEffect(() => {
     console.log('Length changed')
