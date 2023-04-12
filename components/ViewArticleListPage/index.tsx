@@ -59,6 +59,16 @@ const isSelectedState = (
 
 export default function EnhancedTable() {
   const { data, error } = useGetAllArticles()
+
+  const articleTags: string[] = useMemo(() => {
+    if (data === undefined) return []
+    const tags = new Set<string>()
+    data.forEach((article: ArticleRowData) => {
+      article.tags.forEach((tag) => tags.add(tag))
+    })
+    return Array.from(tags)
+  }, [data])
+
   // Sort states
   const [order, setOrder] = useState<Order>(Order.ASC)
   const [orderBy, setOrderBy] = useState<keyof ArticleRowData>('title')
@@ -69,8 +79,7 @@ export default function EnhancedTable() {
 
   // Searchbar states
   const [search, setSearch] = useState<string>('')
-  const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
-  const { props, filters } = contentFilters(tags)
+  const { props, filters } = contentFilters(articleTags)
 
   // DocumentListTab states
   const [status, setStatus] = useState(DocumentStatus.All)
@@ -94,7 +103,7 @@ export default function EnhancedTable() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - displayRows.length) : 0
 
   const handleRequestSort = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    _event: React.MouseEvent<HTMLButtonElement>,
     property: keyof ArticleRowData
   ) => {
     const isAsc = orderBy === property && order === Order.ASC
@@ -103,7 +112,7 @@ export default function EnhancedTable() {
   }
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
     setPage(newPage)

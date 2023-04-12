@@ -103,7 +103,11 @@ const CampaignCard = ({ campaign }: Props) => {
               margin: '15x 0px 15px 0px',
             }}
           >
-            <p>{'details'}</p>
+            <p>
+              {campaign.description.length > 60
+                ? campaign.description.slice(0, 60) + '...'
+                : campaign.description}
+            </p>
             <h6
               style={{
                 color: campaignStateColor[campaign.state],

@@ -29,6 +29,7 @@ export interface Campaign {
   imageUrl: string
   __v: number
   id: string
+  category: string
 }
 
 export const campaignColumns = (
