@@ -4,11 +4,11 @@ import parse from 'html-react-parser'
 import Image from 'next/image'
 
 const ArticlePanel = ({
-  imageUrl,
-  contentUrl,
+  image,
+  content,
 }: {
-  imageUrl: string
-  contentUrl: string
+  image: string
+  content: string
 }) => {
   return (
     <Box
@@ -51,10 +51,10 @@ const ArticlePanel = ({
         />
       </Box>
       <Box width="100%" height="100%" position="relative">
-        <Image layout="fill" objectFit="contain" src={imageUrl} alt="" />
+        <Image layout="fill" objectFit="contain" src={image} alt="" />
       </Box>
       <Box display="flex" justifyContent="center" alignItems="center">
-        {parse(contentUrl)}
+        {parse(content)}
       </Box>
     </Box>
   )

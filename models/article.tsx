@@ -6,11 +6,11 @@ export interface Article {
   author: string
   updatedBy: string
   latestEditorEmail: string
-  state: string
+  state: ContentState
   tags: string[]
-  type: string
-  imageUrl: string
-  contentUrl: string
+  type: ArticleType
+  image: string
+  content: string
   createdAt: string
   updatedAt: string
   __v: number
@@ -25,9 +25,9 @@ export interface ArticleRowData {
   latestEditorEmail: string
   state: ContentState
   tags: string[]
-  type: string
-  imageUrl: string
-  contentUrl: string
+  type: ArticleType
+  image: string
+  content: string
   createdAt: Date
   updatedAt: Date
   __v: number
@@ -43,8 +43,8 @@ function createData(
   state: ContentState,
   tags: string[],
   type: ArticleType,
-  imageUrl: string,
-  contentUrl: string,
+  image: string,
+  content: string,
   createdAt: Date,
   updatedAt: Date,
   __v: number,
@@ -59,8 +59,8 @@ function createData(
     state,
     tags,
     type,
-    imageUrl,
-    contentUrl,
+    image,
+    content,
     createdAt,
     updatedAt,
     __v,
@@ -78,8 +78,8 @@ export function mapResponseToArticleRowData(res: Article): ArticleRowData {
     state: res.state as ContentState,
     tags: res.tags,
     type: res.type as ArticleType,
-    imageUrl: res.imageUrl,
-    contentUrl: res.contentUrl,
+    image: res.image,
+    content: res.content,
     createdAt: new Date(res.createdAt),
     updatedAt: new Date(res.updatedAt),
     __v: res.__v,
@@ -105,11 +105,11 @@ export const SampleContentResponse = {
   author: '639f299c5b0af3b82a92c2b2',
   updatedBy: '639f299c5b0af3b82a92c2b2',
   latestEditorEmail: 'johndoe@gg.com',
-  state: 'Draft',
+  state: ContentState.DRAFT,
   tags: [],
-  type: 'External',
-  imageUrl: '',
-  contentUrl: '',
+  type: ArticleType.EXTERNAL,
+  image: '',
+  content: '',
   createdAt: '2023-01-10T12:01:55.277Z',
   updatedAt: '2023-01-10T12:01:55.277Z',
   __v: 0,
@@ -122,11 +122,11 @@ const SampleContentResponseTwo = {
   author: '639f299c5b0af3b82a92c2b2',
   updatedBy: '639f299c5b0af3b82a92c2b2',
   latestEditorEmail: 'johndoe@gg.com',
-  state: 'Archived',
+  state: ContentState.ARCHIVED,
   tags: [],
-  type: 'Internal',
-  imageUrl: '',
-  contentUrl: '',
+  type: ArticleType.INTERNAL,
+  image: '',
+  content: '',
   createdAt: '2022-01-10T12:01:55.277Z',
   updatedAt: '2022-01-10T12:01:55.277Z',
   __v: 0,
