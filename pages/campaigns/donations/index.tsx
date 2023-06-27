@@ -7,23 +7,26 @@ import Searchbar from 'components/Searchbar'
 import { donationFilters } from 'components/Searchbar/defaults'
 import { DocumentStatus } from 'constants/DocumentStatus'
 import type { NextPage } from 'next'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Campaign, campaignColumns } from 'models/campaign'
 import { useRouter } from 'next/router'
 import useGetCampaigns from 'apis/campaign/useGetCampaigns'
 
 const CampaignList: NextPage = () => {
-  // TODO get this from a API call
-  const tags = ['food', 'clothes', 'mental-health', 'financial', 'training']
-
-  // TODO: we might need to have 4 diff data storing, otherwise we will have to keep
-  // recalling the APIs when we switch tabs
-
   const { data: campaigns, error } = useGetCampaigns()
+
+  const campaignTags: string[] = useMemo(() => {
+    if (campaigns === undefined) return []
+    const tags = new Set<string>()
+    campaigns.forEach((campaign: Campaign) => {
+      campaign.tags.forEach((tag) => tags.add(tag))
+    })
+    return Array.from(tags)
+  }, [campaigns])
 
   const [search, setSearch] = useState<string>('')
   const [status, setStatus] = useState<DocumentStatus>(DocumentStatus.All)
-  const { filters } = donationFilters(tags)
+  const { filters } = donationFilters(campaignTags)
 
   const router = useRouter()
 
@@ -64,7 +67,13 @@ const CampaignList: NextPage = () => {
         <DocumentListTabs status={status} setStatus={setStatus}>
           <DataGrid
             columns={campaignColumns(handleView)}
-            rows={campaigns}
+            rows={
+              status === DocumentStatus.All
+                ? campaigns
+                : campaigns.filter(
+                    (campaign) => campaign.state === DocumentStatus[status]
+                  )
+            }
             autoHeight
             pageSize={10}
             rowsPerPageOptions={[10]}

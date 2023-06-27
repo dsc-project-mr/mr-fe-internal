@@ -23,7 +23,7 @@ export default function ViewCampaign() {
 
   return (
     <Box>
-      <Stack alignItems={'center'} justifyContent={'start'} direction={'row'}>
+      <Stack alignItems="center" justifyContent="start" direction="row">
         <Button onClick={() => router.back()}>
           <ArrowBackIosNewIcon style={{ margin: 20 }} />
         </Button>

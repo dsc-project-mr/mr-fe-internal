@@ -73,10 +73,7 @@ const ViewArticlePage = () => {
           </Grid>
           <Grid container item wrap="nowrap">
             <Grid>
-              <ArticlePanel
-                imageUrl={article.imageUrl}
-                contentUrl={article.contentUrl}
-              />
+              <ArticlePanel image={article.image} content={article.content} />
             </Grid>
             <Grid width="24px" />
             <Grid width={370}>
